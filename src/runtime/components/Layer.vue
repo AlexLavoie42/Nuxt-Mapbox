@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
     import { AnyLayer, AnySourceData } from 'mapbox-gl';
-    import { inject, watch } from 'vue';
+    import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     interface Props {
         sourceId: string
@@ -13,27 +13,24 @@
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
     
-    function addLayer() {
-      if (!map.value?.getSource(props.sourceId)) {
-        setTimeout(addLayer, 50);
-        return;
-      }
+    useMapbox(mapId, (map) => {
+        function addLayer() {
+            if (!map?.getSource(props.sourceId)) {
+              setTimeout(addLayer, 50);
+              return;
+            }
+          
+            map?.addLayer(props.layer)
+        }
+        function addSource() {
+          if (props.source)
+            map?.addSource(props.sourceId, props.source)
+        }
 
-      map.value?.addLayer(props.layer)
-    }
-
-    function addSource() {
-      if (props.source)
-        map.value?.addSource(props.sourceId, props.source)
-    }
-    
-    const map = useMapbox(mapId)
-    watch(map, () => {
-      if (map.value)
-        map.value.on('load', () => {
+        map.on('load', () => {
           addSource();
           addLayer();
-        })
+        });
     })
 </script>
 

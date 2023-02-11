@@ -24,15 +24,10 @@
           data: '/test.geojson'
         }"
       />
-      <MapboxGeocoder :options="{
-                
-      }"/>
     </MapboxMap>
   </div>
 </template>
+<script setup>
   
-  <script setup>
-
-
-  </script>
+</script>
   

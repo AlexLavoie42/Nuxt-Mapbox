@@ -2,7 +2,7 @@
 <script setup lang="ts">
     import { MapboxOptions } from 'mapbox-gl';
     import { provide, onMounted, StyleValue } from 'vue';
-    import { mapboxInit } from '../composables/mapboxInit';
+    import { _mapboxInit } from '../composables/mapboxInit';
     
     type MapboxComponentOptions = Omit<MapboxOptions, "container">
 
@@ -10,7 +10,7 @@
 
     provide('MapID', props.mapId)
     onMounted(() => {
-        mapboxInit(props.mapId, {...props.options, container: props.mapId})
+        _mapboxInit(props.mapId, {...props.options, container: props.mapId})
     })
 </script>
 

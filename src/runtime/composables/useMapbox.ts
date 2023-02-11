@@ -1,10 +1,14 @@
 import { Map } from "mapbox-gl";
-import { useMapboxInstances } from "./useMapboxInstances";
-import { computed, ComputedRef } from "vue"
+import { watch } from "vue";
+import { _useMapboxInstance } from "./useMapboxInstance";
 
-export function useMapbox(key: string): ComputedRef<Map | null>{
-    const map = computed(() => {
-        return useMapboxInstances()?.value[key] || null
+type MapboxCallback = (map: Map) => void
+
+export function useMapbox(key: string, callback: MapboxCallback): void {
+    const map = _useMapboxInstance(key);
+    if (map.value) return callback(map.value);
+
+    watch(map, () => {
+        if (map.value) callback(map.value)
     })
-    return map
 }
