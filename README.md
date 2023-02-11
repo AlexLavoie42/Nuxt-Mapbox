@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 })
 ```
 
-2. Add your Mapbox API key to the `mapbox` section of `nuxt.config.ts`
+3. Add your Mapbox API key to the `mapbox` section of `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
