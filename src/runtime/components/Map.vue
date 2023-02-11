@@ -18,8 +18,18 @@
 <template>
   <div
     :id="mapId"
+    class="mapboxgl-default-map-size"
     :class="$attrs.class"
     :style="$attrs.style as StyleValue"
   />
   <slot />
 </template>
+
+<style>
+  .mapboxgl-default-map-size {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+</style>

@@ -15,6 +15,7 @@
     
     useMapbox(mapId, (map) => {
         function addLayer() {
+            // TODO: Use computed & watch here instead of polling
             if (!map?.getSource(props.sourceId)) {
               setTimeout(addLayer, 50);
               return;

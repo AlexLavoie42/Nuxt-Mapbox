@@ -4,8 +4,8 @@ import { _useMapboxInstance } from "./useMapboxInstance";
 
 type MapboxCallback = (map: Map) => void
 
-export function useMapbox(key: string, callback: MapboxCallback): void {
-    const map = _useMapboxInstance(key);
+export function useMapbox(mapID: string, callback: MapboxCallback): void {
+    const map = _useMapboxInstance(mapID);
     if (map.value) return callback(map.value);
 
     watch(map, () => {
