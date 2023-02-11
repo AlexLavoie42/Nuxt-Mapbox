@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Popup Control
+- More config options
+
+### Added
+
+- Default Popup & Marker components
+- defineMapboxMarker & defineMapboxPopup for easily making custom components
 
 ### Added
 
