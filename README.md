@@ -52,6 +52,19 @@ export default defineNuxtConfig({
 })
 ```
 
+2. Add your Mapbox API key to the `mapbox` section of `nuxt.config.ts`
+
+```js
+export default defineNuxtConfig({
+  modules: [
+    'nuxt-mapbox'
+  ],
+  mapbox: {
+    apiKey: '{API_KEY}'
+  }
+})
+```
+
 ## Usage
 View the [Mapbox GL JS Docs](https://docs.mapbox.com/mapbox-gl-js/guides/) for reference.
 
