@@ -113,9 +113,20 @@ Examples:
 
 You can access the map instance with the useMapbox composable. You must provide the map id.
 
-**NOTE: The map instance will be null until is initialized so you cannot access it directly on setup. Use a watcher as shown:**
+The map instance will not be available until the page is fully loaded, so you must access it through a callback
+
 ```js
-    const map = useMapbox(mapId)
+    const map = useMapbox(mapId, (map) => {
+      // Do whatever with map here
+    })
+```
+
+You can access the map instance directly with _useMapboxInstance
+
+**NOTE: The map instance will be null until is initialized so you cannot access it directly on setup. Use a watcher as shown or useMapbox instead:**
+
+```js
+    const map = _useMapboxInstance(mapId)
     watch(map, () => {
       if (map.value)
         // Do whatever with map
