@@ -17,8 +17,8 @@
 
 <template>
   <div
-    class="mapboxgl-default-map-size"
     :id="mapId"
+    class="mapboxgl-default-map-size"
     :class="$attrs.class"
     :style="$attrs.style as StyleValue"
   />
