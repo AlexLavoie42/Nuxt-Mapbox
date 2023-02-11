@@ -24,12 +24,15 @@
           data: '/test.geojson'
         }"
       />
-      <MapboxFullscreenControl />
+      <MapboxGeocoder :options="{
+                
+      }"/>
     </MapboxMap>
   </div>
 </template>
   
   <script setup>
+
 
   </script>
   

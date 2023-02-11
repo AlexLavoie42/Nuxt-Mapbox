@@ -20,6 +20,8 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
 
     nuxt.options.css.push('mapbox-gl/dist/mapbox-gl.css')
+    nuxt.options.app.head.link?.push({rel: 'stylesheet', href: 'https:/api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css', type: 'text/css'})
+
     const appConfig = nuxt.options.appConfig as ExtendedAppConfig
     appConfig._MAPBOX_API_KEY = options.apiKey;
 

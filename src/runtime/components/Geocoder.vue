@@ -1,12 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    
     import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+    import mapboxgl from 'mapbox-gl';
     import { inject, watch } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
 
     interface Props {
-        options: MapboxGeocoder.GeocoderOptions
+        options: Omit<MapboxGeocoder.GeocoderOptions, "accessToken">
     }
     const props = defineProps<Props>();
 
@@ -14,7 +14,7 @@
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
 
     function addControl(){
-        map.value?.addControl(new MapboxGeocoder(props.options))
+        map.value?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, ...props.options}))
     }
     
     const map = useMapbox(mapId)

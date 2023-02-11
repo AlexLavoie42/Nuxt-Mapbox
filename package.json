@@ -35,6 +35,7 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@nuxt/kit": "^3.2.0",
     "@types/mapbox-gl": "^2.7.10",
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.3",

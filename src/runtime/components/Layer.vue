@@ -14,11 +14,11 @@
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
     
     function addLayer() {
-      if (!map.value?.isSourceLoaded(props.sourceId)) {
+      if (!map.value?.getSource(props.sourceId)) {
         setTimeout(addLayer, 50);
         return;
       }
-      
+
       map.value?.addLayer(props.layer)
     }
 
