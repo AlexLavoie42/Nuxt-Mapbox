@@ -1,18 +1,18 @@
 <script setup lang="ts">
-  import { AnyLayer, AnySourceData } from 'mapbox-gl';
-import { watch } from 'vue';
+    import { AnyLayer, AnySourceData } from 'mapbox-gl';
     interface Props {
         sourceId: string
-        source: AnySourceData
+        source?: AnySourceData
         layer: AnyLayer
     }
     const props = defineProps<Props>();
-
+    
     const mapId = inject('MapID')
     
     function addLayer(){
-      map.value.addSource(props.sourceId, props.source)
       map.value.addLayer(props.layer)
+      if (props.source)
+        map.value.addSource(props.sourceId, props.source)
     }
     
     const map = useMapbox(mapId)

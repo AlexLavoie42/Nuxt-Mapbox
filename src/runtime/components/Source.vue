@@ -1,21 +1,21 @@
 <script setup lang="ts">
-    import { FullscreenControl, FullscreenControlOptions } from 'mapbox-gl';
-
+    import { AnyLayer, AnySourceData } from 'mapbox-gl';
     interface Props {
-        options: FullscreenControlOptions
+        sourceId: string
+        source: AnySourceData
     }
     const props = defineProps<Props>();
 
     const mapId = inject('MapID')
-
-    function addControl(){
-        map.value.addControl(new FullscreenControl(props.options))
+    
+    function addLayer(){
+      map.value.addSource(props.sourceId, props.source)
     }
     
     const map = useMapbox(mapId)
     watch(map, () => {
       if (map.value)
-        map.value.on('load', addControl)
+        map.value.on('load', addLayer)
     })
 </script>
 

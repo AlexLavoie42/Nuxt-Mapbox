@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NavigationControl } from 'mapbox-gl';
+    import { NavigationControl } from 'mapbox-gl';
     interface NavigationControlOptions {
         showCompass?: boolean;
         showZoom?: boolean;

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AttributionControl } from 'mapbox-gl';
+    import { AttributionControl } from 'mapbox-gl';
+    
     interface AttributionControlOptions {
         compact?: boolean
         customAttribution?: string | Array<string>

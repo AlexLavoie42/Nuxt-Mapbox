@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Map, MapboxOptions } from 'mapbox-gl';
-import { mapboxInit } from '../composables/mapboxInit';
+    import { MapboxOptions } from 'mapbox-gl';
+    import { mapboxInit } from '../composables/mapboxInit';
     type MapboxComponentOptions = Omit<MapboxOptions, "container">
 
     provide('MapID', props.mapId)

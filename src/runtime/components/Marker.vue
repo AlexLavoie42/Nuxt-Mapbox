@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Marker, MarkerOptions } from 'mapbox-gl';
+    import { Marker, MarkerOptions } from 'mapbox-gl';
 
     interface Props {
         options: MarkerOptions

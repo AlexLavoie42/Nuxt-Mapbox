@@ -13,9 +13,9 @@
 ## Features
 
 <!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- 🏗 &nbsp;Easily add Mapbox to your Nuxt app with Vue components
+- 🌎 &nbsp;useMapbox Composable for easy access
+- 📖 &nbsp;Supports many map instances across routes
 
 ## Quick Setup
 
@@ -43,11 +43,52 @@ export default defineNuxtConfig({
 ```
 
 ## Usage
+View the [Mapbox GL JS Docs](https://docs.mapbox.com/mapbox-gl-js/guides/) for reference.
 
-Map instances are created with components
+Map instances are created with components. You can provide all the options through component props
 
+Example:
+```html
+    <MapboxMap
+      map-id="{ID}"
+      style="position: absolute; top: 0; bottom: 0; left: 250px; width: 500px;"
+      :options="{
+        style: 'mapbox://styles/mapbox/light-v11', // style URL
+        center: [-68.137343, 45.137451], // starting position
+        zoom: 5 // starting zoom
+      }"
+    >
 ```
 
+You can add Layers & Controls by nesting their components inside the Map
+
+Example:
+```html
+    <MapboxMap>
+      <MapboxLayer
+        source-id="{ID}"
+        :source="{
+          type: 'geojson',
+          data: '/test.geojson'
+        }"
+        :layer="{
+          source: '{ID}',
+          id: 'geojson-layer',
+          type: 'fill'
+        }"
+      />
+    </MapboxMap>
+```
+
+You can access the map instance with the useMapbox composable. You must provide the map id.
+
+**NOTE: The map instance will be null until is initialized so you cannot access it directly on setup. Use a watcher as shown:**
+```js
+    const map = useMapbox(mapId)
+    watch(map, () => {
+      if (map.value)
+        // Do whatever with map
+    })
 ```
 
 ## Development

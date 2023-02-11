@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { GeolocateControl } from 'mapbox-gl';
+    import { GeolocateControl } from 'mapbox-gl';
+    
     interface GeolocateControlOptions {
         positionOptions?: mapboxgl.PositionOptions;
         fitBoundsOptions?: mapboxgl.FitBoundsOptions;
@@ -9,7 +10,7 @@ import { GeolocateControl } from 'mapbox-gl';
         showUserHeading?: boolean;
         geolocation?: Geolocation;
     }
-    
+
     interface Props {
         options: GeolocateControlOptions
     }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ScaleControl } from 'mapbox-gl';
+    import { ScaleControl } from 'mapbox-gl';
 
     interface Props {
         options: {

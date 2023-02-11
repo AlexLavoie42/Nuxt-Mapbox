@@ -1,7 +1,7 @@
-import { Map } from "mapbox-gl";
-import { MapboxInstances } from "../plugin.client";
+import { Ref } from "vue";
+import { MapboxInstancesObject } from "../plugin.client";
 
-export function useMapboxInstances(key: string): Ref<MapboxInstances> | null {
+export function useMapboxInstances(): Ref<MapboxInstancesObject> | null {
     const instances = useNuxtApp().$mapboxInstances;
     return instances ? instances() : null;
 }

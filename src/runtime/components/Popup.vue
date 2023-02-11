@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Popup, PopupOptions } from 'mapbox-gl';
+    import { Popup, PopupOptions } from 'mapbox-gl';
 
     interface Props {
         options: PopupOptions
