@@ -1,15 +1,20 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    import { AnyLayer, AnySourceData } from 'mapbox-gl';
+    import { AnySourceData } from 'mapbox-gl';
+    import { inject, watch } from 'vue';
+    import { useMapbox } from '../composables/useMapbox';
+    
     interface Props {
         sourceId: string
         source: AnySourceData
     }
     const props = defineProps<Props>();
 
-    const mapId = inject('MapID')
+    const mapId = inject<string>('MapID')
+    if (!mapId) throw "Mapbox Source must be placed inside a Map component"
     
     function addLayer(){
-      map.value.addSource(props.sourceId, props.source)
+      map.value?.addSource(props.sourceId, props.source)
     }
     
     const map = useMapbox(mapId)

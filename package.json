@@ -2,6 +2,14 @@
   "name": "nuxt-mapbox",
   "version": "1.0.0",
   "description": "Elegant Mapbox GL JS integration with Nuxt",
+  "author": {
+    "name": "Alex Lavoie",
+    "url": "https://github.com/AlexLavoie42"
+  },
+  "homepage": "https://github.com/AlexLavoie42/Nuxt-Mapbox",
+  "bugs": {
+    "url": "https://github.com/AlexLavoie42/Nuxt-Mapbox/issues/new"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -17,7 +25,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build",
+    "build": "nuxt-module-build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",

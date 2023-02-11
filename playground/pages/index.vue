@@ -11,14 +11,17 @@
     >
       <MapboxLayer
         source-id="geojson"
-        :source="{
-          type: 'geojson',
-          data: '/test.geojson'
-        }"
         :layer="{
           source: 'geojson',
           id: 'geojson-layer',
           type: 'fill'
+        }"
+      />
+      <MapboxSource 
+        source-id="geojson"
+        :source="{
+          type: 'geojson',
+          data: '/test.geojson'
         }"
       />
     </MapboxMap>

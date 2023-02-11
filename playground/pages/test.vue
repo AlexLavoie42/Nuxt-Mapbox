@@ -52,7 +52,7 @@
         }"
       />
     </MapboxMap>
-    <a @click="navigateTo('/')">TEST</a>
+    <NuxtLink to="/">TEST</NuxtLink>
   </div>
 </template>
   

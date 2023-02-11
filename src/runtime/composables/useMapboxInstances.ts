@@ -1,3 +1,4 @@
+import { useNuxtApp } from "#app";
 import { Ref } from "vue";
 import { MapboxInstancesObject } from "../plugin.client";
 

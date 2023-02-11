@@ -17,6 +17,15 @@
 - 🌎 &nbsp;useMapbox Composable for easy access
 - 📖 &nbsp;Supports many map instances across routes
 
+### TODO
+
+- [ ] Popup
+- [ ] Marker
+- [ ] Add rest of global properties to config
+- [ ] Event Listeners
+- [ ] Unit tests
+- [ ] Custom Control Component?
+
 ## Quick Setup
 
 1. Add `nuxt-mapbox` dependency to your project
@@ -63,6 +72,7 @@ Example:
 You can add Layers & Controls by nesting their components inside the Map
 
 Example:
+
 ```html
     <MapboxMap>
       <MapboxLayer
@@ -78,6 +88,12 @@ Example:
         }"
       />
     </MapboxMap>
+```
+
+Or:
+
+```
+
 ```
 
 You can access the map instance with the useMapbox composable. You must provide the map id.

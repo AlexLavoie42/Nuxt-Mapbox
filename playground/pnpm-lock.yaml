@@ -1,0 +1,7 @@
+lockfileVersion: 5.4
+
+specifiers:
+  nuxt-mapbox: link:../nuxt-mapbox
+
+dependencies:
+  nuxt-mapbox: link:../nuxt-mapbox

@@ -1,7 +1,8 @@
 import { ExtendedAppConfig } from '../module';
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useAppConfig, useState } from '#app'
 import mapbox from "mapbox-gl"
 import mapboxgl from 'mapbox-gl';
+import { Ref } from 'vue';
 export interface MapboxInstancesObject {
     [key: string]: mapbox.Map
 }
