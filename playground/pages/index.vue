@@ -24,6 +24,7 @@
           data: '/test.geojson'
         }"
       />
+      <MapboxFullscreenControl />
     </MapboxMap>
   </div>
 </template>

@@ -71,7 +71,27 @@ Example:
 
 You can add Layers & Controls by nesting their components inside the Map
 
-Example:
+Examples:
+
+```html
+    <MapboxMap>
+      <MapboxSource 
+        source-id="geojson"
+        :source="{
+          type: 'geojson',
+          data: '/test.geojson'
+        }"
+      />
+      <MapboxLayer
+        source-id="geojson"
+        :layer="{
+          source: 'geojson',
+          id: 'geojson-layer',
+          type: 'fill'
+        }"
+      />
+    </MapboxMap>
+```
 
 ```html
     <MapboxMap>
@@ -87,13 +107,8 @@ Example:
           type: 'fill'
         }"
       />
+      <MapboxFullscreenControl />
     </MapboxMap>
-```
-
-Or:
-
-```
-
 ```
 
 You can access the map instance with the useMapbox composable. You must provide the map id.
