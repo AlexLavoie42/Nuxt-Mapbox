@@ -51,5 +51,28 @@
     "eslint": "^8.33.0",
     "nuxt": "^3.2.0",
     "vitest": "^0.28.4"
-  }
+  },
+  "keywords": [
+    "mapbox",
+    "mapbox gl js",
+    "mapbox gl",
+    "map",
+    "nuxt",
+    "nuxt3",
+    "nuxt 3",
+    "vue",
+    "vue 3",
+    "mapbox nuxt 3",
+    "mapbox nuxt",
+    "mapbox vue",
+    "mapbox vue 3",
+    "geocode",
+    "geocoder",
+    "geocoding",
+    "geolocate",
+    "geolocater",
+    "geolocating",
+    "GIS",
+    "geojson"
+  ]
 }
