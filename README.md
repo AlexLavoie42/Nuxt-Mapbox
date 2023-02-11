@@ -20,8 +20,8 @@
 
 ### TODO
 
-- [x] Popup
-- [x] Marker
+- [x] ~~Popup~~
+- [x] ~~Marker~~
 - [ ] Add rest of global properties to config
 - [ ] Event Listeners
 - [ ] Unit tests
