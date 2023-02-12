@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - More config options
+## v1.1.7
+## Fixed
+- Fixed `Map markers are disabled.` with geocoder
 
 ## v1.1.6
 ## Fixed
