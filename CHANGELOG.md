@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - More config options
 
-## v1.1.4
+## v1.1.5
 ## Fixed
 - Import fix
 
