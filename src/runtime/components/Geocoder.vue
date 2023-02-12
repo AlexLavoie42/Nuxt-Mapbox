@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-    import mapboxgl from 'mapbox-gl';
+    // import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+    // import mapboxgl from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
 
@@ -16,7 +16,8 @@
 
     useMapbox(mapId, (map) => {
         function addControl(){
-            map?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, ...props.options}))
+          //@ts-ignore TODO: Figure out typing while getting around #2
+          map?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, ...props.options}))
         }
 
         map.on('load', addControl)

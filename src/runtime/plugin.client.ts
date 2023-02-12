@@ -2,6 +2,7 @@ import { ExtendedAppConfig } from '../module';
 import { defineNuxtPlugin, useAppConfig, useState } from '#app'
 // import mapboxgl from 'mapbox-gl'
 import { Ref } from 'vue';
+import { Map, MapboxOptions, PopupOptions, Popup, MarkerOptions, Marker } from 'mapbox-gl';
 
 export interface MapboxInstancesObject {
     [key: string]: mapboxgl.Map
@@ -25,18 +26,18 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     return {
       provide: {
-          mapboxInit: (key: string, options: mapboxgl.MapboxOptions = {container: key}) => {
-            mapbox_instances.value[key] = new mapboxgl.Map(options)
+          mapboxInit: (key: string, options: MapboxOptions = {container: key}) => {
+            mapbox_instances.value[key] = new Map(options)
           },
           mapboxInstances: () => mapbox_instances,
 
-          mapboxInitPopup: (key: string, options: mapboxgl.PopupOptions) => {
-            mapbox_popup_instances.value[key] = new mapboxgl.Popup(options)
+          mapboxInitPopup: (key: string, options: PopupOptions) => {
+            mapbox_popup_instances.value[key] = new Popup(options)
           },
           mapboxPopupInstances: () => mapbox_popup_instances,
 
-          mapboxInitMarker: (key: string, options: mapboxgl.MarkerOptions) => {
-            mapbox_marker_instances.value[key] = new mapboxgl.Marker(options)
+          mapboxInitMarker: (key: string, options: MarkerOptions) => {
+            mapbox_marker_instances.value[key] = new Marker(options)
           },
           mapboxMarkerInstances: () => mapbox_marker_instances,
       }
