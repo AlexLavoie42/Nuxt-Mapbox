@@ -1,12 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    // import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+    import {GeocoderOptions} from '@mapbox/mapbox-gl-geocoder';
     // import mapboxgl from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
 
     interface Props {
-        options: Omit<MapboxGeocoder.GeocoderOptions, "accessToken">
+        options: Omit<GeocoderOptions, "accessToken">
     }
     const props = defineProps<Props>();
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { LngLatLike, MarkerOptions } from 'mapbox-gl';
+    import { MarkerOptions, LngLatLike } from 'mapbox-gl';
     import { defineMapboxMarker } from '../composables/defineMapboxMarker';
 
     const props = defineProps<{ markerId: string, options: MarkerOptions, lnglat: LngLatLike }>()

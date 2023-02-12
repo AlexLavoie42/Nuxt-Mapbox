@@ -1,5 +1,4 @@
 <script setup lang="ts">
-    import { NavigationControl } from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     
@@ -18,7 +17,8 @@
     
     useMapbox(mapId, (map) => {
         function addControl(){
-          map?.addControl(new NavigationControl(props.options))
+          //@ts-ignore
+          map?.addControl(new mapboxgl.NavigationControl(props.options))
         }
 
         map.on('load', addControl)

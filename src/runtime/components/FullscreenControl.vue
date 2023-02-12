@@ -1,10 +1,9 @@
 <script setup lang="ts">
-    import { FullscreenControl, FullscreenControlOptions } from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
 
     interface Props {
-        options: FullscreenControlOptions
+        options: mapboxgl.FullscreenControlOptions
     }
     const props = defineProps<Props>();
 
@@ -14,7 +13,8 @@
 
     useMapbox(mapId, (map) => {
         function addControl(){
-            map?.addControl(new FullscreenControl(props.options))
+            //@ts-ignore
+            map?.addControl(new mapboxgl.FullscreenControl(props.options))
         }
 
         map.on('load', addControl)

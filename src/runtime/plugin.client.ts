@@ -27,16 +27,19 @@ export default defineNuxtPlugin((nuxtApp) => {
     return {
       provide: {
           mapboxInit: (key: string, options: mapboxgl.MapboxOptions = {container: key}) => {
+            //@ts-ignore
             mapbox_instances.value[key] = new mapboxgl.Map(options)
           },
           mapboxInstances: () => mapbox_instances,
 
           mapboxInitPopup: (key: string, options: mapboxgl.PopupOptions) => {
+            //@ts-ignore
             mapbox_popup_instances.value[key] = new mapboxgl.Popup(options)
           },
           mapboxPopupInstances: () => mapbox_popup_instances,
 
           mapboxInitMarker: (key: string, options: mapboxgl.MarkerOptions) => {
+            //@ts-ignore
             mapbox_marker_instances.value[key] = new mapboxgl.Marker(options)
           },
           mapboxMarkerInstances: () => mapbox_marker_instances,
