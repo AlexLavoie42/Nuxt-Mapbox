@@ -17,7 +17,7 @@
     useMapbox(mapId, (map) => {
         function addControl(){
           //@ts-ignore TODO: Figure out typing while getting around #2
-          map?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, ...props.options}))
+          map?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, mapboxgl, ...props.options}))
         }
 
         map.on('load', addControl)
