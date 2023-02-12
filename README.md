@@ -29,17 +29,17 @@
 
 ## Quick Setup
 
-1. Add `nuxt-mapbox` dependency to your project
+1. Add `nuxt-mapbox` & `mapbox-gl` dependencies to your project
 
 ```bash
 # Using pnpm
-pnpm add -D nuxt-mapbox
+pnpm add -D nuxt-mapbox mapbox-gl
 
 # Using yarn
-yarn add --dev nuxt-mapbox
+yarn add --dev nuxt-mapbox mapbox-gl
 
 # Using npm
-npm install --save-dev nuxt-mapbox
+npm install --save-dev nuxt-mapbox mapbox-gl
 ```
 
 2. Add `nuxt-mapbox` to the `modules` section of `nuxt.config.ts`
