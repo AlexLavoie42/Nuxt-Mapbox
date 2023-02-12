@@ -1,9 +1,7 @@
 import { ExtendedAppConfig } from '../module';
 import { defineNuxtPlugin, useAppConfig, useState } from '#app'
-import mapboxgl_raw from 'mapbox-gl';
+// import mapboxgl from 'mapbox-gl'
 import { Ref } from 'vue';
-//@ts-ignore
-const mapboxgl = mapboxgl_raw.__esModule ? mapboxgl_raw.default : mapboxgl_raw;
 
 export interface MapboxInstancesObject {
     [key: string]: mapboxgl.Map
@@ -21,7 +19,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}})
 
     const appConfig = useAppConfig() as ExtendedAppConfig
-    
+    //@ts-ignore
     mapboxgl.accessToken = appConfig._MAPBOX_API_KEY;
 
 
