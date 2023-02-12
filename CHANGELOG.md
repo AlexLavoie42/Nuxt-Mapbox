@@ -9,11 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - More config options
 
+## v1.1.1
+## Fixed
+- Import fix
+
+## v1.1.0
 ### Added
 
 - Default Popup & Marker components
 - defineMapboxMarker & defineMapboxPopup for easily making custom components
 
+### v1.0.1
 ### Added
 
 - New syntax for useMapbox with callback
