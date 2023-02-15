@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     'nuxt-mapbox'
   ],
   mapbox: {
-    apiKey: '{API_KEY}'
+    accessToken: '{API_KEY}'
   }
 })
 ```
