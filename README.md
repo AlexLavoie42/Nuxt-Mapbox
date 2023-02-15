@@ -15,12 +15,13 @@
 <!-- Highlight some of the features your module provide here -->
 - 🏗 &nbsp;Easily add Mapbox to your Nuxt app with Vue components
 - 🌎 &nbsp;useMapbox Composable for easy access
+- 👷 &nbsp;defineMapboxMarker & defineMapboxPopup for making custom components
 - 📖 &nbsp;Supports many map instances across routes
 
 ### TODO
 
-- [ ] Popup
-- [ ] Marker
+- [x] ~~Popup~~
+- [x] ~~Marker~~
 - [ ] Add rest of global properties to config
 - [ ] Event Listeners
 - [ ] Unit tests
@@ -28,17 +29,17 @@
 
 ## Quick Setup
 
-1. Add `nuxt-mapbox` dependency to your project
+1. Add `nuxt-mapbox` & `mapbox-gl` dependencies to your project
 
 ```bash
 # Using pnpm
-pnpm add -D nuxt-mapbox
+pnpm add -D nuxt-mapbox mapbox-gl
 
 # Using yarn
-yarn add --dev nuxt-mapbox
+yarn add --dev nuxt-mapbox mapbox-gl
 
 # Using npm
-npm install --save-dev nuxt-mapbox
+npm install --save-dev nuxt-mapbox mapbox-gl
 ```
 
 2. Add `nuxt-mapbox` to the `modules` section of `nuxt.config.ts`
@@ -48,6 +49,19 @@ export default defineNuxtConfig({
   modules: [
     'nuxt-mapbox'
   ]
+})
+```
+
+3. Add your Mapbox API key to the `mapbox` section of `nuxt.config.ts`
+
+```js
+export default defineNuxtConfig({
+  modules: [
+    'nuxt-mapbox'
+  ],
+  mapbox: {
+    apiKey: '{API_KEY}'
+  }
 })
 ```
 
@@ -130,6 +144,25 @@ You can access the map instance ref directly with _useMapboxInstance
     watch(map, () => {
       if (map.value)
         // Do whatever with map
+    })
+```
+
+### Custom Popups & Markers
+
+While it is recommended to use the default popup & marker components, making your own is easy using defineMapboxMarker & defineMapboxPopup.
+
+By passing a [template ref](https://vuejs.org/guide/essentials/template-refs.html) you can put custom html directly into your component
+
+Examples:
+```js
+      const popup = defineMapboxPopup(popupId, options, templateRef)
+      popup?.setLngLat(lnglat)
+```
+
+**NOTE: Because of the way markers are implemented in Mapbox, if passing a template ref to defineMapboxPopup you have to define properties in a callback like so:**
+```js
+    const markerRef = defineMapboxMarker(markerId, options, templateRef, (marker) => {
+        marker.setLngLat([110, 6])
     })
 ```
 

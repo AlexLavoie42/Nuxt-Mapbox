@@ -1,5 +1,4 @@
 <script setup lang="ts">
-    import { GeolocateControl } from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     
@@ -23,7 +22,8 @@
     
     useMapbox(mapId, (map) => {
         function addControl(){
-            map?.addControl(new GeolocateControl(props.options))
+            //@ts-ignore
+            map?.addControl(new mapboxgl.GeolocateControl(props.options))
         }
 
         map.on('load', addControl)

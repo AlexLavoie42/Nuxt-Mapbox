@@ -1,5 +1,4 @@
 <script setup lang="ts">
-    import { ScaleControl } from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
 
@@ -17,7 +16,8 @@
     
     useMapbox(mapId, (map) => {
         function addControl(){
-            map.addControl(new ScaleControl(props.options))
+            //@ts-ignore
+            map.addControl(new mapboxgl.ScaleControl(props.options))
         }
 
         map.on('load', addControl)
