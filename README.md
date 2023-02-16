@@ -22,8 +22,8 @@
 
 - [x] ~~Popup~~
 - [x] ~~Marker~~
-- [ ] Add rest of global properties to config
-- [ ] Event Listeners
+- [x] ~~Add rest of global properties to config~~
+- [x] ~~Event Listeners~~
 - [ ] Unit tests
 - [ ] Custom Control Component?
 
