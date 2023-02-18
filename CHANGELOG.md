@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v1.2.0
 ## Changed
-- `apiKey` renamed to `accessToken` to match mapbox
+- BREAKING: `apiKey` renamed to `accessToken` to match mapbox
 - Renamed _useMapboxInstance to useMapboxInstance
 
 ## Added
