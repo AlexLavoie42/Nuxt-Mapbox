@@ -8,6 +8,9 @@
         center: [100.0, 0.0], // starting position [lng, lat]
         zoom: 3, // starting zoom
       }"
+      @load="showAlert"
+      @click="showAlert"
+      @resize="showAlert"
     >
       <MapboxLayer
         source-id="geojson"
@@ -47,6 +50,9 @@
     </MapboxMap>
   </div>
 </template>
+
 <script setup>
-  
+  function showAlert() {
+    alert("Wow")
+  }
 </script>
