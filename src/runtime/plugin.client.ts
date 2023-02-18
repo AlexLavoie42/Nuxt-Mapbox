@@ -23,11 +23,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     //@ts-ignore
     mapboxgl.accessToken = appConfig._MAPBOX_CONFIG.accessToken;
     //@ts-ignore
-    mapboxgl.baseApiUrl = appConfig._MAPBOX_CONFIG.baseApiUrl;
+    if (appConfig._MAPBOX_CONFIG.baseApiUrl) mapboxgl.baseApiUrl = appConfig._MAPBOX_CONFIG.baseApiUrl;
     //@ts-ignore
-    mapboxgl.workerUrl = appConfig._MAPBOX_CONFIG.workerUrl;
+    if (appConfig._MAPBOX_CONFIG.workerUrl) mapboxgl.workerUrl = appConfig._MAPBOX_CONFIG.workerUrl;
     //@ts-ignore
-    mapboxgl.workerCount = appConfig._MAPBOX_CONFIG.workerCount;
+    if (appConfig._MAPBOX_CONFIG.workerCount) mapboxgl.workerCount = appConfig._MAPBOX_CONFIG.workerCount;
     //@ts-ignore
     if (appConfig._MAPBOX_CONFIG.prewarm) mapboxgl.prewarm();
 
