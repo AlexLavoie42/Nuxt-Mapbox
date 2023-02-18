@@ -126,6 +126,25 @@ Examples:
     </MapboxMap>
 ```
 
+
+### Events
+
+All Map events are accessible directly through the component (With full Typescript support!)
+
+Example:
+
+```html
+    <MapboxMap
+      ...
+      @load="exampleFunction"
+      @click="exampleFunction"
+      @resize="exampleFunction"
+    >
+```
+
+
+### Map Instance
+
 You can access the map instance with the useMapbox composable. You must provide the map id.
 
 The map instance will not be available until the page is fully loaded, so you must access it through a callback
@@ -136,22 +155,26 @@ The map instance will not be available until the page is fully loaded, so you mu
     })
 ```
 
-You can access the map instance ref directly with _useMapboxInstance
+You can access the map instance ref directly with useMapboxInstance
 
 **NOTE: The map instance will be null until is initialized so you cannot access it directly on setup. Use a watcher as shown or useMapbox instead:**
 
 ```js
-    const map = _useMapboxInstance(mapId)
+    const map = useMapboxInstance(mapId)
     watch(map, () => {
       if (map.value)
         // Do whatever with map
     })
 ```
 
+
+## Custom Components
+While it is recommended to use the default components, making your own is easy with the built in composables!
+
+
 ### Custom Popups & Markers
 
-While it is recommended to use the default popup & marker components, making your own is easy using defineMapboxMarker & defineMapboxPopup.
-
+You can use ```defineMapboxPopup``` & ```defineMapboxMarker``` for custom marker & popup components
 By passing a [template ref](https://vuejs.org/guide/essentials/template-refs.html) you can put custom html directly into your component
 
 Examples:
@@ -166,6 +189,18 @@ Examples:
         marker.setLngLat([110, 6])
     })
 ```
+
+
+### Custom Map Component
+
+If you would like to make your own map component, you can use ```defineMapboxInstance```
+
+Example:
+```js
+    // NOTE: Map instance will be null on server & until it is loaded on client
+    const map = defineMapboxInstance(MAP_DIV_ID, options);
+```
+
 
 ## Development
 
