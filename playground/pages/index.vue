@@ -9,8 +9,6 @@
         zoom: 3, // starting zoom
       }"
       @load="showAlert"
-      @click="showAlert"
-      @resize="showAlert"
     >
       <MapboxLayer
         source-id="geojson"
@@ -19,6 +17,7 @@
           id: 'geojson-layer',
           type: 'fill'
         }"
+        @click="showAlert"
       />
       <MapboxSource 
         source-id="geojson"
