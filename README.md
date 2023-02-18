@@ -7,7 +7,7 @@
 
 > 
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
+- [✨ &nbsp;Release Notes](https://github.com/AlexLavoie42/Nuxt-Mapbox/blob/main/CHANGELOG.md)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
