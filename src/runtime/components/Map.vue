@@ -52,8 +52,6 @@
       (e: 'preclick', event: MapMouseEvent): void
       (e: 'click', event: MapMouseEvent): void
       (e: 'dblclick', event: MapMouseEvent): void
-      (e: 'mouseenter', event: MapMouseEvent): void
-      (e: 'mouseleave', event: MapMouseEvent): void
       (e: 'mouseout', event: MapMouseEvent): void
       (e: 'contextmenu', event: MapMouseEvent): void
       (e: 'wheel', event: MapWheelEvent): void
@@ -111,8 +109,6 @@
       map.value?.on('preclick', (e) => { emit("preclick", e) })
       map.value?.on('click', (e) => { emit("click", e) })
       map.value?.on('dblclick', (e) => { emit("dblclick", e) })
-      map.value?.on('mouseenter', (e) => { emit("mouseenter", e) })
-      map.value?.on('mouseleave', (e) => { emit("mouseleave", e) })
       map.value?.on('mouseout', (e) => { emit("mouseout", e) })
       map.value?.on('contextmenu', (e) => { emit("contextmenu", e) })
       map.value?.on('wheel', (e) => { emit("wheel", e) })

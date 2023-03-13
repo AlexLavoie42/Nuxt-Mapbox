@@ -7,7 +7,7 @@
 
 > 
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
+- [✨ &nbsp;Release Notes](https://github.com/AlexLavoie42/Nuxt-Mapbox/blob/main/CHANGELOG.md)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
@@ -131,6 +131,8 @@ Examples:
 
 All Map events are accessible directly through the component (With full Typescript support!)
 
+View a list of events in the [Mapbox Docs](https://docs.mapbox.com/mapbox-gl-js/api/map/#map-events)
+
 Example:
 
 ```html
@@ -139,6 +141,17 @@ Example:
       @load="exampleFunction"
       @click="exampleFunction"
       @resize="exampleFunction"
+    >
+```
+
+You can access [events directly on layers](https://docs.mapbox.com/mapbox-gl-js/api/map/#map.event:click) as well
+
+Example:
+
+```html
+    <MapboxLayer
+      ...
+      @click="exampleFunction"
     >
 ```
 
