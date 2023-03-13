@@ -1,5 +1,6 @@
 <script setup lang="ts">
-    import { inject } from 'vue';
+    import { GeolocateControl } from 'mapbox-gl';
+import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     
     interface GeolocateControlOptions {
@@ -17,13 +18,38 @@
     }
     const props = defineProps<Props>();
 
+    const emit = defineEmits<{  
+      (e: 'geolocate', control: GeolocateControl): void
+      (e: 'error', control: GeolocateControl): void
+      (e: 'outofmaxbounds', control: GeolocateControl): void
+      (e: 'trackuserlocationstart', control: GeolocateControl): void
+      (e: 'trackuserlocationend', control: GeolocateControl): void
+    }>()
+
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
     
     useMapbox(mapId, (map) => {
         function addControl(){
             //@ts-ignore
-            map?.addControl(new mapboxgl.GeolocateControl(props.options))
+            const geolocate = new mapboxgl.GeolocateControl(props.options);
+            map?.addControl(geolocate)
+
+            geolocate.on('geolocate', () => {
+                emit('geolocate', geolocate)
+            })
+            geolocate.on('error', () => {
+                emit('error', geolocate)
+            })
+            geolocate.on('outofmaxbounds', () => {
+                emit('outofmaxbounds', geolocate)
+            })
+            geolocate.on('trackuserlocationstart', () => {
+                emit('trackuserlocationstart', geolocate)
+            })
+            geolocate.on('trackuserlocationend', () => {
+                emit('trackuserlocationend', geolocate)
+            })
         }
 
         map.on('load', addControl)

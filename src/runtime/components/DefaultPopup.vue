@@ -1,13 +1,20 @@
 <script setup lang="ts">
-    import { LngLatLike, PopupOptions } from 'mapbox-gl';
+    import { LngLatLike, Popup, PopupOptions } from 'mapbox-gl';
     import { ref } from 'vue';
     import { defineMapboxPopup } from '../composables/defineMapboxPopup';
 
     const props = defineProps<{ popupId: string, options: PopupOptions, lnglat: LngLatLike }>()
     const popupTemplate = ref<HTMLElement | null>(null)
 
+    const emit = defineEmits<{  
+      (e: 'open', popup: Popup): void
+      (e: 'close', popup: Popup): void
+    }>()
+
     const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate)
     popup?.setLngLat(props.lnglat)
+    popup?.on('open', () => { emit('open', popup) })
+    popup?.on('close', () => { emit('close', popup) })
 </script>
 
 <template>
