@@ -16,7 +16,7 @@ import { inject } from 'vue';
     interface Props {
         options: GeolocateControlOptions
     }
-    const props = defineProps<Props>();
+    const props = withDefaults(defineProps<Props>(), {options: () => ({})});
 
     const emit = defineEmits<{  
       (e: 'geolocate', control: GeolocateControl): void

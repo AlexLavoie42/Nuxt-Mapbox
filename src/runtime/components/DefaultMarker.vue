@@ -2,7 +2,7 @@
     import { MarkerOptions, LngLatLike, Marker } from 'mapbox-gl';
     import { defineMapboxMarker } from '../composables/defineMapboxMarker';
 
-    const props = defineProps<{ markerId: string, options: MarkerOptions, lnglat: LngLatLike }>()
+    const props = withDefaults(defineProps<{ markerId: string, options: MarkerOptions, lnglat: LngLatLike }>(), {options: () => ({})});
 
     const emit = defineEmits<{  
       (e: 'dragstart', marker: Marker): void

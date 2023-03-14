@@ -3,7 +3,7 @@
     import { ref } from 'vue';
     import { defineMapboxPopup } from '../composables/defineMapboxPopup';
 
-    const props = defineProps<{ popupId: string, options: PopupOptions, lnglat: LngLatLike }>()
+    const props = withDefaults(defineProps<{ popupId: string, options: PopupOptions, lnglat: LngLatLike }>(), {options: () => ({})});
     const popupTemplate = ref<HTMLElement | null>(null)
 
     const emit = defineEmits<{  
