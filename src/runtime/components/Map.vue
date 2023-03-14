@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    import { EventData, MapboxEvent, MapboxOptions, MapBoxZoomEvent, MapDataEvent, MapMouseEvent, MapTouchEvent, MapWheelEvent } from 'mapbox-gl';
+    import { EventData, MapboxEvent, MapboxOptions, MapBoxZoomEvent, MapDataEvent, MapMouseEvent, MapTouchEvent, MapWheelEvent, Map } from 'mapbox-gl';
     import { provide, onMounted, StyleValue } from 'vue';
     import { defineMapboxInstance } from '../composables/defineMapboxInstance';
     
@@ -12,12 +12,12 @@
       (e: 'resize'): void
       (e: 'remove'): void
 
-      (e: 'load'): void
-      (e: 'render'): void
-      (e: 'idle'): void
-      (e: 'error'): void
-      (e: 'webglcontextlost'): void
-      (e: 'webglcontextrestored'): void
+      (e: 'load', map: Map): void
+      (e: 'render', map: Map): void
+      (e: 'idle', map: Map): void
+      (e: 'error', map: Map): void
+      (e: 'webglcontextlost', map: Map): void
+      (e: 'webglcontextrestored', map: Map): void
 
       (e: 'data', event: MapDataEvent): void
       (e: 'styledata', event: MapDataEvent): void
@@ -69,12 +69,12 @@
       map.value?.on('resize', () => { emit("resize") })
       map.value?.on('remove', () => { emit("resize") })
 
-      map.value?.on('load', () => { emit("load") })
-      map.value?.on('render', () => { emit("render") })
-      map.value?.on('idle', () => { emit("idle") })
-      map.value?.on('error', () => { emit("error") })
-      map.value?.on('webglcontextlost', () => { emit("webglcontextlost") })
-      map.value?.on('webglcontextrestored', () => { emit("webglcontextrestored") })
+      map.value?.on('load', () => { emit("load", map.value as Map) })
+      map.value?.on('render', () => { emit("render", map.value as Map) })
+      map.value?.on('idle', () => { emit("idle", map.value as Map) })
+      map.value?.on('error', () => { emit("error", map.value as Map) })
+      map.value?.on('webglcontextlost', () => { emit("webglcontextlost", map.value as Map) })
+      map.value?.on('webglcontextrestored', () => { emit("webglcontextrestored", map.value as Map) })
 
       map.value?.on('data', (e) => { emit("data", e) })
       map.value?.on('styledata', (e) => { emit("styledata", e) })
