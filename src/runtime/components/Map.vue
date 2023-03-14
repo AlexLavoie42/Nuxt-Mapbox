@@ -9,8 +9,8 @@
     const props = defineProps<{ mapId: string, options?: MapboxComponentOptions }>()
 
     const emit = defineEmits<{
-      (e: 'resize'): void
-      (e: 'remove'): void
+      (e: 'resize', map: Map): void
+      (e: 'remove', map: Map): void
 
       (e: 'load', map: Map): void
       (e: 'render', map: Map): void
@@ -66,8 +66,8 @@
     onMounted(() => {
       const map = defineMapboxInstance(props.mapId, {...props.options, container: props.mapId});
 
-      map.value?.on('resize', () => { emit("resize") })
-      map.value?.on('remove', () => { emit("resize") })
+      map.value?.on('resize', () => { emit("resize", map.value as Map) })
+      map.value?.on('remove', () => { emit("remove", map.value as Map) })
 
       map.value?.on('load', () => { emit("load", map.value as Map) })
       map.value?.on('render', () => { emit("render", map.value as Map) })
