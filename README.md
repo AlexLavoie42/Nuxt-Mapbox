@@ -8,6 +8,7 @@
 > 
 
 - [✨ &nbsp;Release Notes](https://github.com/AlexLavoie42/Nuxt-Mapbox/blob/main/CHANGELOG.md)
+- [🏀 Online playground](https://stackblitz.com/github/AlexLavoie42/Nuxt-Mapbox?file=playground%2Fpages%2Findex.vue)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
