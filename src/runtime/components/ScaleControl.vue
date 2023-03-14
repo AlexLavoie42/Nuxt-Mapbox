@@ -8,7 +8,7 @@
             unit?: string;
         }
     }
-    const props = defineProps<Props>();
+    const props = withDefaults(defineProps<Props>(), {options: () => ({})});
 
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"

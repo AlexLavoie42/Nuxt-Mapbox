@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.2.2
+## Added
+- Popup & Marker events
+
+## Changed
+- Passed Map instance to certain Map events so you dont need useMapbox
+- Default 'options' prop so you dont need to pass empty object
+
 ## v1.2.1
 ## Added
 - Events directly on layer components

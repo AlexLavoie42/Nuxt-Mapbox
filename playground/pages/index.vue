@@ -46,6 +46,7 @@
         marker-id="marker2"
         :options="{}"
       />
+      <MapboxGeolocateControl />
     </MapboxMap>
   </div>
 </template>
