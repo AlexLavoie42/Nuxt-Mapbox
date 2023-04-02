@@ -48,6 +48,7 @@
       />
       <MapboxGeolocateControl />
     </MapboxMap>
+    <NuxtLink to="/test">TEST</NuxtLink>
   </div>
 </template>
 
