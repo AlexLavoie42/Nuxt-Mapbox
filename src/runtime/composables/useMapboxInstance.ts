@@ -8,3 +8,8 @@ export function useMapboxInstance(mapID: string): ComputedRef<Map | null>{
     })
     return map
 }
+
+export function cleanMapboxInstance(mapID: string): void {
+    _useMapboxInstances()?.value[mapID]?.remove();
+    delete _useMapboxInstances()?.value[mapID];
+}

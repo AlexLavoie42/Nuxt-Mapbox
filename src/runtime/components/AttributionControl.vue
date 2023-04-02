@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { inject } from 'vue';
+    import { inject, onMounted } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     
     interface AttributionControlOptions {
@@ -8,22 +8,24 @@
     }
 
     interface Props {
-        options: AttributionControlOptions
+        options?: AttributionControlOptions
     }
     const props = withDefaults(defineProps<Props>(), {options: () => ({})});
 
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
 
+    onMounted(() => {
+        useMapbox(mapId, (map) => {
+            function addControl(){
+                //@ts-ignore
+                map?.addControl(new mapboxgl.AttributionControl(props.options))
+            }
 
-    useMapbox(mapId, (map) => {
-        function addControl(){
-            //@ts-ignore
-            map?.addControl(new mapboxgl.AttributionControl(props.options))
-        }
-
-        map.on('load', addControl)
+            map.on('load', addControl)
+        })
     })
+
 </script>
 
 <template>
