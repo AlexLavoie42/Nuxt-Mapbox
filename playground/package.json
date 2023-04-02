@@ -1,7 +1,4 @@
 {
   "private": true,
-  "name": "nuxt-mapbox-playground",
-  "dependencies": {
-    "nuxt-mapbox": "^1.1.1"
-  }
+  "name": "nuxt-mapbox-playground"
 }
