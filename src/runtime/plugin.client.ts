@@ -31,12 +31,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     //@ts-ignore
     if (appConfig._MAPBOX_CONFIG.prewarm) mapboxgl.prewarm();
 
-    nuxtApp.hook('link:prefetch', () => {
-      mapbox_instances.value = {};
-      mapbox_popup_instances.value = {};
-      mapbox_marker_instances.value = {};
-    })
-
     return {
       provide: {
           mapboxInit: (key: string, options: mapboxgl.MapboxOptions = {container: key}) => {

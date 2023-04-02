@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { inject } from 'vue';
+    import { inject, onMounted } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     
     interface NavigationControlOptions {
@@ -8,21 +8,23 @@
         visualizePitch?: boolean;
     }
     interface Props {
-        options: NavigationControlOptions
+        options?: NavigationControlOptions
     }
     const props = withDefaults(defineProps<Props>(), {options: () => ({})});
 
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
-    
-    useMapbox(mapId, (map) => {
-        function addControl(){
-          //@ts-ignore
-          map?.addControl(new mapboxgl.NavigationControl(props.options))
-        }
-
-        map.on('load', addControl)
+    onMounted(() => {
+      useMapbox(mapId, (map) => {
+          function addControl(){
+            //@ts-ignore
+            map?.addControl(new mapboxgl.NavigationControl(props.options))
+          }
+        
+          map.on('load', addControl)
+      })
     })
+
 </script>
 
 <template>

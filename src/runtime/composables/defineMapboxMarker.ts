@@ -33,6 +33,19 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions, mar
 
     const markerRef = ref<Marker | null>(null)
     if (markerHTML) {
+        if (markerHTML.value) {
+            markerHTML.value.remove()
+
+            useNuxtApp().$mapboxInitMarker(markerID, {element: markerHTML.value, ...options})
+            markerRef.value = useNuxtApp().$mapboxMarkerInstances().value[markerID]
+            if (callback)
+                callback(markerRef.value)
+
+            useMapbox(mapId || mapID, (map) => {
+                if (markerRef.value)
+                    markerRef?.value?.addTo(map)
+            })
+        }
         watch(markerHTML, () => {
             if (markerHTML.value) {
                 markerHTML.value.remove()

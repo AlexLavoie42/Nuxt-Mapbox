@@ -21,7 +21,11 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions, popupH
     useMapbox(mapId || mapID, (map) => {
         popupInstance.addTo(map)
     })
-
+    if (popupHTML.value) {
+        popupInstance.setHTML(popupHTML.value.innerHTML)
+        popupHTML.value.remove()
+    }
+    
     watch(popupHTML, () => {
         if (popupHTML.value) {
             popupInstance.setHTML(popupHTML.value.innerHTML)

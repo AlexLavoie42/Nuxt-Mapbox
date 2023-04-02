@@ -1,9 +1,9 @@
 <script setup lang="ts">
-    import { inject } from 'vue';
+    import { inject, onMounted } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
 
     interface Props {
-        options: {
+        options?: {
             maxWidth?: number;
             unit?: string;
         }
@@ -13,14 +13,15 @@
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
 
-    
-    useMapbox(mapId, (map) => {
-        function addControl(){
-            //@ts-ignore
-            map.addControl(new mapboxgl.ScaleControl(props.options))
-        }
+    onMounted(() => {
+        useMapbox(mapId, (map) => {
+            function addControl(){
+                //@ts-ignore
+                map.addControl(new mapboxgl.ScaleControl(props.options))
+            }
 
-        map.on('load', addControl)
+            map.on('load', addControl)
+        })
     })
 </script>
 

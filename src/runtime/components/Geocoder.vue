@@ -4,23 +4,25 @@
     // import mapboxgl from 'mapbox-gl';
     import { inject } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
+    import { onMounted } from 'vue';
 
     interface Props {
-        options: Omit<GeocoderOptions, "accessToken">
+        options?: Omit<GeocoderOptions, "accessToken">
     }
     const props = withDefaults(defineProps<Props>(), {options: () => ({})});
 
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
 
+    onMounted(() => {
+      useMapbox(mapId, (map) => {
+          function addControl(){
+            //@ts-ignore TODO: Figure out typing while getting around #2
+            map?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, mapboxgl, ...props.options}))
+          }
 
-    useMapbox(mapId, (map) => {
-        function addControl(){
-          //@ts-ignore TODO: Figure out typing while getting around #2
-          map?.addControl(new MapboxGeocoder({accessToken: mapboxgl.accessToken, mapboxgl, ...props.options}))
-        }
-
-        map.on('load', addControl)
+          map.on('load', addControl)
+      })
     })
 </script>
 
