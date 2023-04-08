@@ -121,6 +121,8 @@ Examples:
     </MapboxMap>
 ```
 
+## Persistent Map Instances
+For map instances to be persistent across routes, you must set `keepalive` to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive)
 
 ### Events
 
