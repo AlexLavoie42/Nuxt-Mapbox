@@ -3,8 +3,8 @@
     import { EventData, MapboxEvent, MapboxOptions, MapBoxZoomEvent, MapDataEvent, MapMouseEvent, MapTouchEvent, MapWheelEvent, Map } from 'mapbox-gl';
     import { provide, onMounted, StyleValue } from 'vue';
     import { defineMapboxInstance } from '../composables/defineMapboxInstance';
-import { onUnmounted } from 'vue';
-import { cleanMapboxInstance } from '../composables/useMapboxInstance';
+    import { onUnmounted } from 'vue';
+    import { cleanMapboxInstance } from '../composables/useMapboxInstance';
     
     type MapboxComponentOptions = Omit<MapboxOptions, "container">
 
