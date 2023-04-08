@@ -1,7 +1,7 @@
 # Nuxt-Mapbox
 ## Elegant Mapbox integration with Nuxt
 ### Now With Persistent Maps!
-[](persistent_demo.gif)
+![](persistent_demo.gif)
 
 
 [![npm version][npm-version-src]][npm-version-href]
