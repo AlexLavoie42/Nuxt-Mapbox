@@ -4,7 +4,7 @@
     import { provide, onMounted, StyleValue } from 'vue';
     import { defineMapboxInstance } from '../composables/defineMapboxInstance';
     import { onUnmounted } from 'vue';
-    import { cleanMapboxInstance } from '../composables/useMapboxInstance';
+    import { cleanMapboxInstance, useMapboxInstance } from '../composables/useMapboxInstance';
     
     type MapboxComponentOptions = Omit<MapboxOptions, "container">
 
@@ -66,7 +66,10 @@
 
     provide('MapID', props.mapId)
     onMounted(() => {
-      const map = defineMapboxInstance(props.mapId, {...props.options, container: props.mapId});
+      let map = useMapboxInstance(props.mapId);
+      if (!map.value) {
+        map = defineMapboxInstance(props.mapId, {...props.options, container: props.mapId});
+      }
 
       map.value?.on('resize', () => { emit("resize", map.value as Map) });
       map.value?.on('remove', () => { emit("remove", map.value as Map) });
@@ -85,7 +88,7 @@
       map.value?.on('styledataloading', (e) => { emit("styledataloading", e) });
       map.value?.on('sourcedataloading', (e) => { emit("sourcedataloading", e) });
       map.value?.on('styleimagemissing', (e) => { emit("styleimagemissing", e) });
-      
+
       map.value?.on('movestart', (e) => { emit("movestart", e) });
       map.value?.on('move', (e) => { emit("move", e) });
       map.value?.on('moveend', (e) => { emit("moveend", e) });
