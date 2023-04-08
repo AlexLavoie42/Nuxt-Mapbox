@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { MarkerOptions, LngLatLike, Marker } from 'mapbox-gl';
     import { defineMapboxMarker } from '../composables/defineMapboxMarker';
-    import { onMounted } from 'vue';
+    import { onMounted, provide, ref } from 'vue';
 
     const props = withDefaults(defineProps<{ markerId: string, options?: MarkerOptions, lnglat: LngLatLike }>(), {options: () => ({})});
 
@@ -10,17 +10,23 @@
       (e: 'drag', marker: Marker): void
       (e: 'dragend', marker: Marker): void
     }>()
-    
-    onMounted(() => {
-      const marker = defineMapboxMarker(props.markerId, props.options)
-      marker?.setLngLat(props.lnglat)
 
-      marker?.on('dragstart', () => { emit("dragstart", marker) })
-      marker?.on('drag', () => { emit("drag", marker) })
-      marker?.on('dragstart', () => { emit("dragstart", marker) })
+    const markerRef = ref<Marker>();
+    provide('MarkerRef', markerRef);
+
+    onMounted(() => {
+      markerRef.value = defineMapboxMarker(props.markerId, props.options);
+      const marker = markerRef.value;
+
+      marker?.setLngLat(props.lnglat);
+
+      marker?.on('dragstart', () => { emit("dragstart", marker) });
+      marker?.on('drag', () => { emit("drag", marker) });
+      marker?.on('dragstart', () => { emit("dragstart", marker) });
     })
 </script>
 
 <template>
   <div />
+  <slot />
 </template>
