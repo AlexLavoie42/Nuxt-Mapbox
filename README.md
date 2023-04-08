@@ -17,17 +17,8 @@
 - 🏗 &nbsp;Easily add Mapbox to your Nuxt app with Vue components
 - 🌎 &nbsp;useMapbox Composable for easy access
 - 👷 &nbsp;defineMapboxMarker & defineMapboxPopup for making custom components
-- 📖 &nbsp;Supports many map instances across routes
-
-### TODO
-
-- [x] ~~Popup~~
-- [x] ~~Marker~~
-- [x] ~~Add rest of global properties to config~~
-- [x] ~~Event Listeners~~
-- [x] ~~Popup & Marker Events~~
-- [ ] Unit tests
-- [ ] Custom Control Component?
+- 🎛️ &nbsp;defineMapboxControl for creating your own controls
+- 📖 &nbsp;Persistent map instances across routes
 
 ## Quick Setup
 

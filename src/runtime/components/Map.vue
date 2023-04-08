@@ -3,8 +3,8 @@
     import { EventData, MapboxEvent, MapboxOptions, MapBoxZoomEvent, MapDataEvent, MapMouseEvent, MapTouchEvent, MapWheelEvent, Map } from 'mapbox-gl';
     import { provide, onMounted, StyleValue } from 'vue';
     import { defineMapboxInstance } from '../composables/defineMapboxInstance';
-import { onUnmounted } from 'vue';
-import { cleanMapboxInstance } from '../composables/useMapboxInstance';
+    import { onUnmounted } from 'vue';
+    import { cleanMapboxInstance, useMapboxInstance } from '../composables/useMapboxInstance';
     
     type MapboxComponentOptions = Omit<MapboxOptions, "container">
 
@@ -66,58 +66,61 @@ import { cleanMapboxInstance } from '../composables/useMapboxInstance';
 
     provide('MapID', props.mapId)
     onMounted(() => {
-      const map = defineMapboxInstance(props.mapId, {...props.options, container: props.mapId});
+      let map = useMapboxInstance(props.mapId);
+      if (!map.value) {
+        map = defineMapboxInstance(props.mapId, {...props.options, container: props.mapId});
+      }
 
-      map.value?.on('resize', () => { emit("resize", map.value as Map) })
-      map.value?.on('remove', () => { emit("remove", map.value as Map) })
+      map.value?.on('resize', () => { emit("resize", map.value as Map) });
+      map.value?.on('remove', () => { emit("remove", map.value as Map) });
 
-      map.value?.on('load', () => { emit("load", map.value as Map) })
-      map.value?.on('render', () => { emit("render", map.value as Map) })
-      map.value?.on('idle', () => { emit("idle", map.value as Map) })
-      map.value?.on('error', () => { emit("error", map.value as Map) })
-      map.value?.on('webglcontextlost', () => { emit("webglcontextlost", map.value as Map) })
-      map.value?.on('webglcontextrestored', () => { emit("webglcontextrestored", map.value as Map) })
+      map.value?.on('load', () => { emit("load", map.value as Map) });
+      map.value?.on('render', () => { emit("render", map.value as Map) });
+      map.value?.on('idle', () => { emit("idle", map.value as Map) });
+      map.value?.on('error', () => { emit("error", map.value as Map) });
+      map.value?.on('webglcontextlost', () => { emit("webglcontextlost", map.value as Map) });
+      map.value?.on('webglcontextrestored', () => { emit("webglcontextrestored", map.value as Map) });
 
-      map.value?.on('data', (e) => { emit("data", e) })
-      map.value?.on('styledata', (e) => { emit("styledata", e) })
-      map.value?.on('sourcedata', (e) => { emit("sourcedata", e) })
-      map.value?.on('dataloading', (e) => { emit("dataloading", e) })
-      map.value?.on('styledataloading', (e) => { emit("styledataloading", e) })
-      map.value?.on('sourcedataloading', (e) => { emit("sourcedataloading", e) })
-      map.value?.on('styleimagemissing', (e) => { emit("styleimagemissing", e) })
-      
-      map.value?.on('movestart', (e) => { emit("movestart", e) })
-      map.value?.on('move', (e) => { emit("move", e) })
-      map.value?.on('moveend', (e) => { emit("moveend", e) })
-      map.value?.on('drag', (e) => { emit("drag", e) })
-      map.value?.on('dragend', (e) => { emit("dragend", e) })
-      map.value?.on('zoomstart', (e) => { emit("zoomstart", e) })
-      map.value?.on('zoom', (e) => { emit("zoom", e) })
-      map.value?.on('zoomend', (e) => { emit("zoomend", e) })
-      map.value?.on('rotatestart', (e) => { emit("rotatestart", e) })
-      map.value?.on('rotate', (e) => { emit("rotate", e) })
-      map.value?.on('rotateend', (e) => { emit("rotateend", e) })
-      map.value?.on('pitchstart', (e) => { emit("pitchstart", e) })
-      map.value?.on('pitch', (e) => { emit("pitch", e) })
-      map.value?.on('pitchend', (e) => { emit("pitchend", e) })
-      map.value?.on('boxzoomstart', (e) => { emit("boxzoomstart", e) })
-      map.value?.on('boxzoomend', (e) => { emit("boxzoomend", e) })
-      map.value?.on('boxzoomcancel', (e) => { emit("boxzoomcancel", e) })
+      map.value?.on('data', (e) => { emit("data", e) });
+      map.value?.on('styledata', (e) => { emit("styledata", e) });
+      map.value?.on('sourcedata', (e) => { emit("sourcedata", e) });
+      map.value?.on('dataloading', (e) => { emit("dataloading", e) });
+      map.value?.on('styledataloading', (e) => { emit("styledataloading", e) });
+      map.value?.on('sourcedataloading', (e) => { emit("sourcedataloading", e) });
+      map.value?.on('styleimagemissing', (e) => { emit("styleimagemissing", e) });
 
-      map.value?.on('mousedown', (e) => { emit("mousedown", e) })
-      map.value?.on('mouseup', (e) => { emit("mouseup", e) })
-      map.value?.on('mouseover', (e) => { emit("mouseover", e) })
-      map.value?.on('mousemove', (e) => { emit("mousemove", e) })
-      map.value?.on('preclick', (e) => { emit("preclick", e) })
-      map.value?.on('click', (e) => { emit("click", e) })
-      map.value?.on('dblclick', (e) => { emit("dblclick", e) })
-      map.value?.on('mouseout', (e) => { emit("mouseout", e) })
-      map.value?.on('contextmenu', (e) => { emit("contextmenu", e) })
-      map.value?.on('wheel', (e) => { emit("wheel", e) })
-      map.value?.on('touchstart', (e) => { emit("touchstart", e) })
-      map.value?.on('touchend', (e) => { emit("touchend", e) })
-      map.value?.on('touchmove', (e) => { emit("touchmove", e) })
-      map.value?.on('touchcancel', (e) => { emit("touchcancel", e) })
+      map.value?.on('movestart', (e) => { emit("movestart", e) });
+      map.value?.on('move', (e) => { emit("move", e) });
+      map.value?.on('moveend', (e) => { emit("moveend", e) });
+      map.value?.on('drag', (e) => { emit("drag", e) });
+      map.value?.on('dragend', (e) => { emit("dragend", e) });
+      map.value?.on('zoomstart', (e) => { emit("zoomstart", e) });
+      map.value?.on('zoom', (e) => { emit("zoom", e) });
+      map.value?.on('zoomend', (e) => { emit("zoomend", e) });
+      map.value?.on('rotatestart', (e) => { emit("rotatestart", e) });
+      map.value?.on('rotate', (e) => { emit("rotate", e) });
+      map.value?.on('rotateend', (e) => { emit("rotateend", e) });
+      map.value?.on('pitchstart', (e) => { emit("pitchstart", e) });
+      map.value?.on('pitch', (e) => { emit("pitch", e) });
+      map.value?.on('pitchend', (e) => { emit("pitchend", e) });
+      map.value?.on('boxzoomstart', (e) => { emit("boxzoomstart", e) });
+      map.value?.on('boxzoomend', (e) => { emit("boxzoomend", e) });
+      map.value?.on('boxzoomcancel', (e) => { emit("boxzoomcancel", e) });
+
+      map.value?.on('mousedown', (e) => { emit("mousedown", e) });
+      map.value?.on('mouseup', (e) => { emit("mouseup", e) });
+      map.value?.on('mouseover', (e) => { emit("mouseover", e) });
+      map.value?.on('mousemove', (e) => { emit("mousemove", e) });
+      map.value?.on('preclick', (e) => { emit("preclick", e) });
+      map.value?.on('click', (e) => { emit("click", e) });
+      map.value?.on('dblclick', (e) => { emit("dblclick", e) });
+      map.value?.on('mouseout', (e) => { emit("mouseout", e) });
+      map.value?.on('contextmenu', (e) => { emit("contextmenu", e) });
+      map.value?.on('wheel', (e) => { emit("wheel", e) });
+      map.value?.on('touchstart', (e) => { emit("touchstart", e) });
+      map.value?.on('touchend', (e) => { emit("touchend", e) });
+      map.value?.on('touchmove', (e) => { emit("touchmove", e) });
+      map.value?.on('touchcancel', (e) => { emit("touchcancel", e) });
     })
 
     onUnmounted(() => {

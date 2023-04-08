@@ -46,6 +46,7 @@
         marker-id="marker2"
         :options="{}"
       />
+      <TestControl />
       <MapboxGeolocateControl />
     </MapboxMap>
     <NuxtLink to="/test">TEST</NuxtLink>

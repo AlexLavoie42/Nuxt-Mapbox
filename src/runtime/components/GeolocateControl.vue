@@ -15,9 +15,10 @@
     }
 
     interface Props {
-        options?: GeolocateControlOptions
+        options?: GeolocateControlOptions;
+        position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     }
-    const props = withDefaults(defineProps<Props>(), {options: () => ({})});
+    const props = withDefaults(defineProps<Props>(), {options: () => ({}), position: () => 'top-right'});
 
     const emit = defineEmits<{  
       (e: 'geolocate', control: GeolocateControl): void
@@ -25,35 +26,35 @@
       (e: 'outofmaxbounds', control: GeolocateControl): void
       (e: 'trackuserlocationstart', control: GeolocateControl): void
       (e: 'trackuserlocationend', control: GeolocateControl): void
-    }>()
+    }>();
 
-    const mapId = inject<string>('MapID')
-    if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
+    const mapId = inject<string>('MapID');
+    if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
     onMounted(() => {
         useMapbox(mapId, (map) => {
             function addControl(){
                 //@ts-ignore
                 const geolocate = new mapboxgl.GeolocateControl(props.options);
-                map?.addControl(geolocate)
+                map?.addControl(geolocate, props.position)
 
                 geolocate.on('geolocate', () => {
-                    emit('geolocate', geolocate)
+                    emit('geolocate', geolocate);
                 })
                 geolocate.on('error', () => {
-                    emit('error', geolocate)
+                    emit('error', geolocate);
                 })
                 geolocate.on('outofmaxbounds', () => {
-                    emit('outofmaxbounds', geolocate)
+                    emit('outofmaxbounds', geolocate);
                 })
                 geolocate.on('trackuserlocationstart', () => {
-                    emit('trackuserlocationstart', geolocate)
+                    emit('trackuserlocationstart', geolocate);
                 })
                 geolocate.on('trackuserlocationend', () => {
-                    emit('trackuserlocationend', geolocate)
+                    emit('trackuserlocationend', geolocate);
                 })
             }
 
-            map.on('load', addControl)
+            map.on('load', addControl);
         })
     })
 </script>
