@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Persistent Map Instances
 - Ability to attach Popup to Marker with slot
 - Position prop for controls
+- defineMapboxControl for custom controls
 
 # v1.2.3
 ## Fixed
