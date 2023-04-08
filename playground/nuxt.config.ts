@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['../src/module', '@nuxt/devtools'],
+  modules: ['../src/module'],
   app: {
     keepalive: true
   },
