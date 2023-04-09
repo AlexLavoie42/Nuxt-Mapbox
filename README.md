@@ -122,7 +122,8 @@ Examples:
 ```
 
 ### Persistent Map Instances
-For map instances to be persistent across routes, you must set `keepalive` to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive)
+For map instances to be persistent across routes, `keepalive` must be set to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive).
+This is done by default, but you can disable it by setting `keepalive` to `false`
 
 ### Events
 
