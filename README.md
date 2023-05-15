@@ -83,7 +83,7 @@ Examples:
 ```html
     <MapboxMap>
       <MapboxSource 
-        source-id="geojson"
+        source-id="{ID}"
         :source="{
           type: 'geojson',
           data: '/test.geojson'
@@ -91,7 +91,7 @@ Examples:
       />
       <MapboxLayer
         :layer="{
-          source: 'geojson',
+          source: '{ID}',
           id: 'geojson-layer',
           type: 'fill'
         }"
