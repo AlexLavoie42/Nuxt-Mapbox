@@ -1,8 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    import { AnyLayer, AnySourceData, MapMouseEvent } from 'mapbox-gl';
+    import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from 'mapbox-gl';
     import { inject, onMounted } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
+    import { computed, watch } from '#imports';
+
     interface Props {
         sourceId?: string
         source?: AnySourceData
@@ -23,12 +25,13 @@
     
     const mapId = inject<string>('MapID')
     if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
+
     onMounted(() => {
       useMapbox(mapId, (map) => {
+          const sourceExists = computed(() => { return !!map?.getSource((props.layer as Layer).source?.toString() || props.sourceId || '') })
           function addLayer() {
-              // TODO: Use computed & watch here instead of polling
-              if (props.sourceId && !map?.getSource(props.sourceId)) {
-                setTimeout(addLayer, 50);
+              if (!sourceExists.value) {
+                watch(sourceExists, addLayer)
                 return;
               }
             
