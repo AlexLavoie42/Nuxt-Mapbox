@@ -4,7 +4,7 @@
     import { inject, onMounted } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
     interface Props {
-        sourceId: string
+        sourceId?: string
         source?: AnySourceData
         layer: AnyLayer
     }
@@ -27,7 +27,7 @@
       useMapbox(mapId, (map) => {
           function addLayer() {
               // TODO: Use computed & watch here instead of polling
-              if (!map?.getSource(props.sourceId)) {
+              if (props.sourceId && !map?.getSource(props.sourceId)) {
                 setTimeout(addLayer, 50);
                 return;
               }
@@ -35,7 +35,7 @@
               map?.addLayer(props.layer)
           }
           function addSource() {
-            if (props.source)
+            if (props.source && props.sourceId)
               map?.addSource(props.sourceId, props.source)
           }
 
