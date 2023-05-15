@@ -90,7 +90,6 @@ Examples:
         }"
       />
       <MapboxLayer
-        source-id="geojson"
         :layer="{
           source: 'geojson',
           id: 'geojson-layer',
@@ -99,6 +98,8 @@ Examples:
       />
     </MapboxMap>
 ```
+
+If you do not need to share your source, you can create it directly in the Layer component like so:
 
 ```html
     <MapboxMap>
