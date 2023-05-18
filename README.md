@@ -86,22 +86,23 @@ Examples:
 ```html
     <MapboxMap>
       <MapboxSource 
-        source-id="geojson"
+        source-id="{ID}"
         :source="{
           type: 'geojson',
           data: '/test.geojson'
         }"
       />
       <MapboxLayer
-        source-id="geojson"
         :layer="{
-          source: 'geojson',
+          source: '{ID}',
           id: 'geojson-layer',
           type: 'fill'
         }"
       />
     </MapboxMap>
 ```
+
+If you do not need to share your source, you can create it directly in the Layer component like so:
 
 ```html
     <MapboxMap>

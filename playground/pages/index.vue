@@ -11,7 +11,6 @@
       @load="showAlert"
     >
       <MapboxLayer
-        source-id="geojson"
         :layer="{
           source: 'geojson',
           id: 'geojson-layer',
