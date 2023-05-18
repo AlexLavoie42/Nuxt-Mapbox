@@ -25,28 +25,29 @@
           data: '/test.geojson'
         }"
       />
-      <MapboxDefaultPopup
-        popup-id="popup1"
-        :lnglat="[100, 0]"
-        :options="{
-          closeOnClick: false
-        }"
-      >
-        <h1 class="test">
-          Hello World!
-        </h1>
-      </MapboxDefaultPopup>
       <MapboxDefaultMarker 
         marker-id="marker1"
         :options="{}"
-        :lnglat="[110, 5]"
-      />
+        :lnglat="[90, 0]"
+      >
+        <MapboxDefaultPopup
+          popup-id="popup1"
+          :lnglat="[0, 0]"
+          :options="{
+            closeOnClick: false
+          }"
+        >
+          <h1 class="test">
+            Hello World!
+          </h1>
+        </MapboxDefaultPopup>
+      </MapboxDefaultMarker>
       <TestMarker 
         marker-id="marker2"
         :options="{}"
       />
       <TestControl />
-      <MapboxGeolocateControl />
+      <MapboxGeolocateControl position="top-left" />
     </MapboxMap>
     <NuxtLink to="/test">TEST</NuxtLink>
   </div>

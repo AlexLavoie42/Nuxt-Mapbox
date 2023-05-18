@@ -24,10 +24,11 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
 
     nuxt.options.css.push('mapbox-gl/dist/mapbox-gl.css')
-    nuxt.options.app.head.link?.push({rel: 'stylesheet', href: 'https:/api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css', type: 'text/css'})
+    nuxt.options.app.head.link?.push({rel: 'stylesheet', href: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css', type: 'text/css'})
     nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js' })
     nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js' })
-
+    nuxt.options.app.keepalive = true;
+    
     const appConfig = nuxt.options.appConfig
     appConfig._MAPBOX_CONFIG = options;
 

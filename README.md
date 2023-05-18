@@ -1,5 +1,8 @@
 # Nuxt-Mapbox
 ## Elegant Mapbox integration with Nuxt
+### Now With Persistent Maps!
+![](persistent_demo.gif)
+
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -119,6 +122,9 @@ If you do not need to share your source, you can create it directly in the Layer
     </MapboxMap>
 ```
 
+### Persistent Map Instances
+For map instances to be persistent across routes, `keepalive` must be set to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive).
+This is done by default, but you can disable it by setting `keepalive` to `false`
 
 ### Events
 
@@ -148,6 +154,30 @@ Example:
     >
 ```
 
+
+### Linking Popups & Markers
+You can have a popup linked to a marker by simply nesting the popup component inside the marker.
+Example:
+
+```html
+    <MapboxDefaultMarker 
+      marker-id="marker1"
+      :options="{}"
+      :lnglat="[110, 5]"
+    >
+      <MapboxDefaultPopup
+        popup-id="popup1"
+        :lnglat="[100, 0]"
+        :options="{
+          closeOnClick: false
+        }"
+      >
+        <h1 class="test">
+          Hello World!
+        </h1>
+      </MapboxDefaultPopup>
+    </MapboxDefaultMarker>
+```
 
 ### Map Instance
 
@@ -193,6 +223,22 @@ Examples:
 ```js
     const markerRef = defineMapboxMarker(markerId, options, templateRef, (marker) => {
         marker.setLngLat([110, 6])
+    })
+```
+
+### Custom Controls
+
+You can make your own control with the defineMapboxControl composable.
+
+Example:
+```js
+    useMapbox(mapID, (map) => {
+        if (htmlRef.value) {
+            const control = defineMapboxControl((_map) => {
+                return htmlRef.value as HTMLElement;
+            }, (map) => {})
+            map.addControl(control);
+        }
     })
 ```
 
