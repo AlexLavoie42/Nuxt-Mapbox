@@ -124,7 +124,9 @@ If you do not need to share your source, you can create it directly in the Layer
 
 ### Persistent Map Instances
 For map instances to be persistent across routes, `keepalive` must be set to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive).
-This is done by default, but you can disable it by setting `keepalive` to `false`
+This is done by the module automatically, but you can disable it by setting the `persistent` option to `false` in `nuxt.config.ts`.
+
+**NOTE: Setting `keepalive` to false will not have any effect, so if you need to have it disabled be sure to use `persistent` instead**
 
 ### Events
 
