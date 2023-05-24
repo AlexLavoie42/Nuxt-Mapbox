@@ -16,9 +16,11 @@
 
     onMounted(() => {
       const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate);
-      popup?.setLngLat(props.lnglat);
-      popup?.on('open', () => { emit('open', popup) });
-      popup?.on('close', () => { emit('close', popup) });
+      if (popup) {
+        popup?.setLngLat(props.lnglat);
+        popup?.on('open', () => { emit('open', popup) });
+        popup?.on('close', () => { emit('close', popup) });
+      }
 
       if (markerRef) {
         if (markerRef.value) {
