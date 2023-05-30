@@ -42,10 +42,8 @@
               map?.addSource(props.sourceId, props.source)
           }
 
-          map.on('load', () => {
-            addSource();
-            addLayer();
-          });
+          addSource();
+          addLayer();
 
           map.on('mousedown', props.layer.id, (e) => { emit('mousedown', e) })
           map.on('mouseup', props.layer.id, (e) => { emit('mouseup', e) })

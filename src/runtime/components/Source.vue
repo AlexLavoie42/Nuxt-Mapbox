@@ -19,7 +19,7 @@
             map?.addSource(props.sourceId, props.source)
           }
 
-          map.on('load', addLayer)
+          addLayer();
       })
     })
 
