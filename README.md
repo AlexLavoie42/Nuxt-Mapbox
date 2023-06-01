@@ -255,6 +255,22 @@ Example:
     const map = defineMapboxInstance(MAP_DIV_ID, options);
 ```
 
+### Custom Geocoder
+
+If you want to use the geocoder without the map, use `MapboxCustomGeocoder` instead.
+You can even use your own inputs!
+
+Example:
+```html
+  <MapboxCustomGeocoder v-model="result" />
+  <MapboxCustomGeocoder>
+    <input>
+  </MapboxCustomGeocoder>
+```
+```js
+  const result = ref<MapboxGeocoder.Result>();
+```
+
 
 ## Development
 
