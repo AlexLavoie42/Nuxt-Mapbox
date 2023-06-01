@@ -3,7 +3,7 @@
     import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from 'mapbox-gl';
     import { inject, onMounted } from 'vue';
     import { useMapbox } from '../composables/useMapbox';
-    import { computed, watch } from '#imports';
+    import { computed, onUnmounted, watch } from '#imports';
 
     interface Props {
         sourceId?: string
@@ -53,6 +53,12 @@
           map.on('dblclick', props.layer.id, (e) => { emit('dblclick', e) })
           map.on('mouseenter', props.layer.id, (e) => { emit('mouseenter', e) })
           map.on('mouseleave', props.layer.id, (e) => { emit('mouseleave', e) })
+      })
+    })
+
+    onUnmounted(() => {
+      useMapbox(mapId, (map) => {
+        map?.removeLayer(props.layer.id)
       })
     })
 </script>

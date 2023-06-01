@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
     import { AnySourceData } from 'mapbox-gl';
-    import { inject, onMounted } from 'vue';
+    import { inject, onMounted, onUnmounted } from '#imports';
     import { useMapbox } from '../composables/useMapbox';
     
     interface Props {
@@ -20,6 +20,12 @@
           }
 
           addLayer();
+      })
+    })
+
+    onUnmounted(() => {
+      useMapbox(mapId, (map) => {
+        map?.removeSource(props.sourceId)
       })
     })
 
