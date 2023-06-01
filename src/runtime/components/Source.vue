@@ -1,34 +1,33 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    import { AnySourceData } from 'mapbox-gl';
-    import { inject, onMounted, onUnmounted } from '#imports';
-    import { useMapbox } from '../composables/useMapbox';
-    
-    interface Props {
-        sourceId: string
-        source: AnySourceData
-    }
-    const props = defineProps<Props>();
+import { AnySourceData } from "mapbox-gl";
+import { inject, onMounted, onUnmounted } from "#imports";
+import { useMapbox } from "../composables/useMapbox";
 
-    const mapId = inject<string>('MapID')
-    if (!mapId) throw "Mapbox Source must be placed inside a Map component"
-    
-    onMounted(() => {
-      useMapbox(mapId, (map) => {
-          function addLayer(){
-            map?.addSource(props.sourceId, props.source)
-          }
+interface Props {
+    sourceId: string;
+    source: AnySourceData;
+}
+const props = defineProps<Props>();
 
-          addLayer();
-      })
-    })
+const mapId = inject<string>("MapID");
+if (!mapId) throw "Mapbox Source must be placed inside a Map component";
 
-    onUnmounted(() => {
-      useMapbox(mapId, (map) => {
-        map?.removeSource(props.sourceId)
-      })
-    })
+onMounted(() => {
+    useMapbox(mapId, (map) => {
+        function addLayer() {
+            map?.addSource(props.sourceId, props.source);
+        }
 
+        addLayer();
+    });
+});
+
+onUnmounted(() => {
+    useMapbox(mapId, (map) => {
+        map?.removeSource(props.sourceId);
+    });
+});
 </script>
 
 <template>

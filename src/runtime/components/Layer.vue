@@ -1,66 +1,86 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-    import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from 'mapbox-gl';
-    import { inject, onMounted } from 'vue';
-    import { useMapbox } from '../composables/useMapbox';
-    import { computed, onUnmounted, watch } from '#imports';
+import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from "mapbox-gl";
+import { inject, onMounted } from "vue";
+import { useMapbox } from "../composables/useMapbox";
+import { computed, onUnmounted, watch } from "#imports";
 
-    interface Props {
-        sourceId?: string
-        source?: AnySourceData
-        layer: AnyLayer
-    }
-    const props = defineProps<Props>();
+interface Props {
+    sourceId?: string;
+    source?: AnySourceData;
+    layer: AnyLayer;
+}
+const props = defineProps<Props>();
 
-    const emit = defineEmits<{  
-      (e: 'mousedown', event: MapMouseEvent): void
-      (e: 'mouseup', event: MapMouseEvent): void
-      (e: 'mouseover', event: MapMouseEvent): void
-      (e: 'mousemove', event: MapMouseEvent): void
-      (e: 'click', event: MapMouseEvent): void
-      (e: 'dblclick', event: MapMouseEvent): void
-      (e: 'mouseenter', event: MapMouseEvent): void
-      (e: 'mouseleave', event: MapMouseEvent): void
-    }>()
-    
-    const mapId = inject<string>('MapID')
-    if (!mapId) throw "Mapbox Controls must be placed inside a Map component"
+const emit = defineEmits<{
+    (e: "mousedown", event: MapMouseEvent): void;
+    (e: "mouseup", event: MapMouseEvent): void;
+    (e: "mouseover", event: MapMouseEvent): void;
+    (e: "mousemove", event: MapMouseEvent): void;
+    (e: "click", event: MapMouseEvent): void;
+    (e: "dblclick", event: MapMouseEvent): void;
+    (e: "mouseenter", event: MapMouseEvent): void;
+    (e: "mouseleave", event: MapMouseEvent): void;
+}>();
 
-    onMounted(() => {
-      useMapbox(mapId, (map) => {
-          const sourceExists = computed(() => { return !!map?.getSource((props.layer as Layer).source?.toString() || props.sourceId || '') })
-          function addLayer() {
-              if (!sourceExists.value) {
-                watch(sourceExists, addLayer)
+const mapId = inject<string>("MapID");
+if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
+
+onMounted(() => {
+    useMapbox(mapId, (map) => {
+        const sourceExists = computed(() => {
+            return !!map?.getSource(
+                (props.layer as Layer).source?.toString() || props.sourceId || ""
+            );
+        });
+        function addLayer() {
+            if (!sourceExists.value) {
+                watch(sourceExists, addLayer);
                 return;
-              }
-            
-              map?.addLayer(props.layer)
-          }
-          function addSource() {
+            }
+
+            map?.addLayer(props.layer);
+        }
+        function addSource() {
             if (props.source && props.sourceId)
-              map?.addSource(props.sourceId, props.source)
-          }
+                map?.addSource(props.sourceId, props.source);
+        }
 
-          addSource();
-          addLayer();
+        addSource();
+        addLayer();
 
-          map.on('mousedown', props.layer.id, (e) => { emit('mousedown', e) })
-          map.on('mouseup', props.layer.id, (e) => { emit('mouseup', e) })
-          map.on('mouseover', props.layer.id, (e) => { emit('mouseover', e) })
-          map.on('mousemove', props.layer.id, (e) => { emit('mousemove', e) })
-          map.on('click', props.layer.id, (e) => { emit('click', e) })
-          map.on('dblclick', props.layer.id, (e) => { emit('dblclick', e) })
-          map.on('mouseenter', props.layer.id, (e) => { emit('mouseenter', e) })
-          map.on('mouseleave', props.layer.id, (e) => { emit('mouseleave', e) })
-      })
-    })
+        map.on("mousedown", props.layer.id, (e) => {
+            emit("mousedown", e);
+        });
+        map.on("mouseup", props.layer.id, (e) => {
+            emit("mouseup", e);
+        });
+        map.on("mouseover", props.layer.id, (e) => {
+            emit("mouseover", e);
+        });
+        map.on("mousemove", props.layer.id, (e) => {
+            emit("mousemove", e);
+        });
+        map.on("click", props.layer.id, (e) => {
+            emit("click", e);
+        });
+        map.on("dblclick", props.layer.id, (e) => {
+            emit("dblclick", e);
+        });
+        map.on("mouseenter", props.layer.id, (e) => {
+            emit("mouseenter", e);
+        });
+        map.on("mouseleave", props.layer.id, (e) => {
+            emit("mouseleave", e);
+        });
+    });
+});
 
-    onUnmounted(() => {
-      useMapbox(mapId, (map) => {
-        map?.removeLayer(props.layer.id)
-      })
-    })
+onUnmounted(() => {
+    useMapbox(mapId, (map) => {
+        map?.removeLayer(props.layer.id);
+    });
+});
 </script>
 
 <template>

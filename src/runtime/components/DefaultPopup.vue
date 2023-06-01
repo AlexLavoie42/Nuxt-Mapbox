@@ -1,39 +1,46 @@
 <script setup lang="ts">
-    import { LngLatLike, Marker, Popup, PopupOptions } from 'mapbox-gl';
-    import { Ref, inject, ref, watch } from 'vue';
-    import { defineMapboxPopup } from '../composables/defineMapboxPopup';
-    import { onMounted } from 'vue';
+import { LngLatLike, Marker, Popup, PopupOptions } from "mapbox-gl";
+import { Ref, inject, ref, watch } from "vue";
+import { defineMapboxPopup } from "../composables/defineMapboxPopup";
+import { onMounted } from "vue";
 
-    const props = withDefaults(defineProps<{ popupId: string, options?: PopupOptions, lnglat: LngLatLike }>(), {options: () => ({})});
-    const popupTemplate = ref<HTMLElement | null>(null);
+const props = withDefaults(
+    defineProps<{ popupId: string; options?: PopupOptions; lnglat: LngLatLike }>(),
+    { options: () => ({}) }
+);
+const popupTemplate = ref<HTMLElement | null>(null);
 
-    const emit = defineEmits<{  
-      (e: 'open', popup: Popup): void
-      (e: 'close', popup: Popup): void
-    }>()
+const emit = defineEmits<{
+    (e: "open", popup: Popup): void;
+    (e: "close", popup: Popup): void;
+}>();
 
-    const markerRef = inject<Ref<Marker | undefined> | null>('MarkerRef', null);
+const markerRef = inject<Ref<Marker | undefined> | null>("MarkerRef", null);
 
-    onMounted(() => {
-      const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate);
-      if (popup) {
+onMounted(() => {
+    const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate);
+    if (popup) {
         popup?.setLngLat(props.lnglat);
-        popup?.on('open', () => { emit('open', popup) });
-        popup?.on('close', () => { emit('close', popup) });
-      }
+        popup?.on("open", () => {
+            emit("open", popup);
+        });
+        popup?.on("close", () => {
+            emit("close", popup);
+        });
+    }
 
-      if (markerRef) {
+    if (markerRef) {
         if (markerRef.value) {
-          markerRef.value.setPopup(popup);
+            markerRef.value.setPopup(popup);
         } else {
-          watch(markerRef, () => {
-            if (markerRef.value) {
-              markerRef.value.setPopup(popup);
-            }
-          })
+            watch(markerRef, () => {
+                if (markerRef.value) {
+                    markerRef.value.setPopup(popup);
+                }
+            });
         }
-      }
-    })
+    }
+});
 </script>
 
 <template>
