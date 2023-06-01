@@ -31,9 +31,12 @@ onMounted(() => {
     if (geocoderInput.value) geocoder.addTo(geocoderInput.value);
 
     //@ts-ignore Using private variables here
-    const defaultInput = geocoder._inputEl as HTMLElement;
+    const defaultInput = geocoder._inputEl as HTMLInputElement;
     //@ts-ignore
     const defaultContainer = geocoder.container as HTMLElement;
+    //@ts-ignore
+    const keyDown = geocoder._typeahead.handleKeyDown.bind(geocoder._typeahead);
+
     defaultInput.addEventListener("change", (e) => {
         emit("change", e);
     });
@@ -56,6 +59,18 @@ onMounted(() => {
                 input.value = e.result.place_name
             })
 
+            defaultInput.addEventListener("change", (e) => {
+                input.value = (e.target as HTMLInputElement)?.value;
+            })
+
+            defaultInput.addEventListener("keydown", (e) => {
+                input.value = (e.target as HTMLInputElement)?.value;
+            })
+
+            input.addEventListener('input', (e) => {
+                geocoder.setInput((e.target as HTMLInputElement)?.value);
+            });
+            input.addEventListener('keydown', keyDown)
         })
     }
 
@@ -64,5 +79,7 @@ onMounted(() => {
 
 <template>
   <div ref="geocoderInput" />
-  <slot ref="customInputContainer" />
+  <div ref="customInputContainer">
+    <slot />
+  </div>
 </template>
