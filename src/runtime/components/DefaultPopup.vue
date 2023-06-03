@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { LngLatLike, Marker, Popup, PopupOptions } from "mapbox-gl";
-import { Ref, inject, ref, watch } from "vue";
-import { defineMapboxPopup } from "../composables/defineMapboxPopup";
-import { onUnmounted, onMounted } from "#imports";
+import { Ref } from "vue";
+import { onUnmounted, onMounted, defineMapboxPopup, inject, ref, watch } from "#imports";
 
 const props = withDefaults(
-    defineProps<{ popupId: string; options?: PopupOptions; lnglat: LngLatLike }>(),
-    { options: () => ({}) }
+    defineProps<{ popupId: string; options?: PopupOptions; lnglat: LngLatLike, text?: string }>(),
+    { options: () => ({}), text: undefined }
 );
 const popupTemplate = ref<HTMLElement | null>(null);
 
@@ -30,6 +29,8 @@ onMounted(() => {
         popup?.on("close", () => {
             emit("close", popup);
         });
+        
+        if (props.text) popup?.setText(props.text);
     }
 
     if (markerRef) {
@@ -48,6 +49,21 @@ onMounted(() => {
 onUnmounted(() => {
     popupRef.value?.remove();
 });
+
+watch(() => props.lnglat, () => {
+    popupRef.value?.setLngLat(props.lnglat);
+});
+
+watch(() => props.options, () => {
+    if (props.options.offset) popupRef.value?.setOffset(props.options.offset);
+    if (props.options.maxWidth) popupRef.value?.setMaxWidth(props.options.maxWidth);
+});
+
+watch(() => props.text, () => {
+    if (props.text) popupRef.value?.setText(props.text);
+});
+
+// TODO: Watch for html changes with MutationObserver
 </script>
 
 <template>
