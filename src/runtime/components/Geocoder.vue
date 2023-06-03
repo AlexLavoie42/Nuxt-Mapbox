@@ -1,41 +1,62 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
-// import mapboxgl from 'mapbox-gl';
-import { inject } from "vue";
-import { useMapbox } from "../composables/useMapbox";
-import { onMounted } from "vue";
+import { ref, onMounted, useMapbox, inject, onUnmounted } from "#imports";
 
 interface Props {
     options?: Omit<GeocoderOptions, "accessToken">;
+    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
-const props = withDefaults(defineProps<Props>(), { options: () => ({}) });
-
-const mapId = inject<string>("MapID");
-if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
-
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        function addControl() {
-            map?.addControl(
-                //@ts-ignore TODO: Figure out typing while getting around #2
-                new MapboxGeocoder({
-                    //@ts-ignore
-                    accessToken: mapboxgl.accessToken,
-                    //@ts-ignore
-                    mapboxgl,
-                    ...props.options,
-                })
-            );
-        }
-
-        map.on("load", addControl);
-    });
+const props = withDefaults(defineProps<Props>(), { 
+    options: () => ({}),
+    position: () => "top-right"
 });
+
+const geocoderRef = ref<MapboxGeocoder>();
+const mapId = inject<string>("MapID");
+const containerRef = ref<HTMLDivElement>();
+
+if (mapId) {
+    onMounted(() => {
+        useMapbox(mapId, (map) => {                
+            //@ts-ignore TODO: Figure out typing while getting around #2
+            const geocoder = new MapboxGeocoder({
+                //@ts-ignore
+                accessToken: mapboxgl.accessToken,
+                //@ts-ignore
+                mapboxgl,
+                ...props.options,
+            })
+            geocoderRef.value = geocoder;
+            map?.addControl(geocoder, props.position);
+        });
+    });
+    onUnmounted(() => {
+        useMapbox(mapId, (map) => {
+            if (geocoderRef.value) map?.removeControl(geocoderRef.value);
+        })
+    })
+} else {
+    onMounted(() => {
+        if (containerRef.value) {
+            //@ts-ignore TODO: Figure out typing while getting around #2
+            const geocoder = new MapboxGeocoder({
+                //@ts-ignore
+                accessToken: mapboxgl.accessToken,
+                //@ts-ignore
+                mapboxgl,
+                ...props.options,
+            })
+            geocoderRef.value = geocoder;
+            geocoder.addTo(containerRef.value);
+        }
+    });
+}
+
 </script>
 
 <template>
-  <div>
+  <div ref="containerRef">
     <slot />
   </div>
 </template>
