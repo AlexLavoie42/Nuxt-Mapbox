@@ -1,29 +1,41 @@
 <script setup lang="ts">
-    import { inject, onMounted } from 'vue';
-    import { useMapbox } from '../composables/useMapbox';
+import { inject, onMounted, onUnmounted, ref, useMapbox } from "#imports";
 
-    interface Props {
-        options?: {
-            maxWidth?: number;
-            unit?: string;
-        };
-        position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-    }
-    const props = withDefaults(defineProps<Props>(), {options: () => ({}), position: () => 'top-right'});
+interface Props {
+    options?: {
+        maxWidth?: number;
+        unit?: string;
+    };
+    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+}
+const props = withDefaults(defineProps<Props>(), {
+    options: () => ({}),
+    position: () => "top-right",
+});
 
-    const mapId = inject<string>('MapID');
-    if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
+const mapId = inject<string>("MapID");
+if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
-    onMounted(() => {
-        useMapbox(mapId, (map) => {
-            function addControl(){
-                //@ts-ignore
-                map.addControl(new mapboxgl.ScaleControl(props.options), props.position);
-            }
+const controlRef = ref<mapboxgl.FullscreenControl>();
 
-            map.on('load', addControl);
-        })
+onMounted(() => {
+    useMapbox(mapId, (map) => {
+        function addControl() {
+            //@ts-ignore
+            const control = new mapboxgl.ScaleControl(props.options)
+            controlRef.value = control;
+
+            map.addControl(control, props.position);
+        }
+
+        map.on("load", addControl);
+    });
+});
+onUnmounted(() => {
+    useMapbox(mapId, (map) => {
+        if (controlRef.value) map.removeControl(controlRef.value);
     })
+})
 </script>
 
 <template>

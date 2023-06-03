@@ -6,9 +6,14 @@ type MapboxCallback = (map: Map) => void
 
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
     const map = useMapboxInstance(mapID);
-    if (map.value) return callback(map.value);
+    if (map.value && map.value.isStyleLoaded()) return callback(map.value);
+    else if (map.value) map.value.on('load', () => callback(map.value as Map));
 
     watch(map, () => {
-        if (map.value) callback(map.value)
+        if (map.value) {
+            if (map.value.isStyleLoaded()) return callback(map.value);
+
+            map.value.on('load', () => { callback(map.value as Map) });
+        }
     })
 }

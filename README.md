@@ -99,26 +99,7 @@ Examples:
           type: 'fill'
         }"
       />
-    </MapboxMap>
-```
-
-If you do not need to share your source, you can create it directly in the Layer component like so:
-
-```html
-    <MapboxMap>
-      <MapboxLayer
-        source-id="{ID}"
-        :source="{
-          type: 'geojson',
-          data: '/test.geojson'
-        }"
-        :layer="{
-          source: '{ID}',
-          id: 'geojson-layer',
-          type: 'fill'
-        }"
-      />
-      <MapboxFullscreenControl />
+      <MapboxGeolocateControl position="top-left" />
     </MapboxMap>
 ```
 
@@ -253,6 +234,22 @@ Example:
 ```js
     // NOTE: Map instance will be null on server & until it is loaded on client
     const map = defineMapboxInstance(MAP_DIV_ID, options);
+```
+
+### Custom Geocoder
+
+If you want to use the geocoder without the map, use `MapboxCustomGeocoder` instead.
+You can even use your own inputs!
+
+Example:
+```html
+  <MapboxCustomGeocoder v-model="result" />
+  <MapboxCustomGeocoder>
+    <input>
+  </MapboxCustomGeocoder>
+```
+```js
+  const result = ref<MapboxGeocoder.Result>();
 ```
 
 

@@ -1,37 +1,69 @@
 <script setup lang="ts">
-    import { LngLatLike, Marker, Popup, PopupOptions } from 'mapbox-gl';
-    import { Ref, inject, ref, watch } from 'vue';
-    import { defineMapboxPopup } from '../composables/defineMapboxPopup';
-    import { onMounted } from 'vue';
+import { LngLatLike, Marker, Popup, PopupOptions } from "mapbox-gl";
+import { Ref } from "vue";
+import { onUnmounted, onMounted, defineMapboxPopup, inject, ref, watch } from "#imports";
 
-    const props = withDefaults(defineProps<{ popupId: string, options?: PopupOptions, lnglat: LngLatLike }>(), {options: () => ({})});
-    const popupTemplate = ref<HTMLElement | null>(null);
+const props = withDefaults(
+    defineProps<{ popupId: string; options?: PopupOptions; lnglat: LngLatLike, text?: string }>(),
+    { options: () => ({}), text: undefined }
+);
+const popupTemplate = ref<HTMLElement | null>(null);
 
-    const emit = defineEmits<{  
-      (e: 'open', popup: Popup): void
-      (e: 'close', popup: Popup): void
-    }>()
+const emit = defineEmits<{
+    (e: "open", popup: Popup): void;
+    (e: "close", popup: Popup): void;
+}>();
 
-    const markerRef = inject<Ref<Marker | undefined> | null>('MarkerRef', null);
+const markerRef = inject<Ref<Marker> | null>("MarkerRef", null);
+const popupRef = ref<Popup>();
 
-    onMounted(() => {
-      const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate);
-      popup?.setLngLat(props.lnglat);
-      popup?.on('open', () => { emit('open', popup) });
-      popup?.on('close', () => { emit('close', popup) });
+onMounted(() => {
+    const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate);
+    popupRef.value = popup;
 
-      if (markerRef) {
+    if (popup) {
+        popup?.setLngLat(props.lnglat);
+        popup?.on("open", () => {
+            emit("open", popup);
+        });
+        popup?.on("close", () => {
+            emit("close", popup);
+        });
+        
+        if (props.text) popup?.setText(props.text);
+    }
+
+    if (markerRef) {
         if (markerRef.value) {
-          markerRef.value.setPopup(popup);
+            markerRef.value.setPopup(popup);
         } else {
-          watch(markerRef, () => {
-            if (markerRef.value) {
-              markerRef.value.setPopup(popup);
-            }
-          })
+            watch(markerRef, () => {
+                if (markerRef.value) {
+                    markerRef.value.setPopup(popup);
+                }
+            });
         }
-      }
-    })
+    }
+});
+
+onUnmounted(() => {
+    popupRef.value?.remove();
+});
+
+watch(() => props.lnglat, () => {
+    popupRef.value?.setLngLat(props.lnglat);
+});
+
+watch(() => props.options, () => {
+    if (props.options.offset) popupRef.value?.setOffset(props.options.offset);
+    if (props.options.maxWidth) popupRef.value?.setMaxWidth(props.options.maxWidth);
+});
+
+watch(() => props.text, () => {
+    if (props.text) popupRef.value?.setText(props.text);
+});
+
+// TODO: Watch for html changes with MutationObserver
 </script>
 
 <template>

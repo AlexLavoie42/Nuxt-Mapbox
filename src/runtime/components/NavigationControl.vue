@@ -1,31 +1,47 @@
 <script setup lang="ts">
-    import { inject, onMounted } from 'vue';
-    import { useMapbox } from '../composables/useMapbox';
-    
-    interface NavigationControlOptions {
-        showCompass?: boolean;
-        showZoom?: boolean;
-        visualizePitch?: boolean;
-    }
-    interface Props {
-        options?: NavigationControlOptions;
-        position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-    }
-    const props = withDefaults(defineProps<Props>(), {options: () => ({}), position: () => 'top-right'});
+import { useMapbox, inject, onMounted, ref } from "#imports";
 
-    const mapId = inject<string>('MapID');
-    if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
-    onMounted(() => {
-      useMapbox(mapId, (map) => {
-          function addControl(){
+interface NavigationControlOptions {
+    showCompass?: boolean;
+    showZoom?: boolean;
+    visualizePitch?: boolean;
+}
+interface Props {
+    options?: NavigationControlOptions;
+    position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+}
+const props = withDefaults(defineProps<Props>(), {
+    options: () => ({}),
+    position: () => "top-right",
+});
+
+const mapId = inject<string>("MapID");
+if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
+
+const controlRef = ref<mapboxgl.NavigationControl>();
+
+onMounted(() => {
+    useMapbox(mapId, (map) => {
+        function addControl() {
             //@ts-ignore
-            map?.addControl(new mapboxgl.NavigationControl(props.options), props.position);
-          }
-        
-          map.on('load', addControl);
-      })
-    })
+            const control = new mapboxgl.NavigationControl(props.options)
+            controlRef.value = control;
 
+            map?.addControl(
+                control,
+                props.position
+            );
+        }
+
+        map.on("load", addControl);
+    });
+});
+
+onMounted(() => {
+    useMapbox(mapId, (map) => {
+        if (controlRef.value) map.removeControl(controlRef.value);
+    })
+})
 </script>
 
 <template>
