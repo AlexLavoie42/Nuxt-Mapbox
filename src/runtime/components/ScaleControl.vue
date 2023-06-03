@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, onUnmounted, useMapbox } from "#imports";
+import { inject, onMounted, onUnmounted, ref, useMapbox } from "#imports";
 
 interface Props {
     options?: {
