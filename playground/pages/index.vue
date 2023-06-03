@@ -25,7 +25,7 @@
       <MapboxDefaultMarker 
         marker-id="marker1"
         :options="{}"
-        :lnglat="[90, 0]"
+        :lnglat="lnglat"
       >
         <MapboxDefaultPopup
           popup-id="popup1"
@@ -48,6 +48,7 @@
     </MapboxMap>
     <NuxtLink to="/test">TEST</NuxtLink>
     <a @click="changeData">Change Data</a>
+    <a @click="changeLngLat">Move Marker</a>
   </div>
 </template>
 
@@ -97,5 +98,10 @@ function changeData() {
       }
     }
   }
+}
+
+const lnglat = ref([90, 0]);
+function changeLngLat() {
+  lnglat.value = [lnglat.value[0] + 1, lnglat.value[1] + 1];
 }
 </script>
