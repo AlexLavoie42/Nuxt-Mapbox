@@ -26,6 +26,8 @@ const emit = defineEmits<{
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
+if (props.source || props.sourceId) console.warn("source & sourceId props in MapboxLayer are deprecated");
+
 onMounted(() => {
     useMapbox(mapId, (map) => {
         const sourceExists = computed(() => {
@@ -42,8 +44,9 @@ onMounted(() => {
             map?.addLayer(props.layer);
         }
         function addSource() {
-            if (props.source && props.sourceId)
+            if (props.source && props.sourceId) {
                 map?.addSource(props.sourceId, props.source);
+            }
         }
 
         addSource();
