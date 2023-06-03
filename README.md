@@ -99,26 +99,7 @@ Examples:
           type: 'fill'
         }"
       />
-    </MapboxMap>
-```
-
-If you do not need to share your source, you can create it directly in the Layer component like so:
-
-```html
-    <MapboxMap>
-      <MapboxLayer
-        source-id="{ID}"
-        :source="{
-          type: 'geojson',
-          data: '/test.geojson'
-        }"
-        :layer="{
-          source: '{ID}',
-          id: 'geojson-layer',
-          type: 'fill'
-        }"
-      />
-      <MapboxFullscreenControl />
+      <MapboxGeolocateControl position="top-left" />
     </MapboxMap>
 ```
 
