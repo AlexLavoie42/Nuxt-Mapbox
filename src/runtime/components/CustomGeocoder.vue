@@ -17,6 +17,8 @@ const emit = defineEmits<{
 const geocoderInput = ref<HTMLElement>();
 const customInputContainer = ref<HTMLElement>();
 
+const geocoderRef = ref<MapboxGeocoder>();
+
 onMounted(() => {
     //@ts-ignore
     const geocoder = new MapboxGeocoder({
@@ -27,6 +29,8 @@ onMounted(() => {
         //@ts-ignore
         ...props.options,
     });
+
+    geocoderRef.value = geocoder;
 
     if (geocoderInput.value) geocoder.addTo(geocoderInput.value);
 
@@ -46,10 +50,6 @@ onMounted(() => {
 
     geocoder.on("result", (e: { result: Result }) => {
         emit("update:modelValue", e.result);
-    });
-
-    watch(() => props.modelValue, (result: Result) => {
-        geocoder.setInput(result.place_name);
     });
 
     const customInputs = customInputContainer.value?.querySelectorAll("input");
@@ -74,6 +74,10 @@ onMounted(() => {
         })
     }
 
+});
+
+watch(() => props.modelValue, () => {
+    geocoderRef.value?.setInput(props.modelValue?.place_name || "");
 });
 </script>
 

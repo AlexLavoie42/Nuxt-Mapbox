@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { GeolocateControl } from "mapbox-gl";
-import { inject } from "vue";
-import { useMapbox } from "../composables/useMapbox";
-import { onMounted } from "vue";
+import { ref, inject, useMapbox, onMounted, onUnmounted, } from "#imports";
 
 interface GeolocateControlOptions {
     positionOptions?: mapboxgl.PositionOptions;
@@ -33,11 +31,16 @@ const emit = defineEmits<{
 
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
+
+const geolocateRef = ref<GeolocateControl>();
+
 onMounted(() => {
     useMapbox(mapId, (map) => {
         function addControl() {
             //@ts-ignore
             const geolocate = new mapboxgl.GeolocateControl(props.options);
+            geolocateRef.value = geolocate;
+
             map?.addControl(geolocate, props.position);
 
             geolocate.on("geolocate", () => {
@@ -60,6 +63,12 @@ onMounted(() => {
         map.on("load", addControl);
     });
 });
+
+onUnmounted(() => {
+    useMapbox(mapId, (map) => {
+        if (geolocateRef.value) map.removeControl(geolocateRef.value);
+    })
+})
 </script>
 
 <template>

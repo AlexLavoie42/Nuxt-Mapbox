@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted } from "vue";
-import { useMapbox } from "../composables/useMapbox";
+import { inject, onMounted, onUnmounted, useMapbox } from "#imports";
 
 interface Props {
     options?: {
@@ -17,16 +16,26 @@ const props = withDefaults(defineProps<Props>(), {
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
+const controlRef = ref<mapboxgl.FullscreenControl>();
+
 onMounted(() => {
     useMapbox(mapId, (map) => {
         function addControl() {
             //@ts-ignore
-            map.addControl(new mapboxgl.ScaleControl(props.options), props.position);
+            const control = new mapboxgl.ScaleControl(props.options)
+            controlRef.value = control;
+
+            map.addControl(control, props.position);
         }
 
         map.on("load", addControl);
     });
 });
+onUnmounted(() => {
+    useMapbox(mapId, (map) => {
+        if (controlRef.value) map.removeControl(controlRef.value);
+    })
+})
 </script>
 
 <template>

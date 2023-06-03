@@ -2,7 +2,7 @@
 import { LngLatLike, Marker, Popup, PopupOptions } from "mapbox-gl";
 import { Ref, inject, ref, watch } from "vue";
 import { defineMapboxPopup } from "../composables/defineMapboxPopup";
-import { onMounted } from "vue";
+import { onUnmounted, onMounted } from "#imports";
 
 const props = withDefaults(
     defineProps<{ popupId: string; options?: PopupOptions; lnglat: LngLatLike }>(),
@@ -15,10 +15,13 @@ const emit = defineEmits<{
     (e: "close", popup: Popup): void;
 }>();
 
-const markerRef = inject<Ref<Marker | undefined> | null>("MarkerRef", null);
+const markerRef = inject<Ref<Marker> | null>("MarkerRef", null);
+const popupRef = ref<Popup>();
 
 onMounted(() => {
     const popup = defineMapboxPopup(props.popupId, props.options, popupTemplate);
+    popupRef.value = popup;
+
     if (popup) {
         popup?.setLngLat(props.lnglat);
         popup?.on("open", () => {
@@ -40,6 +43,10 @@ onMounted(() => {
             });
         }
     }
+});
+
+onUnmounted(() => {
+    popupRef.value?.remove();
 });
 </script>
 

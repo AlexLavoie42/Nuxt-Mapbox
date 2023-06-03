@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted } from "vue";
-import { useMapbox } from "../composables/useMapbox";
+import { useMapbox, inject, onMounted, ref } from "#imports";
 
 interface NavigationControlOptions {
     showCompass?: boolean;
@@ -18,12 +17,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
+
+const controlRef = ref<mapboxgl.NavigationControl>();
+
 onMounted(() => {
     useMapbox(mapId, (map) => {
         function addControl() {
+            //@ts-ignore
+            const control = new mapboxgl.NavigationControl(props.options)
+            controlRef.value = control;
+
             map?.addControl(
-                //@ts-ignore
-                new mapboxgl.NavigationControl(props.options),
+                control,
                 props.position
             );
         }
@@ -31,6 +36,12 @@ onMounted(() => {
         map.on("load", addControl);
     });
 });
+
+onMounted(() => {
+    useMapbox(mapId, (map) => {
+        if (controlRef.value) map.removeControl(controlRef.value);
+    })
+})
 </script>
 
 <template>

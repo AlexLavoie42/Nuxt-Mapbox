@@ -2,6 +2,7 @@
 import { MarkerOptions, LngLatLike, Marker } from "mapbox-gl";
 import { defineMapboxMarker } from "../composables/defineMapboxMarker";
 import { onMounted, provide, ref } from "vue";
+import { onUnmounted } from "nuxt/dist/app/compat/capi";
 
 const props = withDefaults(
     defineProps<{ markerId: string; options?: MarkerOptions; lnglat: LngLatLike }>(),
@@ -33,6 +34,10 @@ onMounted(() => {
         emit("dragstart", marker);
     });
 });
+
+onUnmounted(() => {
+    markerRef.value?.remove();
+})
 </script>
 
 <template>
