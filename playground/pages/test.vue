@@ -10,6 +10,7 @@
       }"
     >
       <MapboxLayer
+        v-if="enabled"
         source-id="geojson"
         :source="{
           type: 'geojson',
@@ -53,9 +54,15 @@
       />
     </MapboxMap>
     <NuxtLink to="/">TEST</NuxtLink>
+    <a @click="remove">Toggle Layer</a>
   </div>
 </template>
   
-  <script setup>
-  </script>
+<script setup>
+import {ref} from "#imports"
+  const enabled = ref(true)
+  const remove = () => {
+    enabled.value = false
+  }
+</script>
   
