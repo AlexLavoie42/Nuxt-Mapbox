@@ -37,11 +37,11 @@ onUnmounted(() => {
     markerRef.value?.remove();
 });
 
-watch(props.lnglat, () => {
+watch(() => props.lnglat, () => {
     markerRef.value?.setLngLat(props.lnglat);
 });
 
-watch(props.options, () => {
+watch(() => props.options, () => {
     if (props.options.draggable) markerRef.value?.setDraggable(props.options.draggable);
     if (props.options.offset) markerRef.value?.setOffset(props.options.offset);
     if (props.options.pitchAlignment) markerRef.value?.setPitchAlignment(props.options.pitchAlignment);
