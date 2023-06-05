@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MapboxGeocoder, { GeocoderOptions, Result } from "@mapbox/mapbox-gl-geocoder";
+import { GeocoderOptions, Result } from "@mapbox/mapbox-gl-geocoder";
 import { ref, onMounted, watch } from "#imports";
 
 interface Props {

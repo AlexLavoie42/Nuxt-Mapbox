@@ -17,15 +17,11 @@ const controlRef = ref<mapboxgl.FullscreenControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
-        function addControl() {
-            //@ts-ignore
-            const control = new mapboxgl.FullscreenControl(props.options);
-            controlRef.value = control;
+        //@ts-ignore
+        const control = new mapboxgl.FullscreenControl(props.options);
+        controlRef.value = control;
 
-            map.addControl(control, props.position);
-        }
-
-        map.on("load", addControl);
+        map.addControl(control, props.position);
     });
 });
 

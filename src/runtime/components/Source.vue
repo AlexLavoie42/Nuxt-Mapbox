@@ -28,7 +28,7 @@ onUnmounted(() => {
     });
 });
 
-watch(props, () => {
+watch(() => props.source, () => {
     useMapbox(mapId, (map) => {
         const source = map?.getSource(props.sourceId);
         props.source.type === 'geojson'

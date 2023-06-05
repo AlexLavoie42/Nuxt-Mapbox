@@ -22,18 +22,14 @@ const controlRef = ref<mapboxgl.NavigationControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
-        function addControl() {
-            //@ts-ignore
-            const control = new mapboxgl.NavigationControl(props.options)
-            controlRef.value = control;
+        //@ts-ignore
+        const control = new mapboxgl.NavigationControl(props.options)
+        controlRef.value = control;
 
-            map?.addControl(
-                control,
-                props.position
-            );
-        }
-
-        map.on("load", addControl);
+        map?.addControl(
+            control,
+            props.position
+        );
     });
 });
 

@@ -36,31 +36,27 @@ const geolocateRef = ref<GeolocateControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
-        function addControl() {
-            //@ts-ignore
-            const geolocate = new mapboxgl.GeolocateControl(props.options);
-            geolocateRef.value = geolocate;
+        //@ts-ignore
+        const geolocate = new mapboxgl.GeolocateControl(props.options);
+        geolocateRef.value = geolocate;
 
-            map?.addControl(geolocate, props.position);
-
-            geolocate.on("geolocate", () => {
-                emit("geolocate", geolocate);
-            });
-            geolocate.on("error", () => {
-                emit("error", geolocate);
-            });
-            geolocate.on("outofmaxbounds", () => {
-                emit("outofmaxbounds", geolocate);
-            });
-            geolocate.on("trackuserlocationstart", () => {
-                emit("trackuserlocationstart", geolocate);
-            });
-            geolocate.on("trackuserlocationend", () => {
-                emit("trackuserlocationend", geolocate);
-            });
-        }
-
-        map.on("load", addControl);
+        map?.addControl(geolocate, props.position);
+        
+        geolocate.on("geolocate", () => {
+            emit("geolocate", geolocate);
+        });
+        geolocate.on("error", () => {
+            emit("error", geolocate);
+        });
+        geolocate.on("outofmaxbounds", () => {
+            emit("outofmaxbounds", geolocate);
+        });
+        geolocate.on("trackuserlocationstart", () => {
+            emit("trackuserlocationstart", geolocate);
+        });
+        geolocate.on("trackuserlocationend", () => {
+            emit("trackuserlocationend", geolocate);
+        });
     });
 });
 
