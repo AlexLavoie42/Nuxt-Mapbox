@@ -15,8 +15,7 @@ import { provide, onMounted, StyleValue } from "vue";
 import { defineMapboxInstance } from "../composables/defineMapboxInstance";
 import { onUnmounted } from "vue";
 import { cleanMapboxInstance, useMapboxInstance } from "../composables/useMapboxInstance";
-
-type MapboxComponentOptions = Omit<MapboxOptions, "container">;
+import { MapboxComponentOptions } from "../../module";
 
 const props = defineProps<{ mapId: string; options?: MapboxComponentOptions }>();
 
