@@ -4,27 +4,32 @@ import { useMapboxInstance } from "./useMapboxInstance";
 
 type MapboxCallback = (map: Map) => void
 
-let callbackStack: MapboxCallback[] = [];
-
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
-    function tryCallbacks(map: Map | null): boolean {
+    let ranCallback = false;
+
+    function tryCallback(map: Map | null) {
+        if (!map) return false;
+        if (ranCallback) return true;
+
         if (map && map.isStyleLoaded()) {
-            callbackStack.forEach(cb => cb(map as Map));
-            callbackStack = [];
-            return true;
+            callback(map);
+            ranCallback = true;
         }
         else if (map) {
-            setTimeout(tryCallbacks, 200);
-            return true;
+            setTimeout(tryCallback, 200);
         }
-        return false;
+        return true;
     }
 
-    callbackStack.push(callback);
     const map = useMapboxInstance(mapID);
-    
-    const isLoaded = tryCallbacks(map.value);
-    if (!isLoaded) {
-        watch(map, tryCallbacks)
-    }
+    const loaded = tryCallback(map.value);
+    if (loaded) return;
+
+    watch(map, () => {
+        if (map.value) {
+            if (map.value.isStyleLoaded()) return callback(map.value);
+
+            map.value.on('load', () => { callback(map.value as Map) });
+        }
+    })
 }
