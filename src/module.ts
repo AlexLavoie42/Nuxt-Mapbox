@@ -1,7 +1,7 @@
 import { defineNuxtModule, addPlugin, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
 import { AppConfig } from '@nuxt/schema'
 // Module options TypeScript inteface definition
-export interface MapboxOptions {
+export interface NuxtMapboxOptions {
   accessToken: string
   baseApiUrl?: string
   workerUrl?: string
@@ -12,9 +12,11 @@ export interface InternalOptions {
   persistent?: boolean
 }
 
-type ModuleOptions = MapboxOptions & InternalOptions;
+type ModuleOptions = NuxtMapboxOptions & InternalOptions;
 
-export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: MapboxOptions }
+export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
+
+export type MapboxComponentOptions = Omit<mapboxgl.MapboxOptions, "container">;
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
