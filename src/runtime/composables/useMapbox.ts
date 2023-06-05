@@ -11,7 +11,7 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
         if (!map) return false;
         if (ranCallback) return true;
 
-        if (map && map.isStyleLoaded()) {
+        if (map && map.loaded()) {
             callback(map);
             ranCallback = true;
         }
@@ -27,9 +27,7 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
 
     watch(map, () => {
         if (map.value) {
-            if (map.value.isStyleLoaded()) return callback(map.value);
-
-            map.value.on('load', () => { callback(map.value as Map) });
+            tryCallback(map.value);
         }
     })
 }
