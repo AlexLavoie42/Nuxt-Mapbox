@@ -17,10 +17,12 @@
           type: 'fill'
         }"
         @click="showAlert"
+        v-if="enabled"
       />
       <MapboxSource 
         source-id="geojson"
         :source="source"
+        v-if="enabled"
       />
       <MapboxDefaultMarker 
         marker-id="marker1"
@@ -47,6 +49,7 @@
       <MapboxGeolocateControl position="top-left" />
     </MapboxMap>
     <NuxtLink to="/test">TEST</NuxtLink>
+    <a @click="enabled = !enabled">Toggle Data</a>
     <a @click="changeData">Change Data</a>
     <a @click="changeLngLat">Move Marker</a>
   </div>
@@ -62,6 +65,8 @@ const source = ref({
   type: 'geojson',
   data: '/test.geojson'
 });
+
+const enabled = ref(true);
 
 function changeData() {
   source.value = {
