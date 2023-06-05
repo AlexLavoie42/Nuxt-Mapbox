@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v1.3.5
+## Added
+- Custom geocoder (Lets you use your own inputs outside of a map)
+- Allowed geocoder to be placed outside map
+## Fixed
+- Deleting sources & controls when component is removed
+- Reacting to prop changes for Popups & Markers
+
 # v1.3.4
 ## Added
 - Updated Nuxt to 3.5.0
