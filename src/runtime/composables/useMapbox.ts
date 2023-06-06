@@ -5,15 +5,28 @@ import { useMapboxInstance } from "./useMapboxInstance";
 type MapboxCallback = (map: Map) => void
 
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
+    let ranCallback = false;
+
+    function tryCallback(map: Map | null) {
+        if (!map) return false;
+        if (ranCallback) return true;
+
+        if (map && map.isStyleLoaded()) {
+            callback(map);
+            ranCallback = true;
+        }
+        setTimeout(() => { tryCallback(map) }, 200);
+        
+        return true;
+    }
+
     const map = useMapboxInstance(mapID);
-    if (map.value && map.value.isStyleLoaded()) return callback(map.value);
-    else if (map.value) map.value.on('load', () => callback(map.value as Map));
+    const loaded = tryCallback(map.value);
+    if (loaded) return;
 
     watch(map, () => {
         if (map.value) {
-            if (map.value.isStyleLoaded()) return callback(map.value);
-
-            map.value.on('load', () => { callback(map.value as Map) });
+            tryCallback(map.value);
         }
     })
 }

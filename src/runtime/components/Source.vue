@@ -31,6 +31,8 @@ onUnmounted(() => {
 watch(() => props.source, () => {
     useMapbox(mapId, (map) => {
         const source = map?.getSource(props.sourceId);
+        if (!source) return;
+        
         props.source.type === 'geojson'
         if (props.source.type === 'geojson' && props.source.data) {
             // @ts-ignore TODO: Figure out how to type this. Seems like mapbox issue
