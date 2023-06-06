@@ -5,7 +5,7 @@ import { defineNuxtPlugin, useAppConfig, useState } from '#app'
 import { Ref } from 'vue';
 
 export interface MapboxInstancesObject {
-    [key: string]: mapboxgl.Map
+    [key: string]: { map: mapboxgl.Map, loaded: boolean }
 }
 export interface MapboxPopupsObject {
   [key: string]: mapboxgl.Popup
@@ -34,8 +34,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     return {
       provide: {
           mapboxInit: (key: string, options: mapboxgl.MapboxOptions = {container: key}) => {
+            //Mapbox loaded makes no sense. Lets use our own!
             //@ts-ignore
-            mapbox_instances.value[key] = new mapboxgl.Map(options)
+            mapbox_instances.value[key] = {map: new mapboxgl.Map(options), loaded: false};
+            mapbox_instances.value[key].map.on("load", () => {
+              mapbox_instances.value[key].loaded = true;
+            })
           },
           mapboxInstances: () => mapbox_instances,
 
