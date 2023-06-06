@@ -9,6 +9,7 @@ interface Props {
     sourceId?: string;
     source?: AnySourceData;
     layer: AnyLayer;
+    beforeLayer?: string
 }
 const props = defineProps<Props>();
 
@@ -40,8 +41,11 @@ onMounted(() => {
                 watch(sourceExists, addLayer);
                 return;
             }
-
-            map?.addLayer(props.layer);
+            if (props.beforeLayer && map.getLayer(props.beforeLayer)) {
+                map?.addLayer(props.layer, props.beforeLayer);
+            } else {
+                map?.addLayer(props.layer);
+            }
         }
         function addSource() {
             if (props.source && props.sourceId) {
