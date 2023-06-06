@@ -14,8 +14,9 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
         if (map && map.isStyleLoaded()) {
             callback(map);
             ranCallback = true;
+        } else {
+            setTimeout(() => { tryCallback(map) }, 200);
         }
-        setTimeout(() => { tryCallback(map) }, 200);
         
         return true;
     }
