@@ -54,7 +54,7 @@
       />
     </MapboxMap>
     <NuxtLink to="/">TEST</NuxtLink>
-    <a @click="remove">Toggle Layer</a>
+    <a @click="remove">Remove Layer</a>
   </div>
 </template>
   
