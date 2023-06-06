@@ -17,7 +17,7 @@ const markerRef = ref<Marker>();
 provide("MarkerRef", markerRef);
 
 onMounted(() => {
-    markerRef.value = defineMapboxMarker(props.markerId, props.options);
+    markerRef.value = defineMapboxMarker(props.markerId, {...props.options, lnglat: props.lnglat});
     const marker = markerRef.value;
 
     if (props.lnglat) marker?.setLngLat(props.lnglat);

@@ -18,16 +18,16 @@ import { useMapbox } from './useMapbox';
  * @param mapID Optionally pass the mapID manually. Will be auto injected if component is nested in MapboxMap
  */
 export function defineMapboxMarker(
-    markerID: string, options: MarkerOptions, markerHTML: Ref<HTMLElement | null>, callback?: (marker: Marker) => void, mapID?: string ): Ref<Marker | null> | undefined
+    markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike }, markerHTML: Ref<HTMLElement | null>, callback?: (marker: Marker) => void, mapID?: string ): Ref<Marker | null> | undefined
 
 /**
  * Create a new Marker instance for a component. Will be automatically added to map if it is nested in MapboxMap
  * 
  * @param mapID Optionally pass the mapID manually. Will be auto injected if component is nested in MapboxMap
  */
-export function defineMapboxMarker(markerID: string, options: MarkerOptions, markerHTML?: undefined, callback?: undefined, mapID?: string ): Marker
+export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike }, markerHTML?: undefined, callback?: undefined, mapID?: string ): Marker
 
-export function defineMapboxMarker(markerID: string, options: MarkerOptions, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
+export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike }, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
     const mapId = inject<string>('MapID')
     if (!useNuxtApp().$mapboxInitMarker) return; // So we dont run on server.
 
@@ -67,7 +67,8 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions, mar
         const marker = useNuxtApp().$mapboxMarkerInstances().value[markerID]
     
         useMapbox(mapId || mapID, (map) => {
-            marker.addTo(map)
+            marker.setLngLat(options.lnglat);
+            marker.addTo(map);
         })
         return marker;
     }
