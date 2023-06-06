@@ -20,7 +20,7 @@ onMounted(() => {
     markerRef.value = defineMapboxMarker(props.markerId, props.options);
     const marker = markerRef.value;
 
-    marker?.setLngLat(props.lnglat);
+    if (props.lnglat) marker?.setLngLat(props.lnglat);
 
     marker?.on("dragstart", () => {
         emit("dragstart", marker);
