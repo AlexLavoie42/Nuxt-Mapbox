@@ -11,13 +11,11 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
         if (!map) return false;
         if (ranCallback) return true;
 
-        if (map && map.loaded()) {
+        if (map && map.isStyleLoaded()) {
             callback(map);
             ranCallback = true;
         } else {
-            map.on("load", () => {
-                tryCallback(map);
-            })
+            setTimeout(() => { tryCallback(map) }, 200);
         }
         
         return true;
