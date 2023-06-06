@@ -16,8 +16,7 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
             ranCallback = true;
         } else {
             map.on("load", () => {
-                callback(map);
-                ranCallback = true;
+                tryCallback(map);
             })
         }
         
