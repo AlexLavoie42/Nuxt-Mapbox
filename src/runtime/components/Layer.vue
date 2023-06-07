@@ -49,6 +49,11 @@ onMounted(() => {
             if (props.beforeLayer && map.getLayer(props.beforeLayer)) {
                 map?.addLayer(props.layer, props.beforeLayer);
             } else {
+                if (props.beforeLayer) {
+                    watch(() => map.getLayer(props.beforeLayer || ''), () => {
+                        map?.moveLayer(props.layer.id, props.beforeLayer);
+                    })
+                }
                 map?.addLayer(props.layer);
             }
         }
