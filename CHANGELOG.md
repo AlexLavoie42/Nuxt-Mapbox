@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v1.3.8
+## Added
+- beforeLayer prop for layers so you can ensure proper layer order
+## Fixed
+- Fixed markers getting added with no latlng
+- Fixed useMapbox not getting called while sources/layers are loading
+- Fixed performance issues with many layers
+    - (Only adding map event listeners when events are actually being used)
+
 # v1.3.7
 ## Fixed
 - useMapbox always fires properly
