@@ -1,32 +1,36 @@
+import { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
-import { watch } from "vue";
-import { useMapboxInstance } from "./useMapboxInstance";
+import { watch } from "#imports";
+import { _useMapboxInstanceWithLoaded } from "./useMapboxInstance";
 
 type MapboxCallback = (map: Map) => void
 
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
     let ranCallback = false;
 
-    function tryCallback(map: Map | null) {
-        if (!map) return false;
+    function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | null>) {
+        if (!instance?.value?.map) return false;
         if (ranCallback) return true;
 
-        if (map && map.isStyleLoaded()) {
-            callback(map);
+        if (instance.value.map && instance.value.loaded) {
+            callback(instance.value.map);
             ranCallback = true;
+        } else {
+            instance.value.map.on("load", () => {
+                tryCallback(instance);
+            })
         }
-        setTimeout(() => { tryCallback(map) }, 200);
         
         return true;
     }
 
-    const map = useMapboxInstance(mapID);
-    const loaded = tryCallback(map.value);
-    if (loaded) return;
+    const mapboxInstance = _useMapboxInstanceWithLoaded(mapID);
+    const callbackDone = tryCallback(mapboxInstance);
+    if (callbackDone) return;
 
-    watch(map, () => {
-        if (map.value) {
-            tryCallback(map.value);
+    watch(mapboxInstance, () => {
+        if (mapboxInstance.value?.map) {
+            tryCallback(mapboxInstance);
         }
     })
 }
