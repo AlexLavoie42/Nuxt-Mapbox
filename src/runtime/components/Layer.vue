@@ -3,7 +3,7 @@
 import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from "mapbox-gl";
 import { inject, onMounted } from "vue";
 import { useMapbox } from "../composables/useMapbox";
-import { computed, onUnmounted, watch } from "#imports";
+import { computed, onUnmounted, watch, getCurrentInstance } from "#imports";
 
 interface Props {
     sourceId?: string;
@@ -28,6 +28,11 @@ const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
 if (props.source || props.sourceId) console.warn("source & sourceId props in MapboxLayer are deprecated");
+
+// Vue magic so we can see which events are being listened to
+// Mapbox slows down significantly with each event listener, even if we do nothing.
+// This may lead to bugs down the line with events getting added to the component after it's mounted.
+const vnodeProps = getCurrentInstance()?.vnode.props
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
@@ -55,31 +60,46 @@ onMounted(() => {
 
         addSource();
         addLayer();
-
-        map.on("mousedown", props.layer.id, (e) => {
-            emit("mousedown", e);
-        });
-        map.on("mouseup", props.layer.id, (e) => {
-            emit("mouseup", e);
-        });
-        map.on("mouseover", props.layer.id, (e) => {
-            emit("mouseover", e);
-        });
-        map.on("mousemove", props.layer.id, (e) => {
-            emit("mousemove", e);
-        });
-        map.on("click", props.layer.id, (e) => {
-            emit("click", e);
-        });
-        map.on("dblclick", props.layer.id, (e) => {
-            emit("dblclick", e);
-        });
-        map.on("mouseenter", props.layer.id, (e) => {
-            emit("mouseenter", e);
-        });
-        map.on("mouseleave", props.layer.id, (e) => {
-            emit("mouseleave", e);
-        });
+        if (vnodeProps?.onMousedown) {
+            map.on("mousedown", props.layer.id, (e) => {
+                emit("mousedown", e);
+            });
+        }
+        if (vnodeProps?.onMouseup) {
+            map.on("mouseup", props.layer.id, (e) => {
+                emit("mouseup", e);
+            });
+        }
+        if (vnodeProps?.onMouseover) {
+            map.on("mouseover", props.layer.id, (e) => {
+                emit("mouseover", e);
+            });
+        }
+        if (vnodeProps?.onMousemove) {
+            map.on("mousemove", props.layer.id, (e) => {
+                emit("mousemove", e);
+            });
+        }
+        if (vnodeProps?.onClick) {
+            map.on("click", props.layer.id, (e) => {
+                emit("click", e);
+            });
+        }
+        if (vnodeProps?.onDblclick) {
+            map.on("dblclick", props.layer.id, (e) => {
+                emit("dblclick", e);
+            });
+        }
+        if (vnodeProps?.onMouseenter) {
+            map.on("mouseenter", props.layer.id, (e) => {
+                emit("mouseenter", e);
+            });
+        }
+        if (vnodeProps?.onMouseleave) {
+            map.on("mouseleave", props.layer.id, (e) => {
+                emit("mouseleave", e);
+            });
+        }
     });
 });
 
