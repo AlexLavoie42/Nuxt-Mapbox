@@ -4,14 +4,13 @@ import { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
 import { ref, onMounted, useMapbox, inject, onUnmounted } from "#imports";
 
 interface Props {
-    options?: Omit<GeocoderOptions, "accessToken">;
+    options?: Omit<GeocoderOptions, "accessToken" | "mapboxgl">;
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 const props = withDefaults(defineProps<Props>(), { 
     options: () => ({}),
     position: () => "top-right"
 });
-
 const geocoderRef = ref<MapboxGeocoder>();
 const mapId = inject<string>("MapID");
 const containerRef = ref<HTMLDivElement>();
