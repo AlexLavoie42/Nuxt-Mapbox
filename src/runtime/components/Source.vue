@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { AnySourceData, GeoJSONSource, VectorSourceImpl, ImageSource, RasterSource } from "mapbox-gl";
+import { AnySourceData, GeoJSONSource, VectorSourceImpl, ImageSource, RasterSource, AnyLayer, CustomLayerInterface } from "mapbox-gl";
 import { inject, onMounted, onUnmounted, watch, useMapbox } from "#imports";
 
 interface Props {
@@ -24,7 +24,12 @@ onMounted(() => {
 
 onUnmounted(() => {
     useMapbox(mapId, (map) => {
-        map?.removeSource(props.sourceId);
+        map.getStyle().layers
+        .filter((layer) => (layer as Exclude<AnyLayer, CustomLayerInterface>).source === props.sourceId)
+        .forEach((layer) => {
+            map.removeLayer(layer.id);
+        })
+        map.removeSource(props.sourceId);
     });
 });
 
