@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { AttributionControl } from 'mapbox-gl'
 import { inject, onMounted } from "vue";
 import { useMapbox } from "../composables/useMapbox";
 
@@ -23,8 +24,7 @@ onMounted(() => {
     useMapbox(mapId, (map) => {
         function addControl() {
             map?.addControl(
-                //@ts-ignore
-                new mapboxgl.AttributionControl(props.options),
+                new AttributionControl(props.options),
                 props.position
             );
         }

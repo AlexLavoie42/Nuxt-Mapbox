@@ -36,8 +36,7 @@ const geolocateRef = ref<GeolocateControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
-        //@ts-ignore
-        const geolocate = new mapboxgl.GeolocateControl(props.options);
+        const geolocate = new GeolocateControl(props.options);
         geolocateRef.value = geolocate;
 
         map?.addControl(geolocate, props.position);

@@ -1,8 +1,9 @@
 import { ExtendedAppConfig } from '../module';
 import { defineNuxtPlugin, useAppConfig, useState } from '#app'
-// import mapboxgl from 'mapbox-gl'
+import {default as mapboxgl} from 'mapbox-gl'
 // import { Map, MapboxOptions, PopupOptions, Popup, MarkerOptions, Marker } from 'mapbox-gl';
 import { Ref } from 'vue';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 export interface MapboxInstancesObject {
     [key: string]: { map: mapboxgl.Map, loaded: boolean }
