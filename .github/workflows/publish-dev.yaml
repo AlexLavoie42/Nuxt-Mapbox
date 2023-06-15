@@ -16,8 +16,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm ci
-      - run: npm test
+      - run: npm run build
+      - run: npm run test
 
   publish-npm:
     needs: build
@@ -28,8 +28,6 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
-      - run: npm run test
-      - run: npm run build
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v2.2.0
         with:
