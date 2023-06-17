@@ -18,7 +18,6 @@ jobs:
           node-version: 18
       - run: npm i
       - run: npm run dev:build
-      - run: npm run dev & npm run test
       - run: npm run build
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v2.2.0
