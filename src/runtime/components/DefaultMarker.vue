@@ -28,8 +28,8 @@ onMounted(() => {
     marker?.on("drag", () => {
         emit("drag", marker);
     });
-    marker?.on("dragstart", () => {
-        emit("dragstart", marker);
+    marker?.on("dragend", () => {
+        emit("dragend", marker);
     });
 });
 
