@@ -1,7 +1,7 @@
 import { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
 import { watch } from "#imports";
-import { _useMapboxInstanceWithLoaded } from "./useMapboxInstance";
+import { _useMapboxInstanceWithLoaded, useMapboxInstance } from "./useMapboxInstance";
 
 type MapboxCallback = (map: Map) => void
 
@@ -31,6 +31,17 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
     watch(mapboxInstance, () => {
         if (mapboxInstance.value?.map) {
             tryCallback(mapboxInstance);
+        }
+    })
+}
+
+export function useMapboxBeforeLoad(mapID: string, callback: MapboxCallback): void {
+    const map = useMapboxInstance(mapID);
+    if (map.value) return callback(map.value);
+
+    watch(map, () => {
+        if (map.value) {
+            map.value.on('load', () => { callback(map.value as Map) });
         }
     })
 }
