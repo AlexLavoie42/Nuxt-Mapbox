@@ -1,8 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import {default as mapboxgl} from 'mapbox-gl'
-import { default as MapboxGeocoder, GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
+import { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
+import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { ref, onMounted, useMapbox, inject, onUnmounted } from "#imports";
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 interface Props {
     options?: Omit<GeocoderOptions, "accessToken">;
