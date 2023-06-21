@@ -3,7 +3,7 @@
 import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from "mapbox-gl";
 import { inject, onMounted } from "vue";
 import { useMapbox } from "../composables/useMapbox";
-import { computed, onUnmounted, watch, getCurrentInstance } from "#imports";
+import { computed, onUnmounted, watch, getCurrentInstance, useMapboxInstance } from "#imports";
 
 interface Props {
     sourceId?: string;
@@ -34,13 +34,15 @@ if (props.source || props.sourceId) console.warn("source & sourceId props in Map
 // This may lead to bugs down the line with events getting added to the component after it's mounted.
 const vnodeProps = getCurrentInstance()?.vnode.props
 
+const mapRef = useMapboxInstance(mapId);
+const sourceExists = computed(() => {
+    return !!mapRef.value?.getSource(
+        (props.layer as Layer).source?.toString() || props.sourceId || ""
+    );
+});
+
 onMounted(() => {
     useMapbox(mapId, (map) => {
-        const sourceExists = computed(() => {
-            return !!map?.getSource(
-                (props.layer as Layer).source?.toString() || props.sourceId || ""
-            );
-        });
         function addLayer() {
             if (!sourceExists.value) {
                 watch(sourceExists, addLayer);
