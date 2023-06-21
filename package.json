@@ -1,6 +1,6 @@
 {
   "name": "nuxt-mapbox",
-  "version": "1.4.0-dev.2",
+  "version": "1.4.0-dev.3",
   "description": "Elegant Mapbox GL JS integration with Nuxt",
   "author": {
     "name": "Alex Lavoie",
@@ -35,7 +35,7 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@mapbox/mapbox-gl-geocoder": "5.0.1",
     "@nuxt/kit": "^3.5.3",
     "@types/mapbox-gl": "^2.7.11",
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.3",
