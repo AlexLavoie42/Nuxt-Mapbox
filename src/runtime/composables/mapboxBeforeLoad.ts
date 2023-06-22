@@ -1,6 +1,5 @@
-import { watch } from "~/.nuxt/imports";
+import { watch, useMapboxInstance } from "#imports";
 import { Map } from "mapbox-gl";
-import { useMapboxInstance } from "./mapboxInstance";
 
 type MapboxCallback = (map: Map) => void
 

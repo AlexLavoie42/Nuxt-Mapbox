@@ -1,5 +1,4 @@
-import { useNuxtApp } from "#app"
-import { useMapboxInstance } from "./useMapboxInstance"
+import { useNuxtApp, useMapboxInstance } from "#imports"
 
 export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOptions = {container: key}) {
     const initFunc = useNuxtApp().$mapboxInit

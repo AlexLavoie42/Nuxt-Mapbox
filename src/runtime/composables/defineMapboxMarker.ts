@@ -1,10 +1,6 @@
-import { isRef } from '~/.nuxt/imports';
-import { ref, Ref } from 'vue';
-import { watch } from 'vue';
-import { useNuxtApp } from '#app';
-import { Marker, MarkerOptions } from "mapbox-gl";
-import { inject } from 'vue';
-import { useMapbox } from './useMapbox';
+import { Ref } from 'vue';
+import { inject, isRef, ref, useMapbox, useNuxtApp, watch } from '#imports';
+import { MarkerOptions, Marker } from 'mapbox-gl';
 
 
 
