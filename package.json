@@ -1,6 +1,6 @@
 {
   "name": "nuxt-mapbox",
-  "version": "1.4.0-dev.6",
+  "version": "1.4.0-dev.7",
   "description": "Elegant Mapbox GL JS integration with Nuxt",
   "author": {
     "name": "Alex Lavoie",
