@@ -1,17 +1,16 @@
 import { Ref, computed } from 'vue';
-import { Marker } from "mapbox-gl";
-import { useNuxtApp, watch } from "#imports";
-import { useMapboxMarkerRef } from './mapboxMarkerRef';
+import { Popup } from "mapbox-gl";
+import { useNuxtApp, watch, useMapboxPopupRef } from "#imports";
 
-export function useMapboxMarker(markerID: string, callback: (marker: Marker) => void) {
-    const marker = useMapboxMarkerRef(markerID);
-    if (!marker.value) {
-        watch(marker, () => {
-            if (marker.value) {
-                callback(marker.value);
+export function useMapboxPopup(popupID: string, callback: (popup: Popup) => void) {
+    const popup = useMapboxPopupRef(popupID);
+    if (!popup.value) {
+        watch(popup, () => {
+            if (popup.value) {
+                callback(popup.value);
             }
         })
     } else {
-        callback(marker.value);
+        callback(popup.value);
     }
 }
