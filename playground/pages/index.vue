@@ -46,7 +46,7 @@
         :options="{}"
       />
       <TestControl />
-      <MapboxGeolocateControl position="top-left" />
+      <MapboxGeocoder position="top-left" />
     </MapboxMap>
     <NuxtLink to="/test">TEST</NuxtLink>
     <a @click="enabled = !enabled">Toggle Data</a>
