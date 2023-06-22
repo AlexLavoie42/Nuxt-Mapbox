@@ -83,7 +83,7 @@ Example:
     >
 ```
 
-You can add Layers & Controls by nesting their components inside the Map
+You can add Layers, Sources & Controls by nesting their respective components inside the Map
 
 Examples:
 
@@ -107,11 +107,15 @@ Examples:
     </MapboxMap>
 ```
 
+--------------------------------------------------------------------------------------------------------------
+
 ### Persistent Map Instances
 For map instances to be persistent across routes, `keepalive` must be set to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive).
 This is done by the module automatically, but you can disable it by setting the `persistent` option to `false` in `nuxt.config.ts`.
 
 **NOTE: Setting `keepalive` to false will not have any effect, so if you need to have it disabled be sure to use `persistent` instead**
+
+--------------------------------------------------------------------------------------------------------------
 
 ### Events
 
@@ -141,6 +145,7 @@ Example:
     >
 ```
 
+--------------------------------------------------------------------------------------------------------------
 
 ### Linking Popups & Markers
 You can have a popup linked to a marker by simply nesting the popup component inside the marker.
@@ -166,15 +171,15 @@ Example:
     </MapboxDefaultMarker>
 ```
 
-### Map Instance
+--------------------------------------------------------------------------------------------------------------
 
-You can access the map instance with the useMapbox composable. You must provide the map id.
+## Composables
+
+### useMapbox
+
+The simplest way to access the map instance on setup is with the useMapbox composable. You must provide the map id.
 
 The map instance will not be available until the page is fully loaded, so you must access it through a callback.
-
-
-The callback will only be run after the map has loaded (so if you do `map.on('load'...)`, it will not work).
-If you want to access the map before it has loaded, there is the `useMapboxBeforeLoad` composable instead.
 
 ```js
     useMapbox(mapId, (map) => {
@@ -182,18 +187,27 @@ If you want to access the map before it has loaded, there is the `useMapboxBefor
     })
 ```
 
-You can access the map instance ref directly with useMapboxInstance
+**NOTE: The callback will only be run after the map has loaded (so if you do `map.on('load')`, it will not work).**
 
-**NOTE: The map instance will be null until is initialized so you cannot access it directly on setup. Use a watcher as shown or useMapbox instead:**
+If you want to access the map before it has loaded, there is the `useMapboxBeforeLoad` composable instead.
+
+`useMapbox` should be preferred over `useMapboxBeforeLoad` with `map.on('load')` to ensure that your code gets run on reactive updates while the map is already loaded.
+
+--------------------------------------------------------------------------------------------------------------
+
+## Refs
+
+When working with the map reactively (for example, in a watcher or computed method), you should instead use the map ref. The refs should be treated similar to Vue [template refs](https://vuejs.org/guide/essentials/template-refs.html). 
+
+**It is important to remember that the refs will be undefined until they have been initialized, which will be after the component is mounted.**
+
 
 ```js
-    const map = useMapboxInstance(mapId)
-    watch(map, () => {
-      if (map.value)
-        // Do whatever with map
-    })
+    const mapRef = useMapboxRef(mapId);
+    const markerRef = useMapboxMarkerRef(markerId);
 ```
 
+--------------------------------------------------------------------------------------------------------------
 
 ## Custom Components
 While it is recommended to use the default components, making your own is easy with the built in composables!
@@ -202,7 +216,9 @@ While it is recommended to use the default components, making your own is easy w
 ### Custom Popups & Markers
 
 You can use ```defineMapboxPopup``` & ```defineMapboxMarker``` for custom marker & popup components
-By passing a [template ref](https://vuejs.org/guide/essentials/template-refs.html) you can put custom html directly into your component
+By passing a [template ref](https://vuejs.org/guide/essentials/template-refs.html) you can put custom html directly into your component.
+
+Be sure to nest your custom components inside a map instance so the map-id can be auto injected. You can also pass the map ID manually into the functions.
 
 Examples:
 ```js
