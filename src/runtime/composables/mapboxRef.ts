@@ -1,8 +1,8 @@
 import { Map } from "mapbox-gl";
 import { _useMapboxInstances } from "#imports";
-import { computed, ComputedRef } from "vue"
+import { computed, ComputedRef, Ref } from "vue"
 
-export function useMapboxInstance(mapID: string): ComputedRef<Map | null>{
+export function useMapboxRef(mapID: string): Ref<Map | null>{
     const map = computed(() => {
         return _useMapboxInstances()?.value[mapID]?.map || null
     })
