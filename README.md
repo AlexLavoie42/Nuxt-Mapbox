@@ -1,8 +1,12 @@
 # Nuxt-Mapbox
 ## Elegant Mapbox integration with Nuxt
-### Now With Persistent Maps!
-![](persistent_demo.gif)
 
+### 🌟 *NEW IN 1.4.0*
+- Full component reactivity (`define` composables now accept refs for reactivity)
+- New `useMapboxBeforeLoad` composable
+- Composables for accessing markers & popups
+
+----------------------------------------------------------------
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -166,7 +170,11 @@ Example:
 
 You can access the map instance with the useMapbox composable. You must provide the map id.
 
-The map instance will not be available until the page is fully loaded, so you must access it through a callback
+The map instance will not be available until the page is fully loaded, so you must access it through a callback.
+
+
+The callback will only be run after the map has loaded (so if you do `map.on('load'...)`, it will not work).
+If you want to access the map before it has loaded, there is the `useMapboxBeforeLoad` composable instead.
 
 ```js
     useMapbox(mapId, (map) => {
