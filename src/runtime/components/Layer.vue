@@ -2,8 +2,7 @@
 <script setup lang="ts">
 import { AnyLayer, AnySourceData, Layer, MapMouseEvent } from "mapbox-gl";
 import { inject, onMounted } from "vue";
-import { useMapbox } from "../composables/useMapbox";
-import { computed, onUnmounted, watch, getCurrentInstance, useMapboxInstance } from "#imports";
+import { computed, onUnmounted, watch, getCurrentInstance, useMapboxInstance, useMapbox } from "#imports";
 
 interface Props {
     sourceId?: string;

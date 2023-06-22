@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { AttributionControl } from 'mapbox-gl'
-import { inject, onMounted } from "vue";
-import { useMapbox } from "../composables/useMapbox";
+import { useMapbox, inject, onMounted } from "#imports";
 
 interface AttributionControlOptions {
     compact?: boolean;

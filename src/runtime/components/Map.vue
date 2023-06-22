@@ -12,9 +12,7 @@ import {
     Map,
 } from "mapbox-gl";
 import { provide, onMounted, StyleValue } from "vue";
-import { defineMapboxInstance } from "../composables/defineMapboxInstance";
-import { onUnmounted } from "vue";
-import { cleanMapboxInstance, useMapboxInstance } from "../composables/useMapboxInstance";
+import { cleanMapboxInstance, useMapboxInstance, onUnmounted, defineMapboxInstance } from "#imports";
 import { MapboxComponentOptions } from "../../module";
 
 const props = defineProps<{ mapId: string; options?: MapboxComponentOptions }>();
