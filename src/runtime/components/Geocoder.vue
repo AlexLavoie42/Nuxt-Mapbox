@@ -1,9 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import {default as mapboxgl} from 'mapbox-gl'
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import { ref, onMounted, useMapbox, inject, onUnmounted } from "#imports";
+import { default as mapboxgl } from 'mapbox-gl'
+import { ref, onMounted, useMapbox, inject, onUnmounted, onBeforeMount } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+
+onBeforeMount(async () => {
+    const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js')
+})
 
 interface Props {
     options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken">;
