@@ -43,9 +43,10 @@ const sourceExists = computed(() => {
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
+        let sourceWatcher: () => void;
         function addLayer() {
             if (!sourceExists.value) {
-                watch(sourceExists, addLayer);
+                if (!sourceWatcher) sourceWatcher = watch(sourceExists, addLayer);
                 return;
             }
             if (props.beforeLayer && map.getLayer(props.beforeLayer)) {
@@ -58,6 +59,7 @@ onMounted(() => {
                 }
                 map?.addLayer(props.layer);
             }
+            sourceWatcher();
         }
         function addSource() {
             if (props.source && props.sourceId) {
