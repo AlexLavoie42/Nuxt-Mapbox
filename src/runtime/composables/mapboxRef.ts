@@ -9,6 +9,10 @@ export function useMapboxRef(mapID: string): Ref<Map | null>{
     return map
 }
 
+export function useMapboxInstance(mapID: string): Ref<Map | null>{
+    return useMapboxRef(mapID);
+}
+
 export function _useMapboxInstanceWithLoaded(mapID: string): ComputedRef<{ map: Map, loaded: boolean } | null>{
     const map = computed(() => {
         return _useMapboxInstances()?.value[mapID] || null
