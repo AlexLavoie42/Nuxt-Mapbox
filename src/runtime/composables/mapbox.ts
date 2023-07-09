@@ -1,7 +1,7 @@
 import { watchOnce } from '@vueuse/core';
 import { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
-import { _useMapboxInstanceWithLoaded } from "#imports";
+import { _useMapboxInstanceWithLoaded, watch } from "#imports";
 
 type MapboxCallback = (map: Map) => void
 
@@ -16,8 +16,11 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
             callback(instance.value.map);
             ranCallback = true;
         } else {
-            instance.value.map.on("load", () => {
-                tryCallback(instance);
+            const killWatch = watch(() => instance.value?.loaded, () => {
+                if (instance.value?.loaded) {
+                    callback(instance.value.map);
+                    killWatch();
+                }
             })
         }
         
