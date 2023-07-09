@@ -1,4 +1,5 @@
-import { watch, useMapboxInstance } from "#imports";
+import { useMapboxInstance } from "#imports";
+import { watchOnce } from "@vueuse/core";
 import { Map } from "mapbox-gl";
 
 type MapboxCallback = (map: Map) => void
@@ -7,9 +8,9 @@ export function useMapboxBeforeLoad(mapID: string, callback: MapboxCallback): vo
     const map = useMapboxInstance(mapID);
     if (map.value) return callback(map.value);
 
-    watch(map, () => {
+    watchOnce(map, () => {
         if (map.value) {
-            map.value.on('load', () => { callback(map.value as Map) });
+            callback(map.value as Map)
         }
     })
 }
