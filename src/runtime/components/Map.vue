@@ -3,19 +3,69 @@
 import {
     EventData,
     MapboxEvent,
-    MapboxOptions,
     MapBoxZoomEvent,
     MapDataEvent,
     MapMouseEvent,
     MapTouchEvent,
     MapWheelEvent,
-    Map,
+    Map
 } from "mapbox-gl";
 import { provide, onMounted, StyleValue } from "vue";
-import { cleanMapboxInstance, useMapboxInstance, onUnmounted, defineMapboxInstance } from "#imports";
+import { cleanMapboxInstance, useMapboxRef, onUnmounted, defineMapboxInstance, watch, useMapboxBeforeLoad } from "#imports";
 import { MapboxComponentOptions } from "../../module";
 
-const props = defineProps<{ mapId: string; options?: MapboxComponentOptions }>();
+const props = defineProps<{
+    mapId: string;
+    options?: MapboxComponentOptions;
+    
+    // Events in props so we can easily check/watch if they exist
+    onError?: Function;
+    onLoad?: Function;
+    onIdle?: Function;
+    onRemove?: Function;
+    onRender?: Function;
+    onResize?: Function;
+    onWebglcontextlost?: Function;
+    onWebglcontextrestored?: Function;
+    onDataloading?: Function;
+    onData?: Function;
+    onTiledataloading?: Function;
+    onSourcedataloading?: Function;
+    onStyledataloading?: Function;
+    onSourcedata?: Function;
+    onStyledata?: Function;
+    onBoxzoomcancel?: Function;
+    onBoxzoomstart?: Function;
+    onBoxzoomend?: Function;
+    onTouchcancel?: Function;
+    onTouchmove?: Function;
+    onTouchend?: Function;
+    onTouchstart?: Function;
+    onClick?: Function;
+    onContextmenu?: Function;
+    onDblclick?: Function;
+    onMousemove?: Function;
+    onMouseup?: Function;
+    onMousedown?: Function;
+    onMouseout?: Function;
+    onMouseover?: Function;
+    onMovestart?: Function;
+    onMove?: Function;
+    onMoveend?: Function;
+    onZoomstart?: Function;
+    onZoom?: Function;
+    onZoomend?: Function;
+    onRotatestart?: Function;
+    onRotate?: Function;
+    onRotateend?: Function;
+    onDragstart?: Function;
+    onDrag?: Function;
+    onDragend?: Function;
+    onPitchstart?: Function;
+    onPitch?: Function;
+    onPitchend?: Function;
+    onWheel?: Function;
+}>();
 
 const emit = defineEmits<{
     (e: "resize", map: Map): void;
@@ -135,157 +185,30 @@ const emit = defineEmits<{
 }>();
 
 provide("MapID", props.mapId);
+watch(() => {
+    return Object.entries(props).filter((arr) => arr[0].toString().startsWith('on'))
+}, (value) => {
+    for (const [key, v] of value) {
+        if (v) {
+            const passMap = ["resize", "remove", "load", "render", "idle", "error", "webglcontextlost", "webglcontextrestored"];
+            const eventName = key.toString().replace('on', '').toLowerCase();
+            useMapboxBeforeLoad(props.mapId, (map) => {
+                map.on(eventName, (e) => {
+                    emit(eventName as keyof typeof emit, passMap.includes(eventName) ? map : e);
+                })
+            })
+        }
+    }
+}, {immediate: true});
+
 onMounted(() => {
-    let map = useMapboxInstance(props.mapId);
+    let map = useMapboxRef(props.mapId);
     if (!map.value) {
         map = defineMapboxInstance(props.mapId, {
             ...props.options,
             container: props.mapId,
         });
     }
-
-    map.value?.on("resize", () => {
-        emit("resize", map.value as Map);
-    });
-    map.value?.on("remove", () => {
-        emit("remove", map.value as Map);
-    });
-
-    map.value?.on("load", () => {
-        emit("load", map.value as Map);
-    });
-    map.value?.on("render", () => {
-        emit("render", map.value as Map);
-    });
-    map.value?.on("idle", () => {
-        emit("idle", map.value as Map);
-    });
-    map.value?.on("error", () => {
-        emit("error", map.value as Map);
-    });
-    map.value?.on("webglcontextlost", () => {
-        emit("webglcontextlost", map.value as Map);
-    });
-    map.value?.on("webglcontextrestored", () => {
-        emit("webglcontextrestored", map.value as Map);
-    });
-
-    map.value?.on("data", (e) => {
-        emit("data", e);
-    });
-    map.value?.on("styledata", (e) => {
-        emit("styledata", e);
-    });
-    map.value?.on("sourcedata", (e) => {
-        emit("sourcedata", e);
-    });
-    map.value?.on("dataloading", (e) => {
-        emit("dataloading", e);
-    });
-    map.value?.on("styledataloading", (e) => {
-        emit("styledataloading", e);
-    });
-    map.value?.on("sourcedataloading", (e) => {
-        emit("sourcedataloading", e);
-    });
-    map.value?.on("styleimagemissing", (e) => {
-        emit("styleimagemissing", e);
-    });
-
-    map.value?.on("movestart", (e) => {
-        emit("movestart", e);
-    });
-    map.value?.on("move", (e) => {
-        emit("move", e);
-    });
-    map.value?.on("moveend", (e) => {
-        emit("moveend", e);
-    });
-    map.value?.on("drag", (e) => {
-        emit("drag", e);
-    });
-    map.value?.on("dragend", (e) => {
-        emit("dragend", e);
-    });
-    map.value?.on("zoomstart", (e) => {
-        emit("zoomstart", e);
-    });
-    map.value?.on("zoom", (e) => {
-        emit("zoom", e);
-    });
-    map.value?.on("zoomend", (e) => {
-        emit("zoomend", e);
-    });
-    map.value?.on("rotatestart", (e) => {
-        emit("rotatestart", e);
-    });
-    map.value?.on("rotate", (e) => {
-        emit("rotate", e);
-    });
-    map.value?.on("rotateend", (e) => {
-        emit("rotateend", e);
-    });
-    map.value?.on("pitchstart", (e) => {
-        emit("pitchstart", e);
-    });
-    map.value?.on("pitch", (e) => {
-        emit("pitch", e);
-    });
-    map.value?.on("pitchend", (e) => {
-        emit("pitchend", e);
-    });
-    map.value?.on("boxzoomstart", (e) => {
-        emit("boxzoomstart", e);
-    });
-    map.value?.on("boxzoomend", (e) => {
-        emit("boxzoomend", e);
-    });
-    map.value?.on("boxzoomcancel", (e) => {
-        emit("boxzoomcancel", e);
-    });
-
-    map.value?.on("mousedown", (e) => {
-        emit("mousedown", e);
-    });
-    map.value?.on("mouseup", (e) => {
-        emit("mouseup", e);
-    });
-    map.value?.on("mouseover", (e) => {
-        emit("mouseover", e);
-    });
-    map.value?.on("mousemove", (e) => {
-        emit("mousemove", e);
-    });
-    map.value?.on("preclick", (e) => {
-        emit("preclick", e);
-    });
-    map.value?.on("click", (e) => {
-        emit("click", e);
-    });
-    map.value?.on("dblclick", (e) => {
-        emit("dblclick", e);
-    });
-    map.value?.on("mouseout", (e) => {
-        emit("mouseout", e);
-    });
-    map.value?.on("contextmenu", (e) => {
-        emit("contextmenu", e);
-    });
-    map.value?.on("wheel", (e) => {
-        emit("wheel", e);
-    });
-    map.value?.on("touchstart", (e) => {
-        emit("touchstart", e);
-    });
-    map.value?.on("touchend", (e) => {
-        emit("touchend", e);
-    });
-    map.value?.on("touchmove", (e) => {
-        emit("touchmove", e);
-    });
-    map.value?.on("touchcancel", (e) => {
-        emit("touchcancel", e);
-    });
 });
 
 onUnmounted(() => {
