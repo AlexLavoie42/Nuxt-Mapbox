@@ -2,6 +2,7 @@
 ## Elegant Mapbox integration with Nuxt
 
 ### 🌟 *NEW IN 1.4.0*
+- Overall Improved performance (ESM imports, less unnecessary mapbox events)
 - Full component reactivity (`define` composables now accept refs for reactivity)
 - New `useMapboxBeforeLoad` composable
 - Composables for accessing markers & popups
