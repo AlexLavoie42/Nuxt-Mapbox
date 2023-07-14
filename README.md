@@ -194,6 +194,10 @@ If you want to access the map before it has loaded, there is the `useMapboxBefor
 
 `useMapbox` should be preferred over `useMapboxBeforeLoad` with `map.on('load')` to ensure that your code gets run on reactive updates while the map is already loaded.
 
+### useMapboxMarker & useMapboxPopup
+
+You can access your markers and popups in the same way as `useMapbox` with `useMapboxMarker` & `useMapboxPopup`!
+
 --------------------------------------------------------------------------------------------------------------
 
 ## Refs
@@ -206,6 +210,7 @@ When working with the map reactively (for example, in a watcher or computed meth
 ```js
     const mapRef = useMapboxRef(mapId);
     const markerRef = useMapboxMarkerRef(markerId);
+    const popupRef = useMapboxPopupRef(markerId);
 ```
 
 --------------------------------------------------------------------------------------------------------------
