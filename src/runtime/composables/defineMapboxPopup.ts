@@ -1,6 +1,7 @@
 import { ref, Ref } from 'vue';
 import { Popup, PopupOptions } from "mapbox-gl";
 import { isRef, watch, useNuxtApp, inject, useMapbox } from '#imports';
+import { useMutationObserver } from '@vueuse/core';
 
 /**
  * Create a new Popup instance for a component. Will be automatically added to map if it is nested in MapboxMap
@@ -30,16 +31,23 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
     })
     if (popupHTML.value) {
         popupInstance.setHTML(popupHTML.value.innerHTML)
-        popupHTML.value.remove()
+        popupHTML.value.hidden = true;
+        
+        useMutationObserver(popupHTML, () => {
+            if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
+        }, { childList: true, subtree: true, characterData: true })
     }
     
     watch(popupHTML, () => {
         if (popupHTML.value) {
             popupInstance.setHTML(popupHTML.value.innerHTML)
-            popupHTML.value.remove()
+            popupHTML.value.hidden = true;
+
+            useMutationObserver(popupHTML, () => {
+                if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
+            }, { childList: true, subtree: true, characterData: true })
         }
     })
-
 
     return popupInstance;
 }
