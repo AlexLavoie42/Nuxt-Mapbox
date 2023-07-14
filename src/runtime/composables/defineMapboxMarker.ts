@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { inject, isRef, ref, useMapbox, useNuxtApp, watch } from '#imports';
+import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarkerRef, useNuxtApp, watch } from '#imports';
 import { MarkerOptions, Marker } from 'mapbox-gl';
 
 
@@ -32,12 +32,17 @@ export function defineMapboxMarker(markerID: string,
     callback?: undefined, mapID?: string ): Marker
 
 export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
+    if (!useNuxtApp().$mapboxInitMarker) return; // So we dont run on server.
+    const markerRef = ref<Marker | null>(null);
+    const mapId = inject<string>('MapID')
+
     function initMarker() {
+        const markerOptions = isRef(options) ? options.value : options;
         if (markerHTML) {
             if (markerHTML.value) {
                 markerHTML.value.remove()
     
-                useNuxtApp().$mapboxInitMarker(markerID, {element: markerHTML.value, ...options})
+                useNuxtApp().$mapboxInitMarker(markerID, {element: markerHTML.value, ...markerOptions})
                 markerRef.value = useNuxtApp().$mapboxMarkerInstances().value[markerID]
                 if (callback)
                     callback(markerRef.value)
@@ -64,26 +69,47 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
             })
             return markerRef;
         } else {
-            useNuxtApp().$mapboxInitMarker(markerID, options)
+            useNuxtApp().$mapboxInitMarker(markerID, markerOptions)
             const marker = useNuxtApp().$mapboxMarkerInstances().value[markerID]
         
             useMapbox(mapId || mapID, (map) => {
-                marker.setLngLat(options.lnglat);
+                marker.setLngLat(markerOptions.lnglat);
                 marker.addTo(map);
             })
             return marker;
         }
     }
-    
-    const mapId = inject<string>('MapID')
-    if (!useNuxtApp().$mapboxInitMarker) return; // So we dont run on server.
 
+    initMarker();
     if (isRef(options)) {
-        watch(options, () => {
-            
-        })
+        watch(options, (newOptions, oldOptions) => {
+            const currentMarker = useMapboxMarkerRef(markerID);
+            if (newOptions.draggable !== oldOptions?.draggable && newOptions.draggable !== undefined) {
+                currentMarker.value?.setDraggable(newOptions.draggable);
+            }
+            if (newOptions.offset !== oldOptions?.offset && newOptions.offset !== undefined) {
+                currentMarker.value?.setOffset(newOptions.offset);
+            }
+            if (newOptions.pitchAlignment !== oldOptions?.pitchAlignment && newOptions.pitchAlignment !== undefined) {
+                currentMarker.value?.setPitchAlignment(newOptions.pitchAlignment);
+            }
+            if (newOptions.rotationAlignment !== oldOptions?.rotationAlignment && newOptions.rotationAlignment !== undefined) {
+                currentMarker.value?.setRotationAlignment(newOptions.rotationAlignment);
+            }
+            if (newOptions.rotation !== oldOptions?.rotation && newOptions.rotation !== undefined) {
+                currentMarker.value?.setRotation(newOptions.rotation);
+            }
+            if (newOptions.lnglat !== oldOptions?.lnglat) {
+                currentMarker.value?.setLngLat(newOptions.lnglat);
+            }
+        }, { deep: true });
     }
 
-    const markerRef = ref<Marker | null>(null)
-    initMarker();
+    onUnmounted(() => {
+        const currentMarker = useMapboxMarkerRef(markerID);
+        if (currentMarker.value) {
+            currentMarker.value.remove();
+            delete useNuxtApp().$mapboxMarkerInstances().value[markerID];
+        }
+    })
 }
