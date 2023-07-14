@@ -10,14 +10,13 @@ onBeforeMount(async () => {
 })
 
 interface Props {
-    options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken">;
+    options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken" | "mapboxgl">;
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 const props = withDefaults(defineProps<Props>(), { 
     options: () => ({}),
     position: () => "top-right"
 });
-
 const geocoderRef = ref<MapboxGeocoder>();
 const mapId = inject<string>("MapID");
 const containerRef = ref<HTMLDivElement>();

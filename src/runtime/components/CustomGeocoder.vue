@@ -11,7 +11,7 @@ onBeforeMount(async () => {
 
 interface Props {
     modelValue?: MapboxGeocoder.Result;
-    options?: Omit<GeocoderOptions, "accessToken">;
+    options?: Omit<GeocoderOptions, "accessToken" | "mapboxgl">;
 }
 const props = withDefaults(defineProps<Props>(), { options: () => ({}), modelValue: undefined });
 
