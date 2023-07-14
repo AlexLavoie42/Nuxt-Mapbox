@@ -201,7 +201,7 @@ watch(() => {
     }
 }, {immediate: true});
 
-watch(() => props.options, (oldOptions, newOptions) => {
+watch(() => props.options, (newOptions, oldOptions) => {
     const map = useMapboxRef(props.mapId);
     if (newOptions) {
         if (newOptions.style && oldOptions?.style !== newOptions.style) {
