@@ -80,7 +80,6 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
         }
     }
 
-    initMarker();
     if (isRef(options)) {
         watch(options, (newOptions, oldOptions) => {
             const currentMarker = useMapboxMarkerRef(markerID);
@@ -112,4 +111,5 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
             delete useNuxtApp().$mapboxMarkerInstances().value[markerID];
         }
     })
+    return initMarker();
 }

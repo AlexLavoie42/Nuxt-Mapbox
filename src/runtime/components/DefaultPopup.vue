@@ -4,7 +4,7 @@ import { Ref } from "vue";
 import { onUnmounted, onMounted, defineMapboxPopup, inject, ref, watch } from "#imports";
 
 const props = withDefaults(
-    defineProps<{ popupId: string; options?: PopupOptions; lnglat: LngLatLike, text?: string }>(),
+    defineProps<{ popupId: string; options?: PopupOptions; lnglat?: LngLatLike, text?: string }>(),
     { options: () => ({}), text: undefined }
 );
 const popupTemplate = ref<HTMLElement | null>(null);
@@ -22,7 +22,7 @@ onMounted(() => {
     popupRef.value = popup;
 
     if (popup) {
-        popup?.setLngLat(props.lnglat);
+        if (props.lnglat) popup?.setLngLat(props.lnglat);
         popup?.on("open", () => {
             emit("open", popup);
         });
@@ -51,7 +51,7 @@ onUnmounted(() => {
 });
 
 watch(() => props.lnglat, () => {
-    popupRef.value?.setLngLat(props.lnglat);
+    if (props.lnglat) popupRef.value?.setLngLat(props.lnglat);
 });
 
 watch(() => props.options, () => {
