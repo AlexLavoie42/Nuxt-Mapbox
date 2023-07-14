@@ -4,25 +4,25 @@
       map-id="map2"
       style="top: 80px"
       :options="{
-        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        style, // style URL
         center: [100.0, 0.0], // starting position [lng, lat]
         zoom: 3, // starting zoom
       }"
       @load="showAlert"
     >
       <MapboxLayer
+        v-if="enabled"
         :layer="{
           source: 'geojson',
           id: 'geojson-layer',
           type: 'fill'
         }"
         @click="showAlert"
-        v-if="enabled"
       />
       <MapboxSource 
+        v-if="enabled"
         source-id="geojson"
         :source="source"
-        v-if="enabled"
       />
       <MapboxDefaultMarker 
         marker-id="marker1"
@@ -31,7 +31,7 @@
       >
         <MapboxDefaultPopup
           popup-id="popup1"
-          :lnglat="[0, 0]"
+          :lnglat="lnglat"
           :options="{
             closeOnClick: false
           }"
@@ -43,15 +43,20 @@
       </MapboxDefaultMarker>
       <TestMarker 
         marker-id="marker2"
-        :options="{}"
+        :options="{
+          lnglat
+        }"
       />
       <TestControl />
       <MapboxGeocoder position="top-left" />
     </MapboxMap>
-    <NuxtLink to="/test">TEST</NuxtLink>
+    <NuxtLink to="/test">
+      TEST
+    </NuxtLink>
     <a @click="enabled = !enabled">Toggle Data</a>
     <a @click="changeData">Change Data</a>
     <a @click="changeLngLat">Move Marker</a>
+    <a @click="changeStyle">Random Style</a>
   </div>
 </template>
 
@@ -108,5 +113,12 @@ function changeData() {
 const lnglat = ref([90, 0]);
 function changeLngLat() {
   lnglat.value = [lnglat.value[0] + 1, lnglat.value[1] + 1];
+}
+
+const style = ref('mapbox://styles/mapbox/streets-v12');
+function changeStyle() {
+    const styles = ['satellite-streets-v12', 'light-v11', 'dark-v11', 'streets-v12'];
+    const randStyle = styles[Math.floor(Math.random() * styles.length)];
+    style.value = `mapbox://styles/mapbox/${randStyle}`;
 }
 </script>
