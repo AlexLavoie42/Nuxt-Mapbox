@@ -31,13 +31,13 @@
       >
         <MapboxDefaultPopup
           popup-id="popup1"
-          :lnglat="lnglat"
+          :lnglat="[0, 0]"
           :options="{
             closeOnClick: false
           }"
         >
           <h1 class="test">
-            Hello World!
+            Hello World! {{ lnglat }}
           </h1>
         </MapboxDefaultPopup>
       </MapboxDefaultMarker>
