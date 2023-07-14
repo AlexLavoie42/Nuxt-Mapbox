@@ -12,14 +12,15 @@ const props = defineProps<Props>();
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Source must be placed inside a Map component";
 
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        function addLayer() {
-            map?.addSource(props.sourceId, props.source);
-        }
+useMapbox(mapId, (map) => {
+    function addSource() {
+        map?.addSource(props.sourceId, props.source);
+    }
 
-        addLayer();
-    });
+    addSource();
+    map.on('style.load', () => {
+        addSource();
+    })
 });
 
 onUnmounted(() => {

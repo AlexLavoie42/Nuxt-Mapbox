@@ -44,7 +44,7 @@ watch(() => {
         if (v) {
             const eventName = key.toString().replace('on', '').toLowerCase();
             useMapboxBeforeLoad(mapId, (map) => {
-                map.on(eventName, (e) => {
+                map.on(eventName as keyof typeof emit, props.layer.id, (e) => {
                     emit(eventName as keyof typeof emit, e);
                 })
             })
@@ -59,27 +59,29 @@ const sourceExists = computed(() => {
     );
 });
 
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        function addLayer() {
-            if (!sourceExists.value) {
-                whenever(sourceExists, addLayer);
-                return;
-            }
-            if (props.beforeLayer && map.getLayer(props.beforeLayer)) {
-                map?.addLayer(props.layer, props.beforeLayer);
-            } else {
-                if (props.beforeLayer) {
-                    watch(() => map.getLayer(props.beforeLayer || ''), () => {
-                        map?.moveLayer(props.layer.id, props.beforeLayer);
-                    })
-                }
-                map?.addLayer(props.layer);
-            }
+useMapbox(mapId, (map) => {
+    function addLayer() {
+        if (!sourceExists.value) {
+            whenever(sourceExists, addLayer);
+            return;
         }
+        if (props.beforeLayer && map.getLayer(props.beforeLayer)) {
+            map?.addLayer(props.layer, props.beforeLayer);
+        } else {
+            if (props.beforeLayer) {
+                watch(() => map.getLayer(props.beforeLayer || ''), () => {
+                    map?.moveLayer(props.layer.id, props.beforeLayer);
+                })
+            }
+            map?.addLayer(props.layer);
+        }
+    }
 
+    addLayer();
+
+    map.on('style.load', () => {
         addLayer();
-    });
+    })
 });
 
 onUnmounted(() => {
