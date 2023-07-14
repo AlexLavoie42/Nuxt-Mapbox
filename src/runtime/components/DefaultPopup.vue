@@ -50,6 +50,7 @@ onUnmounted(() => {
     popupRef.value?.remove();
 });
 
+// TODO: Move to defineMapboxPopup
 watch(() => props.lnglat, () => {
     if (props.lnglat) popupRef.value?.setLngLat(props.lnglat);
 });
@@ -62,8 +63,6 @@ watch(() => props.options, () => {
 watch(() => props.text, () => {
     if (props.text) popupRef.value?.setText(props.text);
 });
-
-// TODO: Watch for html changes with MutationObserver
 </script>
 
 <template>

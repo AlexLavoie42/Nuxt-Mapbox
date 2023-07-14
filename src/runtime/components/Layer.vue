@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { AnyLayer, Layer, MapMouseEvent } from "mapbox-gl";
-import { inject, onMounted } from "vue";
+import { inject } from "vue";
 import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs } from "#imports";
 import { whenever } from "@vueuse/core";
 

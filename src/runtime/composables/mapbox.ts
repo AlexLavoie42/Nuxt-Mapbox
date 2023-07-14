@@ -1,7 +1,7 @@
 import { watchOnce } from '@vueuse/core';
 import { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
-import { _useMapboxInstanceWithLoaded, watch } from "#imports";
+import { _useMapboxInstanceWithLoaded } from "#imports";
 
 type MapboxCallback = (map: Map) => void
 

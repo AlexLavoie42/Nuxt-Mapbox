@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { AnySourceData, GeoJSONSource, VectorSourceImpl, ImageSource, RasterSource, Map } from "mapbox-gl";
-import { inject, onMounted, onUnmounted, watch, useMapbox, computed, useMapboxInstance } from "#imports";
+import { inject, onUnmounted, watch, useMapbox, computed, useMapboxInstance } from "#imports";
 
 interface Props {
     sourceId: string;

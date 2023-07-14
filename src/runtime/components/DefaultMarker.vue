@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MarkerOptions, LngLatLike, Marker } from "mapbox-gl";
-import { onUnmounted, defineMapboxMarker, onMounted, provide, ref, watch, useNuxtApp, computed} from "#imports";
+import { defineMapboxMarker, onMounted, provide, ref, computed} from "#imports";
 
 const props = withDefaults(
     defineProps<{ markerId: string; options?: MarkerOptions; lnglat: LngLatLike }>(),

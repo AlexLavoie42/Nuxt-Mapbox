@@ -31,6 +31,7 @@ export function defineMapboxMarker(markerID: string,
     markerHTML?: undefined,
     callback?: undefined, mapID?: string ): Marker
 
+//TODO: MutationObserver on html so it is reactive
 export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
     if (!useNuxtApp().$mapboxInitMarker) return; // So we dont run on server.
     const markerRef = ref<Marker | null>(null);
