@@ -8,6 +8,9 @@
         center: [100.0, 0.0], // starting position [lng, lat]
         zoom: 3, // starting zoom
       }"
+      :style="{
+        height: `${height}px`
+      }"
       @load="showAlert"
     >
       <MapboxLayer
@@ -57,6 +60,7 @@
     <a @click="changeData">Change Data</a>
     <a @click="changeLngLat">Move Marker</a>
     <a @click="changeStyle">Random Style</a>
+    <a @click="changeHeight">Resize Map</a>
   </div>
 </template>
 
@@ -120,5 +124,11 @@ function changeStyle() {
     const styles = ['satellite-streets-v12', 'light-v11', 'dark-v11', 'streets-v12'];
     const randStyle = styles[Math.floor(Math.random() * styles.length)];
     style.value = `mapbox://styles/mapbox/${randStyle}`;
+}
+
+const height = ref(800);
+
+function changeHeight() {
+  height.value = height.value - 100;
 }
 </script>
