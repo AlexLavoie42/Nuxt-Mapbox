@@ -62,6 +62,7 @@ const sourceExists = computed(() => {
 useMapbox(mapId, (map) => {
     function addLayer() {
         if (!sourceExists.value) {
+            // This causes layer to be reloaded whenever the source is.
             whenever(sourceExists, addLayer);
             return;
         }
@@ -78,10 +79,6 @@ useMapbox(mapId, (map) => {
     }
 
     addLayer();
-
-    map.on('style.load', () => {
-        addLayer();
-    })
 });
 
 onUnmounted(() => {
