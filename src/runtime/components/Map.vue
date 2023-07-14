@@ -11,8 +11,9 @@ import {
     Map
 } from "mapbox-gl";
 import { provide, onMounted, StyleValue } from "vue";
-import { cleanMapboxInstance, useMapboxRef, onUnmounted, defineMapboxInstance, watch, useMapboxBeforeLoad } from "#imports";
+import { cleanMapboxInstance, useMapboxRef, onUnmounted, defineMapboxInstance, watch, useMapboxBeforeLoad, ref } from "#imports";
 import { MapboxComponentOptions } from "../../module";
+import { useResizeObserver } from "@vueuse/core";
 
 const props = defineProps<{
     mapId: string;
@@ -234,6 +235,8 @@ watch(() => props.options, (newOptions, oldOptions) => {
     }
 });
 
+const mapContainerRef = ref<HTMLElement>();
+
 onMounted(() => {
     let map = useMapboxRef(props.mapId);
     if (!map.value) {
@@ -242,6 +245,10 @@ onMounted(() => {
             container: props.mapId,
         });
     }
+
+    useResizeObserver(mapContainerRef, () => {
+        map.value?.resize()
+    })
 });
 
 onUnmounted(() => {
@@ -252,6 +259,7 @@ onUnmounted(() => {
 <template>
   <div
     :id="mapId"
+    ref="mapContainerRef"
     class="mapboxgl-default-map-size"
     :class="$attrs.class"
     :style="$attrs.style as StyleValue"
