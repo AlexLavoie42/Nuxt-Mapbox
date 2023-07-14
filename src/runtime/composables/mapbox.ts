@@ -6,20 +6,16 @@ import { _useMapboxInstanceWithLoaded, watch } from "#imports";
 type MapboxCallback = (map: Map) => void
 
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
-    let ranCallback = false;
 
     function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | null>) {
         if (!instance?.value?.map) return false;
-        if (ranCallback) return true;
 
         if (instance.value.map && instance.value.loaded) {
             callback(instance.value.map);
-            ranCallback = true;
         } else {
-            const killWatch = watch(() => instance.value?.loaded, () => {
+            watchOnce(() => instance.value?.loaded, () => {
                 if (instance.value?.loaded) {
                     callback(instance.value.map);
-                    killWatch();
                 }
             })
         }
