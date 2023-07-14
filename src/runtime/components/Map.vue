@@ -201,6 +201,39 @@ watch(() => {
     }
 }, {immediate: true});
 
+watch(() => props.options, (oldOptions, newOptions) => {
+    const map = useMapboxRef(props.mapId);
+    if (newOptions) {
+        if (newOptions.style && oldOptions?.style !== newOptions.style) {
+            map.value?.setStyle(newOptions.style);
+        }
+        if (newOptions.center && oldOptions?.center !== newOptions.center) {
+            map.value?.setCenter(newOptions.center);
+        }
+        if (newOptions.zoom && oldOptions?.zoom !== newOptions.zoom) {
+            map.value?.setZoom(newOptions.zoom);
+        }
+        if (newOptions.projection && oldOptions?.projection !== newOptions.projection) {
+            map.value?.setProjection(newOptions.projection);
+        }
+        if (newOptions.bearing && oldOptions?.bearing !== newOptions.bearing) {
+            map.value?.setBearing(newOptions.bearing);
+        }
+        if (newOptions.pitch && oldOptions?.pitch !== newOptions.pitch) {
+            map.value?.setPitch(newOptions.pitch);
+        }
+        if (newOptions.minZoom && oldOptions?.minZoom !== newOptions.minZoom) {
+            map.value?.setMinZoom(newOptions.minZoom);
+        }
+        if (newOptions.maxZoom && oldOptions?.maxZoom !== newOptions.maxZoom) {
+            map.value?.setMaxZoom(newOptions.maxZoom);
+        }
+        if (newOptions.bounds && oldOptions?.bounds !== newOptions.bounds) {
+            map.value?.fitBounds(newOptions.bounds);
+        }
+    }
+});
+
 onMounted(() => {
     let map = useMapboxRef(props.mapId);
     if (!map.value) {
