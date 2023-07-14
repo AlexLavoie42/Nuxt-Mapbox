@@ -5,6 +5,14 @@ import { _useMapboxInstanceWithLoaded, watch } from "#imports";
 
 type MapboxCallback = (map: Map) => void
 
+/**
+ * Executes a callback function when the Mapbox instance with the specified map ID is available & loaded.
+ * 
+ * if you need access to the map before load be sure to use `useMapboxBeforeLoad` instead
+ *
+ * @param {string} mapID - The ID of the Mapbox map.
+ * @param {MapboxCallback} callback - The callback function to be executed when the Mapbox map is available.
+ */
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
 
     function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | null>) {
