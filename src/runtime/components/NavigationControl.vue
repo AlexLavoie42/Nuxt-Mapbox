@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NavigationControl } from 'mapbox-gl'
 import { useMapbox, inject, onMounted, ref } from "#imports";
 
 interface NavigationControlOptions {
@@ -18,12 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
-const controlRef = ref<mapboxgl.NavigationControl>();
+const controlRef = ref<NavigationControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
         //@ts-ignore
-        const control = new mapboxgl.NavigationControl(props.options)
+        const control = new NavigationControl(props.options)
         controlRef.value = control;
 
         map?.addControl(

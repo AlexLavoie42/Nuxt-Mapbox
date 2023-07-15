@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v1.4.0
+## Added
+- Old `useMapbox` now named `useMapboxBeforeLoad` for people using v1.3.4
+- `defineMapboxMarker` & `defineMapboxPopup` now accept `options` as a ref, providing full reactivity.
+- `useMapboxMarker` & `useMapboxPopup` composables
+- Popup HTML is now reactive to changes
+- Auto map resizing
+- Better named `useMapboxRef` function instead of `useMapboxInstance`
+## Fixed
+- Marker `dragend` fix
+- Fixed layer & source reloading
+- Removed `script` import from CDN using `as default` and dynamic imports
+
 # v1.3.9
 ## Fixed
 - Fixed bug when `source` is removed before `layer`

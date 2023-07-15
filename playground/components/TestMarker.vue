@@ -3,7 +3,7 @@
     import { ref, watch } from 'vue';
     import { defineMapboxMarker } from '#imports';
 
-    const props = defineProps<{ markerId: string, options: MarkerOptions }>()
+    const props = defineProps<{ markerId: string, options: MarkerOptions & { lnglat: [number, number] } }>()
     const markerRef = ref<HTMLElement | null>(null)
 
 

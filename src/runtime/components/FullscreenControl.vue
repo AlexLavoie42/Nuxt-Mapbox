@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { FullscreenControl, FullscreenControlOptions } from 'mapbox-gl'
 import { onUnmounted, useMapbox, onMounted, inject, ref } from "#imports";
 
 interface Props {
-    options?: mapboxgl.FullscreenControlOptions;
+    options?: FullscreenControlOptions;
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -13,12 +14,12 @@ const props = withDefaults(defineProps<Props>(), {
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
-const controlRef = ref<mapboxgl.FullscreenControl>();
+const controlRef = ref<FullscreenControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
         //@ts-ignore
-        const control = new mapboxgl.FullscreenControl(props.options);
+        const control = new FullscreenControl(props.options);
         controlRef.value = control;
 
         map.addControl(control, props.position);

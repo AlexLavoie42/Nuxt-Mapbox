@@ -4,30 +4,36 @@
       map-id="map2"
       style="top: 80px"
       :options="{
-        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        style, // style URL
         center: [100.0, 0.0], // starting position [lng, lat]
         zoom: 3, // starting zoom
+      }"
+      :style="{
+        height: `${height}px`
       }"
       @load="showAlert"
     >
       <MapboxLayer
+        v-if="enabled"
         :layer="{
           source: 'geojson',
           id: 'geojson-layer',
           type: 'fill'
         }"
         @click="showAlert"
-        v-if="enabled"
       />
       <MapboxSource 
+        v-if="enabled"
         source-id="geojson"
         :source="source"
-        v-if="enabled"
       />
       <MapboxDefaultMarker 
         marker-id="marker1"
-        :options="{}"
+        :options="{
+          draggable: true
+        }"
         :lnglat="lnglat"
+        @dragend="() => { console.log('dragend') }"
       >
         <MapboxDefaultPopup
           popup-id="popup1"
@@ -37,21 +43,27 @@
           }"
         >
           <h1 class="test">
-            Hello World!
+            Hello World! {{ lnglat }}
           </h1>
         </MapboxDefaultPopup>
       </MapboxDefaultMarker>
       <TestMarker 
         marker-id="marker2"
-        :options="{}"
+        :options="{
+          lnglat
+        }"
       />
       <TestControl />
-      <MapboxGeolocateControl position="top-left" />
+      <MapboxGeocoder position="top-left" />
     </MapboxMap>
-    <NuxtLink to="/test">TEST</NuxtLink>
+    <NuxtLink to="/test">
+      TEST
+    </NuxtLink>
     <a @click="enabled = !enabled">Toggle Data</a>
     <a @click="changeData">Change Data</a>
     <a @click="changeLngLat">Move Marker</a>
+    <a @click="changeStyle">Random Style</a>
+    <a @click="changeHeight">Resize Map</a>
   </div>
 </template>
 
@@ -108,5 +120,18 @@ function changeData() {
 const lnglat = ref([90, 0]);
 function changeLngLat() {
   lnglat.value = [lnglat.value[0] + 1, lnglat.value[1] + 1];
+}
+
+const style = ref('mapbox://styles/mapbox/streets-v12');
+function changeStyle() {
+    const styles = ['satellite-streets-v12', 'light-v11', 'dark-v11', 'streets-v12'];
+    const randStyle = styles[Math.floor(Math.random() * styles.length)];
+    style.value = `mapbox://styles/mapbox/${randStyle}`;
+}
+
+const height = ref(800);
+
+function changeHeight() {
+  height.value = height.value - 100;
 }
 </script>

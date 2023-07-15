@@ -9,7 +9,8 @@
         zoom: 5 // starting zoom
       }"
     >
-      <LazyMapboxSource
+      <MapboxLayer
+        v-if="enabled"
         source-id="geojson"
         :source="{
           type: 'geojson',
@@ -45,9 +46,6 @@
             }
           }
         }"
-      />
-      <MapboxLayer
-        v-if="enabled"
         :layer="{
           source: 'geojson',
           id: 'geojson-layer',
@@ -61,12 +59,12 @@
     <a @click="remove">Toggle Layer</a>
   </div>
 </template>
-  
-<script setup>
-import {ref} from "#imports"
-  const enabled = ref(true)
-  const remove = () => {
-    enabled.value = !enabled.value
-  }
-</script>
-  
+    
+  <script setup>
+  import {ref} from "#imports"
+    const enabled = ref(true)
+    const remove = () => {
+      enabled.value = !enabled.value
+    }
+  </script>
+    

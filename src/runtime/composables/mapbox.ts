@@ -1,23 +1,30 @@
+import { watchOnce } from '@vueuse/core';
 import { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
-import { watch } from "#imports";
-import { _useMapboxInstanceWithLoaded } from "./useMapboxInstance";
+import { _useMapboxInstanceWithLoaded } from "#imports";
 
 type MapboxCallback = (map: Map) => void
 
+/**
+ * Executes a callback function when the Mapbox instance with the specified map ID is available & loaded.
+ * 
+ * if you need access to the map before load be sure to use `useMapboxBeforeLoad` instead
+ *
+ * @param {string} mapID - The ID of the Mapbox map.
+ * @param {MapboxCallback} callback - The callback function to be executed when the Mapbox map is available.
+ */
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
-    let ranCallback = false;
 
     function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | null>) {
         if (!instance?.value?.map) return false;
-        if (ranCallback) return true;
 
         if (instance.value.map && instance.value.loaded) {
             callback(instance.value.map);
-            ranCallback = true;
         } else {
-            instance.value.map.on("load", () => {
-                tryCallback(instance);
+            watchOnce(() => instance.value?.loaded, () => {
+                if (instance.value?.loaded) {
+                    callback(instance.value.map);
+                }
             })
         }
         
@@ -28,9 +35,10 @@ export function useMapbox(mapID: string, callback: MapboxCallback): void {
     const callbackDone = tryCallback(mapboxInstance);
     if (callbackDone) return;
 
-    watch(mapboxInstance, () => {
+    watchOnce(mapboxInstance, () => {
         if (mapboxInstance.value?.map) {
             tryCallback(mapboxInstance);
         }
     })
 }
+

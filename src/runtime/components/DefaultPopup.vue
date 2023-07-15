@@ -22,7 +22,7 @@ onMounted(() => {
     popupRef.value = popup;
 
     if (popup) {
-        popup?.setLngLat(props.lnglat);
+        if (props.lnglat) popup?.setLngLat(props.lnglat);
         popup?.on("open", () => {
             emit("open", popup);
         });
@@ -50,8 +50,9 @@ onUnmounted(() => {
     popupRef.value?.remove();
 });
 
+// TODO: Move to defineMapboxPopup
 watch(() => props.lnglat, () => {
-    popupRef.value?.setLngLat(props.lnglat);
+    if (props.lnglat) popupRef.value?.setLngLat(props.lnglat);
 });
 
 watch(() => props.options, () => {
@@ -62,12 +63,10 @@ watch(() => props.options, () => {
 watch(() => props.text, () => {
     if (props.text) popupRef.value?.setText(props.text);
 });
-
-// TODO: Watch for html changes with MutationObserver
 </script>
 
 <template>
-  <div ref="popupTemplate">
+  <div hidden ref="popupTemplate">
     <slot />
   </div>
 </template>

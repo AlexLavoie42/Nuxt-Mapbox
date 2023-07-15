@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { GeocoderOptions, Result } from "@mapbox/mapbox-gl-geocoder";
-import { ref, onMounted, watch } from "#imports";
+import { default as mapboxgl } from 'mapbox-gl'
+import { ref, onMounted, onBeforeMount } from "#imports";
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import { GeocoderOptions, Result } from '@mapbox/mapbox-gl-geocoder';
+
+onBeforeMount(async () => {
+    //@ts-ignore TODO: Get geocoder module import working
+    const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js')
+})
 
 interface Props {
     modelValue?: MapboxGeocoder.Result;
