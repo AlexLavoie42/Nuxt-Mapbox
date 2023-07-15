@@ -110,7 +110,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------
 
-### Persistent Map Instances
+## Persistent Map Instances
 For map instances to be persistent across routes, `keepalive` must be set to `true` in [nuxt.config.ts](https://nuxt.com/docs/guide/directory-structure/pages#keepalive).
 This is done by the module automatically, but you can disable it by setting the `persistent` option to `false` in `nuxt.config.ts`.
 
@@ -118,7 +118,7 @@ This is done by the module automatically, but you can disable it by setting the 
 
 --------------------------------------------------------------------------------------------------------------
 
-### Events
+## Events
 
 All Map events are accessible directly through the component (With full Typescript support!)
 
@@ -145,34 +145,6 @@ Example:
       @click="exampleFunction"
     >
 ```
-
---------------------------------------------------------------------------------------------------------------
-
-### Linking Popups & Markers
-You can have a popup linked to a marker by simply nesting the popup component inside the marker.
-Example:
-
-```html
-    <MapboxDefaultMarker 
-      marker-id="marker1"
-      :options="{}"
-      :lnglat="[110, 5]"
-    >
-      <MapboxDefaultPopup
-        popup-id="popup1"
-        :lnglat="[100, 0]"
-        :options="{
-          closeOnClick: false
-        }"
-      >
-        <h1 class="test">
-          Hello World!
-        </h1>
-      </MapboxDefaultPopup>
-    </MapboxDefaultMarker>
-```
-
---------------------------------------------------------------------------------------------------------------
 
 ## Composables
 
@@ -215,6 +187,32 @@ When working with the map reactively (for example, in a watcher or computed meth
 
 --------------------------------------------------------------------------------------------------------------
 
+### Linking Popups & Markers
+You can have a popup linked to a marker by simply nesting the popup component inside the marker.
+Example:
+
+```html
+    <MapboxDefaultMarker 
+      marker-id="marker1"
+      :options="{}"
+      :lnglat="[110, 5]"
+    >
+      <MapboxDefaultPopup
+        popup-id="popup1"
+        :lnglat="[100, 0]"
+        :options="{
+          closeOnClick: false
+        }"
+      >
+        <h1 class="test">
+          Hello World!
+        </h1>
+      </MapboxDefaultPopup>
+    </MapboxDefaultMarker>
+```
+
+--------------------------------------------------------------------------------------------------------------
+
 ## Custom Components
 While it is recommended to use the default components, making your own is easy with the built in composables!
 
@@ -225,6 +223,8 @@ You can use ```defineMapboxPopup``` & ```defineMapboxMarker``` for custom marker
 By passing a [template ref](https://vuejs.org/guide/essentials/template-refs.html) you can put custom html directly into your component.
 
 Be sure to nest your custom components inside a map instance so the map-id can be auto injected. You can also pass the map ID manually into the functions.
+
+If you pass `options` as a ref, the marker or popup will react to changes in settings.
 
 Examples:
 ```js
