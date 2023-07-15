@@ -29,8 +29,11 @@
       />
       <MapboxDefaultMarker 
         marker-id="marker1"
-        :options="{}"
+        :options="{
+          draggable: true
+        }"
         :lnglat="lnglat"
+        @dragend="() => { console.log('dragend') }"
       >
         <MapboxDefaultPopup
           popup-id="popup1"

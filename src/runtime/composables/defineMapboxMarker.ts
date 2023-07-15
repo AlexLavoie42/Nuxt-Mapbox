@@ -82,6 +82,7 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
     }
 
     if (isRef(options)) {
+        // TODO: Watch marker properties and update options ref
         watch(options, (newOptions, oldOptions) => {
             const currentMarker = useMapboxMarkerRef(markerID);
             if (newOptions.draggable !== oldOptions?.draggable && newOptions.draggable !== undefined) {
