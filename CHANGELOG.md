@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom geocoder missing import fix
 
 # v1.4.0
+## BREAKING
+- Defining source in layer is now deprecated
 ## Added
 - Old `useMapbox` now named `useMapboxBeforeLoad` for people using v1.3.4
 - `defineMapboxMarker` & `defineMapboxPopup` now accept `options` as a ref, providing full reactivity.
