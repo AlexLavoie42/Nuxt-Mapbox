@@ -37,6 +37,8 @@ export default defineNuxtModule<ModuleOptions>({
     // nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js' })
     if (options.persistent) nuxt.options.app.keepalive = true;
 
+    // Fixes #2 (https://github.com/AlexLavoie42/Nuxt-Mapbox/issues/2)
+    // Might be related? (https://github.com/nuxt/nuxt/issues/19426)
     nuxt.options.alias['mapbox-gl'] = 'mapbox-gl'
     
     const appConfig = nuxt.options.appConfig as ExtendedAppConfig
