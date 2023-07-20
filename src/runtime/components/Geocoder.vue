@@ -4,10 +4,11 @@ import { default as mapboxgl } from 'mapbox-gl'
 import { ref, onMounted, useMapbox, inject, onUnmounted, onBeforeMount } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
-onBeforeMount(async () => {
+async function initGeocoder() {
     //@ts-ignore TODO: Get geocoder module import working
-    const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js')
-})
+    const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js');
+}
+const geocoderPromise = initGeocoder();
 
 interface Props {
     options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken" | "mapboxgl">;
@@ -23,7 +24,8 @@ const containerRef = ref<HTMLDivElement>();
 
 if (mapId) {
     onMounted(() => {
-        useMapbox(mapId, (map) => {                
+        useMapbox(mapId, async (map) => {
+            await geocoderPromise;
             //@ts-ignore TODO: Figure out typing while getting around #2
             const geocoder = new MapboxGeocoder({
                 //@ts-ignore
