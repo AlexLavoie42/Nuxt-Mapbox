@@ -81,7 +81,7 @@ Example:
         center: [-68.137343, 45.137451], // starting position
         zoom: 5 // starting zoom
       }"
-    >
+    />
 ```
 
 You can add Layers, Sources & Controls by nesting their respective components inside the Map
