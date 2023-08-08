@@ -89,7 +89,9 @@ You can add Layers, Sources & Controls by nesting their respective components in
 Examples:
 
 ```html
-    <MapboxMap>
+    <MapboxMap
+      ...
+    >
       <MapboxSource 
         source-id="{ID}"
         :source="{
