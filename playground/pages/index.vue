@@ -28,11 +28,11 @@
         :source="source"
       />
       <MapboxDefaultMarker 
+        v-model:lnglat="lnglat"
         marker-id="marker1"
         :options="{
           draggable: true
         }"
-        :lnglat="lnglat"
         @dragend="() => { console.log('dragend') }"
       >
         <MapboxDefaultPopup
@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import {ref} from "#imports"
+import {ref, useMapboxPopup} from "#imports"
 function showAlert() {
   alert("Wow")
 }
@@ -134,4 +134,10 @@ const height = ref(800);
 function changeHeight() {
   height.value = height.value - 100;
 }
+
+useMapboxPopup('popup1', (popup) => {
+    popup.getElement().addEventListener('click', () => {
+      console.log('popup clicked');
+    });
+})
 </script>

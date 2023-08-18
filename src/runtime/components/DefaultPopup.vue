@@ -66,7 +66,10 @@ watch(() => props.text, () => {
 </script>
 
 <template>
-  <div hidden ref="popupTemplate">
+  <div
+    ref="popupTemplate"
+    hidden
+  >
     <slot />
   </div>
 </template>

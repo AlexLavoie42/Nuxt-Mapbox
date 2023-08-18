@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarkerRef, useNuxtApp, watch } from '#imports';
+import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useNuxtApp, watch } from '#imports';
 import { MarkerOptions, Marker } from 'mapbox-gl';
 
 
@@ -104,6 +104,17 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
                 currentMarker.value?.setLngLat(newOptions.lnglat);
             }
         }, { deep: true });
+
+        useMapboxMarker(markerID, (marker) => {
+            marker.on('drag', () => {
+                const newLngLat = marker.getLngLat();
+                if (Array.isArray(options.value.lnglat)) {
+                    options.value.lnglat = newLngLat.toArray() as [number, number];
+                } else {
+                    options.value.lnglat = newLngLat;
+                }
+            })
+        })
     }
 
     onUnmounted(() => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { default as mapboxgl } from 'mapbox-gl'
-import { ref, onMounted, onBeforeMount, watch } from "#imports";
+import { ref, onMounted, onBeforeMount, watch, computed } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import { GeocoderOptions, Result } from '@mapbox/mapbox-gl-geocoder';
 
@@ -17,7 +17,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), { options: () => ({}), modelValue: undefined });
 
 const emit = defineEmits<{ 
-    (e: "update:modelValue", result: MapboxGeocoder.Result ): void
+    (e: "update:modelValue", result: MapboxGeocoder.Result | undefined ): void
     (e: "change", event: Event): void,
     (e: "keydown", event: Event): void
 }>();
@@ -60,6 +60,9 @@ onMounted(async () => {
     geocoder.on("result", (e: { result: Result }) => {
         emit("update:modelValue", e.result);
     });
+    geocoder.on("clear", () => {
+        emit("update:modelValue", undefined);
+    });
 
     const customInputs = customInputContainer.value?.querySelectorAll("input");
     if (customInputs) {
@@ -67,6 +70,9 @@ onMounted(async () => {
             geocoder.on("result", (e: { result: Result }) => {
                 input.value = e.result.place_name
             })
+            geocoder.on("clear", () => {
+                input.value = "";
+            });
 
             defaultInput.addEventListener("change", (e) => {
                 input.value = (e.target as HTMLInputElement)?.value;
