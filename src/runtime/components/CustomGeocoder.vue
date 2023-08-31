@@ -4,6 +4,14 @@ import { ref, onMounted, onBeforeMount, watch, computed } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import { GeocoderOptions, Result } from '@mapbox/mapbox-gl-geocoder';
 
+async function initGeocoder() {
+    if (process.client) {
+        //@ts-ignore TODO: Get geocoder module import working
+        const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js');
+    }
+}
+const geocoderPromise = initGeocoder();
+
 interface Props {
     modelValue?: MapboxGeocoder.Result;
     options?: Omit<GeocoderOptions, "accessToken" | "mapboxgl">;
@@ -22,8 +30,7 @@ const customInputContainer = ref<HTMLElement>();
 const geocoderRef = ref<MapboxGeocoder>();
 
 onMounted(async () => {
-    await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js');
-
+    await geocoderPromise;
     //@ts-ignore
     const geocoder = new MapboxGeocoder({
         //@ts-ignore
