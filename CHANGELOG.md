@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v1.4.4
+## Fixed
+- Fixed geocoder import issue (#61)
+
+# v1.4.3
+## Fixed
+- Fixed Marker latlng drag reactivity
+- Geocoder v-model clear fix
+- `useMapboxPopup` now is called after HTML is put in DOM
+
+# v1.4.2
+## Fixed
+- Geocoder import fix
+
 # v1.4.1
 ## Fixed
 - ESModule import fix
