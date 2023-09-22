@@ -1,10 +1,12 @@
 import { Ref, computed } from 'vue';
 import { Popup } from "mapbox-gl";
-import { useNuxtApp } from "#imports";
+import { useNuxtApp, useState } from "#imports";
+import { MapboxPopupsObject } from '../../module';
 
 export function useMapboxPopupRef(markerID: string): Ref<Popup | null> {
     return computed(() => {
-        const marker = useNuxtApp().$mapboxPopupInstances?.().value?.[markerID];
+        const popupInstances = useState<MapboxPopupsObject>('mapbox_popup_instances', () => {return {}});
+        const marker = popupInstances.value[markerID];
         return marker;
     });
 }
