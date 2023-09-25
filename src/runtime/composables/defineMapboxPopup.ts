@@ -13,7 +13,7 @@ import { MapboxPopupsObject } from '../../module';
  */
 export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<PopupOptions>, popupHTML: Ref<HTMLElement | null> = ref(null), mapID: string = ""): Popup | undefined {
     const mapId = inject<string>('MapID')
-    if (!useNuxtApp().$mapboxInitPopup) return; // So we dont run on server.
+    if (process.server) return;
     
     const popupInstances = useState<MapboxPopupsObject>('mapbox_popup_instances', () => {return {}});
     if (isRef(options)) {
