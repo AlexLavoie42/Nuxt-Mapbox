@@ -18,6 +18,16 @@ export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions 
 
 export type MapboxComponentOptions = Omit<mapboxgl.MapboxOptions, "container">;
 
+export interface MapboxInstancesObject {
+  [key: string]: { map: mapboxgl.Map, loaded: boolean }
+}
+export interface MapboxPopupsObject {
+[key: string]: mapboxgl.Popup
+}
+export interface MapboxMarkerObject {
+[key: string]: mapboxgl.Marker
+}
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-mapbox',
@@ -51,7 +61,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin.client'))
     addImportsDir(resolver.resolve('./runtime/composables'))
     addComponentsDir({
       path: resolver.resolve('./runtime/components'),

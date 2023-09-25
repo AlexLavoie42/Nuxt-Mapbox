@@ -1,10 +1,11 @@
 import { Ref, computed } from 'vue';
 import { Marker } from "mapbox-gl";
-import { useNuxtApp } from "#imports";
+import { useNuxtApp, useState } from "#imports";
+import { MapboxMarkerObject } from '../../module';
 
 export function useMapboxMarkerRef(markerID: string): Ref<Marker | null> {
     return computed(() => {
-        const marker = useNuxtApp().$mapboxMarkerInstances().value[markerID];
-        return marker;
+        const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
+        return mapbox_marker_instances.value[markerID];
     });
 }

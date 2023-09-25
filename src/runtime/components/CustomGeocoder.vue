@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { default as mapboxgl } from 'mapbox-gl'
-import { ref, onMounted, onBeforeMount, watch, computed } from "#imports";
+import { ref, onMounted, watch, initMapbox } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import { GeocoderOptions, Result } from '@mapbox/mapbox-gl-geocoder';
 
@@ -8,6 +8,7 @@ async function initGeocoder() {
     if (process.client) {
         //@ts-ignore TODO: Get geocoder module import working
         const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js');
+        initMapbox();
     }
 }
 const geocoderPromise = initGeocoder();

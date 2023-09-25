@@ -1,6 +1,7 @@
 import { Ref } from 'vue';
-import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useNuxtApp, watch } from '#imports';
-import { MarkerOptions, Marker } from 'mapbox-gl';
+import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useNuxtApp, useState, watch } from '#imports';
+import mapboxgl, { MarkerOptions, Marker } from 'mapbox-gl';
+import { MapboxMarkerObject } from '../../module';
 
 
 
@@ -33,7 +34,7 @@ export function defineMapboxMarker(markerID: string,
 
 //TODO: MutationObserver on html so it is reactive
 export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
-    if (!useNuxtApp().$mapboxInitMarker) return; // So we dont run on server.
+    if (process.server) return;
     const markerRef = ref<Marker | null>(null);
     const mapId = inject<string>('MapID')
 
@@ -41,12 +42,13 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
         const markerOptions = isRef(options) ? options.value : options;
         if (markerHTML) {
             if (markerHTML.value) {
-                markerHTML.value.remove()
+                markerHTML.value.remove();
     
-                useNuxtApp().$mapboxInitMarker(markerID, {element: markerHTML.value, ...markerOptions})
-                markerRef.value = useNuxtApp().$mapboxMarkerInstances().value[markerID]
-                if (callback)
-                    callback(markerRef.value)
+                const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
+                mapbox_marker_instances.value[markerID] = new mapboxgl.Marker({element: markerHTML.value, ...markerOptions});
+                markerRef.value = mapbox_marker_instances.value[markerID];
+
+                if (callback) callback(markerRef.value);
     
                 useMapbox(mapId || mapID, (map) => {
                     if (markerRef.value)
@@ -56,12 +58,14 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
             watch(markerHTML, () => {
                 if (markerHTML.value) {
                     markerHTML.value.remove()
-    
-                    useNuxtApp().$mapboxInitMarker(markerID, {element: markerHTML.value, ...options})
-                    markerRef.value = useNuxtApp().$mapboxMarkerInstances().value[markerID]
+
+                    const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
+                    mapbox_marker_instances.value[markerID] = new mapboxgl.Marker({element: markerHTML.value, ...markerOptions});
+                    markerRef.value = mapbox_marker_instances.value[markerID];
+
                     if (callback)
                         callback(markerRef.value)
-    
+
                     useMapbox(mapId || mapID, (map) => {
                         if (markerRef.value)
                             markerRef?.value?.addTo(map)
@@ -70,8 +74,9 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
             })
             return markerRef;
         } else {
-            useNuxtApp().$mapboxInitMarker(markerID, markerOptions)
-            const marker = useNuxtApp().$mapboxMarkerInstances().value[markerID]
+            const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
+            mapbox_marker_instances.value[markerID] = new mapboxgl.Marker(markerOptions);
+            const marker = mapbox_marker_instances.value[markerID]
         
             useMapbox(mapId || mapID, (map) => {
                 marker.setLngLat(markerOptions.lnglat);
@@ -121,7 +126,8 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
         const currentMarker = useMapboxMarkerRef(markerID);
         if (currentMarker.value) {
             currentMarker.value.remove();
-            delete useNuxtApp().$mapboxMarkerInstances().value[markerID];
+            const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
+            delete mapbox_marker_instances.value[markerID];
         }
     })
     return initMarker();
