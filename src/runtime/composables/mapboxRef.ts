@@ -2,20 +2,20 @@ import { Map } from "mapbox-gl";
 import { _useMapboxInstances } from "#imports";
 import { computed, ComputedRef, Ref } from "vue"
 
-export function useMapboxRef(mapID: string): Ref<Map | null>{
+export function useMapboxRef(mapID: string): Ref<Map | undefined>{
     const map = computed(() => {
-        return _useMapboxInstances()?.value[mapID]?.map || null
+        return _useMapboxInstances()?.value[mapID]?.map
     })
     return map
 }
 
-export function useMapboxInstance(mapID: string): Ref<Map | null>{
+export function useMapboxInstance(mapID: string): Ref<Map | undefined>{
     return useMapboxRef(mapID);
 }
 
-export function _useMapboxInstanceWithLoaded(mapID: string): ComputedRef<{ map: Map, loaded: boolean } | null>{
+export function _useMapboxInstanceWithLoaded(mapID: string): ComputedRef<{ map: Map, loaded: boolean } | undefined>{
     const map = computed(() => {
-        return _useMapboxInstances()?.value[mapID] || null
+        return _useMapboxInstances()?.value[mapID]
     })
     return map
 }
