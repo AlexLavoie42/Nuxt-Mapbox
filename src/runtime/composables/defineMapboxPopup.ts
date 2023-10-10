@@ -36,7 +36,7 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
         popupInstance.setDOMContent(popupHTML.value);
         
         useMutationObserver(popupHTML, () => {
-            if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
+            if (popupHTML.value) popupInstance.setDOMContent(popupHTML.value);
         }, { childList: true, subtree: true, characterData: true })
     }
     
@@ -46,7 +46,7 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
             popupInstance.setDOMContent(popupHTML.value);
 
             useMutationObserver(popupHTML, () => {
-                if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML);
+                if (popupHTML.value) popupInstance.setDOMContent(popupHTML.value);
             }, { childList: true, subtree: true, characterData: true })
         }
     })
