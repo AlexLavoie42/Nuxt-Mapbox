@@ -42,7 +42,7 @@
             closeOnClick: false
           }"
         >
-          <h1 class="test">
+          <h1 class="test" @click="showAlert">
             Hello World! {{ lnglat }}
           </h1>
         </MapboxDefaultPopup>

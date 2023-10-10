@@ -32,8 +32,8 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
         popupInstance.addTo(map)
     })
     if (popupHTML.value) {
-        popupInstance.setHTML(popupHTML.value.innerHTML)
-        popupHTML.value.hidden = true;
+        popupHTML.value.hidden = false;
+        popupInstance.setDOMContent(popupHTML.value);
         
         useMutationObserver(popupHTML, () => {
             if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
@@ -42,11 +42,11 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
     
     watch(popupHTML, () => {
         if (popupHTML.value) {
-            popupInstance.setHTML(popupHTML.value.innerHTML)
-            popupHTML.value.hidden = true;
+            popupHTML.value.hidden = false;
+            popupInstance.setDOMContent(popupHTML.value);
 
             useMutationObserver(popupHTML, () => {
-                if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
+                if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML);
             }, { childList: true, subtree: true, characterData: true })
         }
     })
