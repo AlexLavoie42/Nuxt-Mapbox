@@ -1,15 +1,17 @@
 <script setup lang="ts">
     import { MarkerOptions } from 'mapbox-gl';
     import { ref, watch } from 'vue';
-    import { defineMapboxMarker } from '#imports';
+    import { defineMapboxMarker, toRef } from '#imports';
 
     const props = defineProps<{ markerId: string, options: MarkerOptions & { lnglat: [number, number] } }>()
     const markerRef = ref<HTMLElement | null>(null)
+    const options = toRef(props.options)
 
 
-    const marker = defineMapboxMarker(props.markerId, props.options, markerRef, (m) => {
+    const marker = defineMapboxMarker(props.markerId, options, markerRef, (m) => {
         m.setLngLat([110, 6])
     })
+    const num = ref(40)
 </script>
 
 <template>
@@ -17,12 +19,14 @@
     <div
       ref="markerRef"
       class="marker"
-      style="
-          backgroundImage: url(https://placekitten.com/g/40/40/);
-          width: 40px;
-          height: 40px;
-          backgroundSize: 100%;
-        "
+      :style="{
+        backgroundImage: `url(https://placekitten.com/g/40/${num})`,
+        width: '40px',
+        height: '40px',
+        backgroundSize: '100%',
+      }
+      "
+      @click="num += 1"
     />
   </div>
 </template>

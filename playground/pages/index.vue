@@ -1,6 +1,7 @@
 <template>
   <div>
     <MapboxMap
+      v-if="showMap"
       map-id="map2"
       style="top: 80px"
       :options="{
@@ -11,7 +12,6 @@
       :style="{
         height: `${height}px`
       }"
-      @load="showAlert"
     >
       <MapboxLayer
         v-if="enabled"
@@ -64,6 +64,7 @@
     <a @click="changeLngLat">Move Marker</a>
     <a @click="changeStyle">Random Style</a>
     <a @click="changeHeight">Resize Map</a>
+    <a @click="toggleMap">Toggle Map</a>
   </div>
 </template>
 
@@ -77,6 +78,12 @@ const source = ref({
   type: 'geojson',
   data: '/test.geojson'
 });
+
+const showMap = ref(true);
+
+function toggleMap() {
+    showMap.value = !showMap.value;
+}
 
 const enabled = ref(true);
 
