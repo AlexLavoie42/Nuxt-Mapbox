@@ -1,5 +1,6 @@
+import { whenever } from '@vueuse/core';
 import { Ref } from 'vue';
-import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useNuxtApp, useState, watch } from '#imports';
+import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useState, watch } from '#imports';
 import mapboxgl, { MarkerOptions, Marker } from 'mapbox-gl';
 import { MapboxMarkerObject } from '../../module';
 
@@ -41,37 +42,22 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
     function initMarker() {
         const markerOptions = isRef(options) ? options.value : options;
         if (markerHTML) {
-            if (markerHTML.value) {
-                markerHTML.value.remove();
-    
-                const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
-                mapbox_marker_instances.value[markerID] = new mapboxgl.Marker({element: markerHTML.value, ...markerOptions});
-                markerRef.value = mapbox_marker_instances.value[markerID];
-
-                if (callback) callback(markerRef.value);
-    
-                useMapbox(mapId || mapID, (map) => {
-                    if (markerRef.value)
-                        markerRef?.value?.addTo(map)
-                })
-            }
-            watch(markerHTML, () => {
+            whenever(markerHTML, () => {
                 if (markerHTML.value) {
-                    markerHTML.value.remove()
+                    markerHTML.value.remove();
 
                     const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
                     mapbox_marker_instances.value[markerID] = new mapboxgl.Marker({element: markerHTML.value, ...markerOptions});
                     markerRef.value = mapbox_marker_instances.value[markerID];
 
-                    if (callback)
-                        callback(markerRef.value)
+                    if (callback) callback(markerRef.value);
 
                     useMapbox(mapId || mapID, (map) => {
                         if (markerRef.value)
                             markerRef?.value?.addTo(map)
-                    })
+                    });
                 }
-            })
+            }, { immediate: true })
             return markerRef;
         } else {
             const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
