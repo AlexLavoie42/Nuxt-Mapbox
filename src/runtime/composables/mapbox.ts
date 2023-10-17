@@ -15,7 +15,7 @@ type MapboxCallback = (map: Map) => void
  */
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
 
-    function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | null>) {
+    function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | undefined>) {
         if (!instance?.value?.map) return false;
 
         if (instance.value.map && instance.value.loaded) {

@@ -1,5 +1,6 @@
-import { defineNuxtModule, addPlugin, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
 import { AppConfig } from '@nuxt/schema'
+import { defu } from 'defu'
 // Module options TypeScript inteface definition
 export interface NuxtMapboxOptions {
   accessToken: string
@@ -7,6 +8,10 @@ export interface NuxtMapboxOptions {
   workerUrl?: string
   workerCount?: number
   prewarm?: boolean,
+  RTLTextPlugin?: boolean | {
+    pluginURL: string,
+    lazy?: boolean
+  }
 }
 export interface InternalOptions {
   persistent?: boolean
@@ -57,8 +62,11 @@ export default defineNuxtModule<ModuleOptions>({
       baseApiUrl: options.baseApiUrl,
       workerUrl: options.workerUrl,
       workerCount: options.workerCount,
-      prewarm: options.prewarm
+      prewarm: options.prewarm,
+      RTLTextPlugin: options.RTLTextPlugin
     }
+
+    nuxt.options.runtimeConfig.public.mapbox = defu(nuxt.options.runtimeConfig.public.mapbox as Record<string, any>, options)
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addImportsDir(resolver.resolve('./runtime/composables'))

@@ -1,4 +1,3 @@
-import { useNuxtApp } from "#app";
 import { Ref } from "vue";
 import { MapboxInstancesObject } from "../../module";
 import { useState } from "#imports";
