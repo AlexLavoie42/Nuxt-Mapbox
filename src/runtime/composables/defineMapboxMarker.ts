@@ -1,8 +1,8 @@
 import { whenever } from '@vueuse/core';
-import { Ref } from 'vue';
+import type { Ref } from 'vue';
 import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useState, watch } from '#imports';
-import mapboxgl, { MarkerOptions, Marker } from 'mapbox-gl';
-import { MapboxMarkerObject } from '../../module';
+import mapboxgl, { type MarkerOptions, Marker } from 'mapbox-gl';
+import type { MapboxMarkerObject } from '../../module';
 
 
 

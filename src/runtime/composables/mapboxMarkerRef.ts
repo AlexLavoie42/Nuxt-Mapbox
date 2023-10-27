@@ -1,7 +1,7 @@
-import { Ref, computed } from 'vue';
+import { type Ref, computed } from 'vue';
 import { Marker } from "mapbox-gl";
 import { useState } from "#imports";
-import { MapboxMarkerObject } from '../../module';
+import type { MapboxMarkerObject } from '../../module';
 
 export function useMapboxMarkerRef(markerID: string): Ref<Marker | null> {
     return computed(() => {

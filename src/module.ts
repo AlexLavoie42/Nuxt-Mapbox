@@ -1,5 +1,5 @@
 import { defineNuxtModule, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
-import { AppConfig } from '@nuxt/schema'
+import type { RuntimeConfig, AppConfig } from '@nuxt/schema';
 import { defu } from 'defu'
 // Module options TypeScript inteface definition
 export interface NuxtMapboxOptions {
@@ -20,6 +20,7 @@ export interface InternalOptions {
 type ModuleOptions = NuxtMapboxOptions & InternalOptions;
 
 export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
+export type ExtendedRuntimeConfig = RuntimeConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
 
 export type MapboxComponentOptions = Omit<mapboxgl.MapboxOptions, "container">;
 
@@ -45,11 +46,6 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup (options, nuxt) {
     const resolver = createResolver(import.meta.url)
-
-    // nuxt.options.css.push('mapbox-gl/dist/mapbox-gl.css')
-    // nuxt.options.app.head.link?.push({rel: 'stylesheet', href: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css', type: 'text/css'})
-    // nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js' })
-    // nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js' })
     if (options.persistent) nuxt.options.app.keepalive = true;
 
     // Fixes #2 (https://github.com/AlexLavoie42/Nuxt-Mapbox/issues/2)

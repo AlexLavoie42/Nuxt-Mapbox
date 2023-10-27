@@ -1,5 +1,5 @@
-import { Ref } from "vue";
-import { MapboxInstancesObject } from "../../module";
+import type { Ref } from "vue";
+import type { MapboxInstancesObject } from "../../module";
 import { useState } from "#imports";
 
 export function _useMapboxInstances(): Ref<MapboxInstancesObject> | undefined {

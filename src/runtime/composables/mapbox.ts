@@ -1,5 +1,5 @@
 import { watchOnce } from '@vueuse/core';
-import { ComputedRef } from 'vue';
+import type { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
 import { _useMapboxInstanceWithLoaded } from "#imports";
 

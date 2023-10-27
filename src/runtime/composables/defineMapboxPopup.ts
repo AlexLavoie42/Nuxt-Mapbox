@@ -1,9 +1,9 @@
-import { ref, Ref } from 'vue';
-import { Popup, PopupOptions } from "mapbox-gl";
+import { ref, type Ref } from 'vue';
+import { Popup, type PopupOptions } from "mapbox-gl";
 import { isRef, watch, inject, useMapbox } from '#imports';
 import { whenever } from '@vueuse/core';
 import { useState } from '#imports';
-import { MapboxPopupsObject } from '../../module';
+import { type MapboxPopupsObject } from '../../module';
 
 /**
  * Create a new Popup instance for a component. Will be automatically added to map if it is nested in MapboxMap
