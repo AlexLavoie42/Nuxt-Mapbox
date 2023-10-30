@@ -2,7 +2,7 @@
 import { default as mapboxgl } from 'mapbox-gl'
 import { ref, onMounted, watch, initMapbox } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-import { GeocoderOptions, Result } from '@mapbox/mapbox-gl-geocoder';
+import { type GeocoderOptions, type Result } from '@mapbox/mapbox-gl-geocoder';
 
 async function initGeocoder() {
     if (process.client) {

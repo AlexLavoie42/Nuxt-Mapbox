@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { LngLatLike, Marker, Popup, PopupOptions } from "mapbox-gl";
-import { Ref } from "vue";
+import { type LngLatLike, Marker, Popup, type PopupOptions } from "mapbox-gl";
+import { type Ref } from "vue";
 import { onUnmounted, onMounted, defineMapboxPopup, inject, ref, watch } from "#imports";
 
 const props = withDefaults(
