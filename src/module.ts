@@ -20,7 +20,7 @@ export interface InternalOptions {
 type ModuleOptions = NuxtMapboxOptions & InternalOptions;
 
 export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
-export type ExtendedRuntimeConfig = RuntimeConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
+export type ExtendedRuntimeConfig = RuntimeConfig & { public: { mapbox: NuxtMapboxOptions } }
 
 export type MapboxComponentOptions = Omit<mapboxgl.MapboxOptions, "container">;
 
