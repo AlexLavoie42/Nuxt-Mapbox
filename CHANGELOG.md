@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v1.5.0
+## Added
+- RTLTextPlugin support
+- Runtime Config support
+- Map geocoder events, ref access & v-model
+- New documentation site
+## Fixed
+- Passing map container html instead of id
+- Passing HTML element to popup with `setDOMContent`
+- Updated type imports for Nuxt 3.8.0
+
 # v1.4.5
 ## Fixed
 - Better bundling output (no more global plugin)
