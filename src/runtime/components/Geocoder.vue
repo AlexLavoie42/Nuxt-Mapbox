@@ -5,6 +5,7 @@ import { ref, onMounted, useMapbox, inject, onUnmounted, initMapbox } from "#imp
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 const emit = defineEmits<{
+    (e: "update:modelValue", result: MapboxGeocoder.Result | undefined ): void
     (e: "clear"): void;
     (e: "loading", query: any): void;
     (e: "results", results: MapboxGeocoder.Result[]): void;
@@ -22,10 +23,12 @@ async function initGeocoder() {
 const geocoderPromise = initGeocoder();
 
 interface Props {
+    modelValue?: MapboxGeocoder.Result;
     options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken" | "mapboxgl">;
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
-const props = withDefaults(defineProps<Props>(), { 
+const props = withDefaults(defineProps<Props>(), {
+    modelValue: undefined,
     options: () => ({}),
     position: () => "top-right"
 });
@@ -49,6 +52,7 @@ if (mapId) {
             map?.addControl(geocoder, props.position);
 
             geocoder.on('clear', () => {
+                emit("update:modelValue", undefined);
                 emit("clear");
             });
             geocoder.on('loading', (q) => {
@@ -58,6 +62,7 @@ if (mapId) {
                 emit("results", r);
             });
             geocoder.on('result', (r) => {
+                emit("update:modelValue", r.result);
                 emit("result", r);
             });
             geocoder.on('error', (e) => {
@@ -88,7 +93,7 @@ if (mapId) {
 }
 
 defineExpose({
-    geocoder: geocoderRef.value,
+    geocoder: geocoderRef,
 })
 
 </script>
