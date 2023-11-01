@@ -42,8 +42,9 @@
             closeOnClick: false
           }"
         >
-          <h1 class="test" @click="showAlert">
+          <h1 class="test">
             Hello World! {{ lnglat }}
+            <button @click="showAlert">Click Me!</button>
           </h1>
         </MapboxDefaultPopup>
       </MapboxDefaultMarker>
@@ -54,7 +55,7 @@
         }"
       />
       <TestControl />
-      <MapboxGeocoder position="top-left" />
+      <MapboxGeocoder v-model="geocoderRes" @result="(result) => { console.log(result) }" ref="geocoderRef" position="top-left" />
     </MapboxMap>
     <NuxtLink to="/test">
       TEST
@@ -68,8 +69,9 @@
   </div>
 </template>
 
-<script setup>
-import {ref, useMapboxPopup} from "#imports"
+<script setup lang="ts">
+import {computed, ref, useMapboxMarkerRef, useMapboxPopup, useMapboxPopupRef, useMapboxRef} from "#imports"
+import { MapboxGeocoder } from '#components'
 function showAlert() {
   alert("Wow")
 }
@@ -86,6 +88,20 @@ function toggleMap() {
 }
 
 const enabled = ref(true);
+
+const mapRef = useMapboxRef('map2');
+
+const mapStyle = computed(() => {
+  return mapRef.value?.getStyle();
+});
+
+const marker = useMapboxMarkerRef('');
+const popup = useMapboxPopupRef('');
+
+const markerLatLng = computed(() => {
+  return marker.value?.getLngLat();
+});
+
 
 function changeData() {
   source.value = {
@@ -124,7 +140,7 @@ function changeData() {
   }
 }
 
-const lnglat = ref([90, 0]);
+const lnglat = ref([90, 0] as [number, number]);
 function changeLngLat() {
   lnglat.value = [lnglat.value[0] + 1, lnglat.value[1] + 1];
 }
@@ -146,5 +162,10 @@ useMapboxPopup('popup1', (popup) => {
     popup.getElement().addEventListener('click', () => {
       console.log('popup clicked');
     });
-})
+});
+
+const geocoderRef = ref<InstanceType<typeof MapboxGeocoder>>()
+const geocoder = computed(() => geocoderRef.value?.geocoder);
+
+const geocoderRes = ref();
 </script>
