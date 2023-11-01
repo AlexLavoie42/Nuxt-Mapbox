@@ -1,18 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import {
-    EventData,
+    type EventData,
     MapboxEvent,
-    MapBoxZoomEvent,
-    MapDataEvent,
+    type MapBoxZoomEvent,
+    type MapDataEvent,
     MapMouseEvent,
     MapTouchEvent,
     MapWheelEvent,
     Map
 } from "mapbox-gl";
-import { provide, onMounted, StyleValue } from "vue";
+import { provide, onMounted, type StyleValue } from "vue";
 import { cleanMapboxInstance, useMapboxRef, onUnmounted, defineMapboxInstance, watch, useMapboxBeforeLoad, ref } from "#imports";
-import { MapboxComponentOptions } from "../../module";
+import type { MapboxComponentOptions } from "../../module";
 import { useResizeObserver } from "@vueuse/core";
 
 const props = defineProps<{

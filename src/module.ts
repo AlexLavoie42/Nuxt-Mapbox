@@ -1,5 +1,6 @@
-import { defineNuxtModule, addPlugin, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
-import { AppConfig } from '@nuxt/schema'
+import { defineNuxtModule, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
+import type { RuntimeConfig, AppConfig } from '@nuxt/schema';
+import { defu } from 'defu'
 // Module options TypeScript inteface definition
 export interface NuxtMapboxOptions {
   accessToken: string
@@ -7,6 +8,10 @@ export interface NuxtMapboxOptions {
   workerUrl?: string
   workerCount?: number
   prewarm?: boolean,
+  RTLTextPlugin?: boolean | {
+    pluginURL: string,
+    lazy?: boolean
+  }
 }
 export interface InternalOptions {
   persistent?: boolean
@@ -15,6 +20,7 @@ export interface InternalOptions {
 type ModuleOptions = NuxtMapboxOptions & InternalOptions;
 
 export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
+export type ExtendedRuntimeConfig = RuntimeConfig & { public: { mapbox: NuxtMapboxOptions } }
 
 export type MapboxComponentOptions = Omit<mapboxgl.MapboxOptions, "container">;
 
@@ -40,11 +46,6 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup (options, nuxt) {
     const resolver = createResolver(import.meta.url)
-
-    // nuxt.options.css.push('mapbox-gl/dist/mapbox-gl.css')
-    // nuxt.options.app.head.link?.push({rel: 'stylesheet', href: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css', type: 'text/css'})
-    // nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js' })
-    // nuxt.options.app.head.script?.push({ src: 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js' })
     if (options.persistent) nuxt.options.app.keepalive = true;
 
     // Fixes #2 (https://github.com/AlexLavoie42/Nuxt-Mapbox/issues/2)
@@ -57,8 +58,11 @@ export default defineNuxtModule<ModuleOptions>({
       baseApiUrl: options.baseApiUrl,
       workerUrl: options.workerUrl,
       workerCount: options.workerCount,
-      prewarm: options.prewarm
+      prewarm: options.prewarm,
+      RTLTextPlugin: options.RTLTextPlugin
     }
+
+    nuxt.options.runtimeConfig.public.mapbox = defu(nuxt.options.runtimeConfig.public.mapbox as Record<string, any>, options)
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addImportsDir(resolver.resolve('./runtime/composables'))

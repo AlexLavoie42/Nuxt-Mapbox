@@ -1,4 +1,4 @@
-import { Map, IControl } from 'mapbox-gl';
+import { Map, type IControl } from 'mapbox-gl';
 
 export function defineMapboxControl(onAdd: (map: Map) => HTMLElement, onRemove: (map: Map) => void): IControl {
     class CustomControl implements IControl {

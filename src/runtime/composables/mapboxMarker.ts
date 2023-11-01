@@ -1,6 +1,5 @@
-import { Ref, computed } from 'vue';
 import { Marker } from "mapbox-gl";
-import { useNuxtApp, watch } from "#imports";
+import { watch } from "#imports";
 import { useMapboxMarkerRef } from './mapboxMarkerRef';
 
 export function useMapboxMarker(markerID: string, callback: (marker: Marker) => void) {

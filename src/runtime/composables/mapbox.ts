@@ -1,5 +1,5 @@
 import { watchOnce } from '@vueuse/core';
-import { ComputedRef } from 'vue';
+import type { ComputedRef } from 'vue';
 import { Map } from "mapbox-gl";
 import { _useMapboxInstanceWithLoaded } from "#imports";
 
@@ -15,7 +15,7 @@ type MapboxCallback = (map: Map) => void
  */
 export function useMapbox(mapID: string, callback: MapboxCallback): void {
 
-    function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | null>) {
+    function tryCallback(instance: ComputedRef<{ map: mapboxgl.Map; loaded: boolean; } | undefined>) {
         if (!instance?.value?.map) return false;
 
         if (instance.value.map && instance.value.loaded) {

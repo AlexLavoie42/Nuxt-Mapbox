@@ -1,9 +1,9 @@
-import { ref, Ref } from 'vue';
-import { Popup, PopupOptions } from "mapbox-gl";
-import { isRef, watch, useNuxtApp, inject, useMapbox } from '#imports';
-import { useMutationObserver } from '@vueuse/core';
+import { ref, type Ref } from 'vue';
+import { Popup, type PopupOptions } from "mapbox-gl";
+import { isRef, watch, inject, useMapbox } from '#imports';
+import { whenever } from '@vueuse/core';
 import { useState } from '#imports';
-import { MapboxPopupsObject } from '../../module';
+import { type MapboxPopupsObject } from '../../module';
 
 /**
  * Create a new Popup instance for a component. Will be automatically added to map if it is nested in MapboxMap
@@ -31,25 +31,13 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
     useMapbox(mapId || mapID, (map) => {
         popupInstance.addTo(map)
     })
-    if (popupHTML.value) {
-        popupInstance.setHTML(popupHTML.value.innerHTML)
-        popupHTML.value.hidden = true;
-        
-        useMutationObserver(popupHTML, () => {
-            if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
-        }, { childList: true, subtree: true, characterData: true })
-    }
     
-    watch(popupHTML, () => {
+    whenever(popupHTML, () => {
         if (popupHTML.value) {
-            popupInstance.setHTML(popupHTML.value.innerHTML)
-            popupHTML.value.hidden = true;
-
-            useMutationObserver(popupHTML, () => {
-                if (popupHTML.value) popupInstance.setHTML(popupHTML.value.innerHTML)
-            }, { childList: true, subtree: true, characterData: true })
+            popupHTML.value.hidden = false;
+            popupInstance.setDOMContent(popupHTML.value);
         }
-    })
+    }, { immediate: true })
 
     return popupInstance;
 }

@@ -4,6 +4,15 @@ import { default as mapboxgl } from 'mapbox-gl'
 import { ref, onMounted, useMapbox, inject, onUnmounted, initMapbox } from "#imports";
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
+const emit = defineEmits<{
+    (e: "update:modelValue", result: MapboxGeocoder.Result | undefined ): void
+    (e: "clear"): void;
+    (e: "loading", query: any): void;
+    (e: "results", results: MapboxGeocoder.Result[]): void;
+    (e: "result", result: MapboxGeocoder.Result): void;
+    (e: "error", error: string): void;
+}>();
+
 async function initGeocoder() {
     if (process.client) {
         //@ts-ignore TODO: Get geocoder module import working
@@ -14,10 +23,12 @@ async function initGeocoder() {
 const geocoderPromise = initGeocoder();
 
 interface Props {
+    modelValue?: MapboxGeocoder.Result;
     options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken" | "mapboxgl">;
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
-const props = withDefaults(defineProps<Props>(), { 
+const props = withDefaults(defineProps<Props>(), {
+    modelValue: undefined,
     options: () => ({}),
     position: () => "top-right"
 });
@@ -39,6 +50,24 @@ if (mapId) {
             })
             geocoderRef.value = geocoder;
             map?.addControl(geocoder, props.position);
+
+            geocoder.on('clear', () => {
+                emit("update:modelValue", undefined);
+                emit("clear");
+            });
+            geocoder.on('loading', (q) => {
+                emit("loading", q);
+            });
+            geocoder.on('results', (r) => {
+                emit("results", r);
+            });
+            geocoder.on('result', (r) => {
+                emit("update:modelValue", r.result);
+                emit("result", r);
+            });
+            geocoder.on('error', (e) => {
+                emit("error", e);
+            });
         });
     });
     onUnmounted(() => {
@@ -62,6 +91,10 @@ if (mapId) {
         }
     });
 }
+
+defineExpose({
+    geocoder: geocoderRef,
+})
 
 </script>
 

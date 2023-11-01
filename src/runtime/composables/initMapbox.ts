@@ -1,8 +1,8 @@
 import { useState } from '#app';
 import {default as mapboxgl} from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { ExtendedAppConfig } from '../../module';
-import { useAppConfig } from '#imports'
+import type { ExtendedRuntimeConfig } from '../../module';
+import { useRuntimeConfig } from '#imports'
 
 export function initMapbox() {
     if (process.server) return;
@@ -11,15 +11,20 @@ export function initMapbox() {
     if (init.value) return;
     init.value = true;
 
-    const appConfig = useAppConfig() as ExtendedAppConfig
+    const runtimeConfig = useRuntimeConfig() as ExtendedRuntimeConfig;
+    mapboxgl.accessToken = runtimeConfig.public.mapbox.accessToken;
+    if (runtimeConfig.public.mapbox.baseApiUrl) mapboxgl.baseApiUrl = runtimeConfig.public.mapbox.baseApiUrl;
     //@ts-ignore
-    mapboxgl.accessToken = appConfig._MAPBOX_CONFIG.accessToken;
-    //@ts-ignore
-    if (appConfig._MAPBOX_CONFIG.baseApiUrl) mapboxgl.baseApiUrl = appConfig._MAPBOX_CONFIG.baseApiUrl;
-    //@ts-ignore
-    if (appConfig._MAPBOX_CONFIG.workerUrl) mapboxgl.workerUrl = appConfig._MAPBOX_CONFIG.workerUrl;
-    //@ts-ignore
-    if (appConfig._MAPBOX_CONFIG.workerCount) mapboxgl.workerCount = appConfig._MAPBOX_CONFIG.workerCount;
-    //@ts-ignore
-    if (appConfig._MAPBOX_CONFIG.prewarm) mapboxgl.prewarm();
+    if (runtimeConfig.public.mapbox.workerUrl) mapboxgl.workerUrl = runtimeConfig.public.mapbox.workerUrl;
+    if (runtimeConfig.public.mapbox.workerCount) mapboxgl.workerCount = runtimeConfig.public.mapbox.workerCount;
+    if (runtimeConfig.public.mapbox.prewarm) mapboxgl.prewarm();
+    if (runtimeConfig.public.mapbox.RTLTextPlugin) {
+        const defaultPlugin = 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js';
+        if (typeof runtimeConfig.public.mapbox.RTLTextPlugin === 'boolean') runtimeConfig.public.mapbox.RTLTextPlugin = {
+            pluginURL: defaultPlugin,
+            lazy: false
+        };
+        // TODO: Callback?
+        mapboxgl.setRTLTextPlugin(runtimeConfig.public.mapbox.RTLTextPlugin.pluginURL || defaultPlugin, () => {}, runtimeConfig.public.mapbox.RTLTextPlugin.lazy || false);
+    }
 }
