@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 18
-      - run: npm i
-      - run: npm run dev:build
-      - run: npm run build
+          version: latest
+      - run: pnpm i
+      - run: pnpm run dev:build
+      - run: pnpm run build
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v2.2.0
         with:
