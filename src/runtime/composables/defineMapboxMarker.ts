@@ -54,7 +54,7 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
 
                     useMapbox(mapId || mapID, (map) => {
                         if (markerRef.value)
-                            markerRef?.value?.addTo(map)
+                            markerRef?.value?.setLngLat(markerOptions.lnglat).addTo(map);
                     });
                 }
             }, { immediate: true })
@@ -65,8 +65,7 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
             const marker = mapbox_marker_instances.value[markerID]
         
             useMapbox(mapId || mapID, (map) => {
-                marker.setLngLat(markerOptions.lnglat);
-                marker.addTo(map);
+                marker.setLngLat(markerOptions.lnglat).addTo(map);
             })
             return marker;
         }
