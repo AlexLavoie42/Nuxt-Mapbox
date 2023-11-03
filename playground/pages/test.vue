@@ -58,7 +58,7 @@
     <NuxtLink to="/">
       TEST
     </NuxtLink>
-    <a @click="remove">Toggle Layer</a>
+    <button @click="remove">Toggle Layer</button>
   </div>
 </template>
   

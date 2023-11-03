@@ -60,12 +60,12 @@
     <NuxtLink to="/test">
       TEST
     </NuxtLink>
-    <a @click="enabled = !enabled">Toggle Data</a>
-    <a @click="changeData">Change Data</a>
-    <a @click="changeLngLat">Move Marker</a>
-    <a @click="changeStyle">Random Style</a>
-    <a @click="changeHeight">Resize Map</a>
-    <a @click="toggleMap">Toggle Map</a>
+    <button @click="enabled = !enabled">Toggle Data</button>
+    <button @click="changeData">Change Data</button>
+    <button @click="changeLngLat">Move Marker</button>
+    <button @click="changeStyle">Random Style</button>
+    <button @click="changeHeight">Resize Map</button>
+    <button @click="toggleMap">Toggle Map</button>
   </div>
 </template>
 

@@ -242,7 +242,7 @@ onMounted(() => {
     if (!map.value) {
         map = defineMapboxInstance(props.mapId, {
             ...props.options,
-            container: props.mapId,
+            container: mapContainerRef.value || props.mapId,
         });
     }
 
