@@ -31,11 +31,11 @@
         marker-id="customHTMLMarker"
         :lnglat="{ lng: 87, lat: 12 }"
         :options="{
-            draggable: true
+          draggable: true
         }"
       >
         <template #marker>
-          <h1>Easy Html!</h1>
+          <button @click="showAlert">Map Button!</button>
         </template>
       </MapboxDefaultMarker>
       <MapboxDefaultMarker 
