@@ -27,6 +27,17 @@
         source-id="geojson"
         :source="source"
       />
+      <MapboxDefaultMarker
+        marker-id="customHTMLMarker"
+        :lnglat="{ lng: 87, lat: 12 }"
+        :options="{
+            draggable: true
+        }"
+      >
+        <template #marker>
+          <h1>Easy Html!</h1>
+        </template>
+      </MapboxDefaultMarker>
       <MapboxDefaultMarker 
         v-model:lnglat="lnglat"
         marker-id="marker1"
@@ -44,7 +55,9 @@
         >
           <h1 class="test">
             Hello World! {{ lnglat }}
-            <button @click="showAlert">Click Me!</button>
+            <button @click="showAlert">
+              Click Me!
+            </button>
           </h1>
         </MapboxDefaultPopup>
       </MapboxDefaultMarker>
@@ -55,17 +68,34 @@
         }"
       />
       <TestControl />
-      <MapboxGeocoder v-model="geocoderRes" @result="(result) => { console.log(result) }" ref="geocoderRef" position="top-left" />
+      <MapboxGeocoder
+        ref="geocoderRef"
+        v-model="geocoderRes"
+        position="top-left"
+        @result="(result) => { console.log(result) }"
+      />
     </MapboxMap>
     <NuxtLink to="/test">
       TEST
     </NuxtLink>
-    <button @click="enabled = !enabled">Toggle Data</button>
-    <button @click="changeData">Change Data</button>
-    <button @click="changeLngLat">Move Marker</button>
-    <button @click="changeStyle">Random Style</button>
-    <button @click="changeHeight">Resize Map</button>
-    <button @click="toggleMap">Toggle Map</button>
+    <button @click="enabled = !enabled">
+      Toggle Data
+    </button>
+    <button @click="changeData">
+      Change Data
+    </button>
+    <button @click="changeLngLat">
+      Move Marker
+    </button>
+    <button @click="changeStyle">
+      Random Style
+    </button>
+    <button @click="changeHeight">
+      Resize Map
+    </button>
+    <button @click="toggleMap">
+      Toggle Map
+    </button>
   </div>
 </template>
 

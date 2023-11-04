@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type MarkerOptions, type LngLatLike, Marker } from "mapbox-gl";
-import { defineMapboxMarker, onMounted, provide, ref, watch } from "#imports";
-import { useVModel } from "@vueuse/core";
+import { computed, defineMapboxMarker, onMounted, provide, ref, useSlots, watch } from "#imports";
+import { syncRefs, useVModel } from "@vueuse/core";
 
 const props = withDefaults(
     defineProps<{ markerId: string; options?: MarkerOptions; lnglat: LngLatLike }>(),
@@ -20,7 +20,7 @@ const lnglat = useVModel(props, "lnglat", emit);
 const markerRef = ref<Marker>();
 provide("MarkerRef", markerRef);
 
-const newOptions = ref({...props.options, lnglat: lnglat.value})
+const newOptions = ref({...props.options, lnglat: lnglat.value});
 
 watch(() => newOptions.value.lnglat, () => {
     lnglat.value = newOptions.value.lnglat;
@@ -30,8 +30,14 @@ watch(() => props.options, () => {
     newOptions.value = {...props.options, lnglat: lnglat.value}
 });
 
+const customHTMLRef = ref<HTMLElement | null>(null);
+const slots = useSlots();
 onMounted(() => {
-    markerRef.value = defineMapboxMarker(props.markerId, newOptions);
+    if (slots['marker']) {
+        syncRefs(defineMapboxMarker(props.markerId, newOptions, customHTMLRef), markerRef);
+    } else {
+        markerRef.value = defineMapboxMarker(props.markerId, newOptions);
+    }
     const marker = markerRef.value;
 
     if (lnglat) marker?.setLngLat(lnglat.value);
@@ -50,5 +56,11 @@ onMounted(() => {
 
 <template>
   <div />
+  <div
+    ref="customHTMLRef"
+    hidden
+  >
+    <slot name="marker" />
+  </div>
   <slot />
 </template>

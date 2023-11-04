@@ -4,8 +4,6 @@ import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxM
 import mapboxgl, { type MarkerOptions, Marker } from 'mapbox-gl';
 import type { MapboxMarkerObject } from '../../module';
 
-
-
 /**
  * Create a new Marker instance for a component. Will be automatically added to map if it is nested in MapboxMap
  * 
@@ -21,7 +19,7 @@ export function defineMapboxMarker(
     options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>,
     markerHTML: Ref<HTMLElement | null>,
     callback?: (marker: Marker) => void,
-    mapID?: string ): Ref<Marker | null> | undefined
+    mapID?: string ): Ref<Marker | undefined>
 
 /**
  * Create a new Marker instance for a component. Will be automatically added to map if it is nested in MapboxMap
@@ -36,7 +34,7 @@ export function defineMapboxMarker(markerID: string,
 //TODO: MutationObserver on html so it is reactive
 export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
     if (process.server) return;
-    const markerRef = ref<Marker | null>(null);
+    const markerRef = ref<Marker>();
     const mapId = inject<string>('MapID')
 
     function initMarker() {
@@ -44,7 +42,7 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
         if (markerHTML) {
             whenever(markerHTML, () => {
                 if (markerHTML.value) {
-                    markerHTML.value.remove();
+                    markerHTML.value.hidden = false;
 
                     const mapbox_marker_instances: Ref<MapboxMarkerObject> = useState('mapbox_marker_instances', () => {return {}});
                     mapbox_marker_instances.value[markerID] = new mapboxgl.Marker({element: markerHTML.value, ...markerOptions});
