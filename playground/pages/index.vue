@@ -188,12 +188,6 @@ function changeHeight() {
   height.value = height.value - 100;
 }
 
-useMapboxPopup('popup1', (popup) => {
-    popup.getElement().addEventListener('click', () => {
-      console.log('popup clicked');
-    });
-});
-
 const geocoderRef = ref<InstanceType<typeof MapboxGeocoder>>()
 const geocoder = computed(() => geocoderRef.value?.geocoder);
 
