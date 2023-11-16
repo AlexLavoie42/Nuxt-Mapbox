@@ -1,6 +1,5 @@
 import { whenever } from '@vueuse/core';
-import type { Ref } from 'vue';
-import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useState, watch } from '#imports';
+import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useState, watch, type Ref } from '#imports';
 import mapboxgl, { type MarkerOptions, Marker } from 'mapbox-gl';
 import type { MapboxMarkerObject } from '../../module';
 
@@ -34,6 +33,12 @@ export function defineMapboxMarker(markerID: string,
 //TODO: MutationObserver on html so it is reactive
 export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
     if (process.server) return;
+
+    if (useMapboxMarkerRef(markerID).value) {
+        console.warn(`Mapbox marker with ID '${markerID}' was initialized multiple times. This can cause unexpected behaviour.`);
+        return useMapboxMarkerRef(markerID);
+    }
+
     const markerRef = ref<Marker>();
     const mapId = inject<string>('MapID')
 

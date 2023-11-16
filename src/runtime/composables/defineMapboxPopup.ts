@@ -1,8 +1,7 @@
-import { ref, type Ref } from 'vue';
 import { Popup, type PopupOptions } from "mapbox-gl";
-import { isRef, watch, inject, useMapbox } from '#imports';
+import { isRef, watch, inject, useMapbox, useMapboxPopupRef } from '#imports';
 import { whenever } from '@vueuse/core';
-import { useState } from '#imports';
+import { useState, ref, type Ref } from '#imports';
 import { type MapboxPopupsObject } from '../../module';
 
 /**
@@ -14,6 +13,11 @@ import { type MapboxPopupsObject } from '../../module';
 export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<PopupOptions>, popupHTML: Ref<HTMLElement | null> = ref(null), mapID: string = ""): Popup | undefined {
     const mapId = inject<string>('MapID')
     if (process.server) return;
+
+    if (useMapboxPopupRef(popupID).value) {
+        console.warn(`Mapbox marker with ID '${popupID}' was initialized multiple times. This can cause unexpected behaviour.`);
+        return useMapboxPopupRef(popupID).value;
+    }
     
     const popupInstances = useState<MapboxPopupsObject>('mapbox_popup_instances', () => {return {}});
     if (isRef(options)) {
