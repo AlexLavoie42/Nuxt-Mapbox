@@ -93,14 +93,10 @@ export function defineMapboxMarker(markerID: string, options: MarkerOptions & { 
             if (newOptions.rotation !== oldOptions?.rotation && newOptions.rotation !== undefined) {
                 currentMarker.value?.setRotation(newOptions.rotation);
             }
-        }, { deep: true });
-
-        watch(() => options.value.lnglat, () => {
-            const currentMarker = useMapboxMarkerRef(markerID);
             if (currentMarker.value?.getLngLat() !== options.value.lnglat) {
                 currentMarker.value?.setLngLat(options.value.lnglat);
             }
-        })
+        }, { deep: true });
 
         useMapboxMarker(markerID, (marker) => {
             marker.on('drag', () => {
