@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ScaleControl } from 'mapbox-gl'
 import { inject, onMounted, onUnmounted, ref, useMapbox } from "#imports";
 
 interface Props {
@@ -16,12 +17,12 @@ const props = withDefaults(defineProps<Props>(), {
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
-const controlRef = ref<mapboxgl.FullscreenControl>();
+const controlRef = ref<ScaleControl>();
 
 onMounted(() => {
     useMapbox(mapId, (map) => {
         //@ts-ignore
-        const control = new mapboxgl.ScaleControl(props.options)
+        const control = new ScaleControl(props.options)
         controlRef.value = control;
 
         map.addControl(control, props.position);

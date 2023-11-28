@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AttributionControl } from 'mapbox-gl'
-import { useMapbox, inject, onMounted } from "#imports";
+import { useMapbox, inject, onMounted, onUnmounted, ref } from "#imports";
 
 interface AttributionControlOptions {
     compact?: boolean;
@@ -19,11 +19,15 @@ const props = withDefaults(defineProps<Props>(), {
 const mapId = inject<string>("MapID");
 if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
+const controlRef = ref<AttributionControl>();
+
 onMounted(() => {
     useMapbox(mapId, (map) => {
         function addControl() {
+            const control = new AttributionControl(props.options)
+            controlRef.value = control;
             map?.addControl(
-                new AttributionControl(props.options),
+                control,
                 props.position
             );
         }
@@ -31,6 +35,12 @@ onMounted(() => {
         map.on("load", addControl);
     });
 });
+
+onUnmounted(() => {
+    useMapbox(mapId, (map) => {
+        if (controlRef.value) map.removeControl(controlRef.value);
+    })
+})
 </script>
 
 <template>
