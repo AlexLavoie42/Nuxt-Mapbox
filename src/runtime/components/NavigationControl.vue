@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NavigationControl } from 'mapbox-gl'
-import { useMapbox, inject, onMounted, ref } from "#imports";
+import { useMapbox, inject, onMounted, ref, onUnmounted } from "#imports";
 
 interface NavigationControlOptions {
     showCompass?: boolean;
@@ -34,7 +34,7 @@ onMounted(() => {
     });
 });
 
-onMounted(() => {
+onUnmounted(() => {
     useMapbox(mapId, (map) => {
         if (controlRef.value) map.removeControl(controlRef.value);
     })
