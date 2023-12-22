@@ -79,7 +79,42 @@ useMapbox(mapId, (map) => {
     }
 
     addLayer();
+
+    if ((props.layer as Layer).minzoom) {
+        watch((props.layer as Layer).minzoom, (value) => {
+            map?.setLayerZoomRange(props.layer.id, value, (props.layer as Layer).maxzoom)
+        });
+    }
+
+    if ((props.layer as Layer).maxzoom) {
+        watch((props.layer as Layer).maxzoom, (value) => {
+            map?.setLayerZoomRange(props.layer.id, (props.layer as Layer).minzoom, value)
+        });
+    }
+
+    if ((props.layer as Layer).paint) {
+        watch((props.layer as Layer).paint, (value) => {
+            for (const prop of Object.keys(value)) {
+                map?.setPaintProperty(props.layer.id, prop, value[prop])
+            }
+        }, { deep: true });
+    }
+
+    if ((props.layer as Layer).layout) {
+        watch((props.layer as Layer).layout, (value) => {
+            for (const prop of Object.keys(value)) {
+                map?.setLayoutProperty(props.layer.id, prop, value[prop])
+            }
+        }, { deep: true });
+    }
+
+    if ((props.layer as Layer).filter) {
+        watch((props.layer as Layer).filter, (value) => {
+            map?.setFilter(props.layer.id, value)
+        }, { deep: true });
+    }
 });
+
 
 onUnmounted(() => {
     useMapbox(mapId, (map) => {
