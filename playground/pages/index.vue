@@ -15,11 +15,7 @@
     >
       <MapboxLayer
         v-if="enabled"
-        :layer="{
-          source: 'geojson',
-          id: 'geojson-layer',
-          type: 'fill'
-        }"
+        :layer="layerRef"
         @click="showAlert"
       />
       <MapboxSource 
@@ -84,6 +80,9 @@
     <button @click="changeData">
       Change Data
     </button>
+    <button @click="changeColor">
+      Change Color
+    </button>
     <button @click="changeLngLat">
       Move Marker
     </button>
@@ -102,6 +101,7 @@
 <script setup lang="ts">
 import {computed, ref, useMapboxMarkerRef, useMapboxPopup, useMapboxPopupRef, useMapboxRef} from "#imports"
 import { MapboxGeocoder } from '#components'
+import type { FillLayer } from "mapbox-gl"
 function showAlert() {
   alert("Wow")
 }
@@ -192,4 +192,20 @@ const geocoderRef = ref<InstanceType<typeof MapboxGeocoder>>()
 const geocoder = computed(() => geocoderRef.value?.geocoder);
 
 const geocoderRes = ref();
+
+const layerRef = ref<FillLayer>({
+  source: "geojson",
+  id: "geojson-layer",
+  type: "fill",
+  paint: {
+    "fill-color": "rgb(0,0,0)",
+  },
+});
+
+function changeColor() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  layerRef.value.paint!["fill-color"] = `rgb(${r}, ${g}, ${b})`;
+}
 </script>
