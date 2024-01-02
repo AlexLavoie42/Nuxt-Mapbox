@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import {type AnyLayer, type Layer, MapMouseEvent } from "mapbox-gl";
 import { inject } from "vue";
-import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs } from "#imports";
+import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef } from "#imports";
 import { whenever } from "@vueuse/core";
 
 interface Props {
@@ -79,42 +79,36 @@ useMapbox(mapId, (map) => {
     }
 
     addLayer();
-
-    if ((props.layer as Layer).minzoom) {
-        watch((props.layer as Layer).minzoom, (value) => {
-            map?.setLayerZoomRange(props.layer.id, value, (props.layer as Layer).maxzoom)
-        });
-    }
-
-    if ((props.layer as Layer).maxzoom) {
-        watch((props.layer as Layer).maxzoom, (value) => {
-            map?.setLayerZoomRange(props.layer.id, (props.layer as Layer).minzoom, value)
-        });
-    }
-
-    if ((props.layer as Layer).paint) {
-        watch((props.layer as Layer).paint, (value) => {
-            for (const prop of Object.keys(value)) {
-                map?.setPaintProperty(props.layer.id, prop, value[prop])
-            }
-        }, { deep: true });
-    }
-
-    if ((props.layer as Layer).layout) {
-        watch((props.layer as Layer).layout, (value) => {
-            for (const prop of Object.keys(value)) {
-                map?.setLayoutProperty(props.layer.id, prop, value[prop])
-            }
-        }, { deep: true });
-    }
-
-    if ((props.layer as Layer).filter) {
-        watch((props.layer as Layer).filter, (value) => {
-            map?.setFilter(props.layer.id, value)
-        }, { deep: true });
-    }
 });
 
+watch(() => props.layer, (newLayer, oldLayer) => {
+    const map = useMapboxRef(mapId);
+    if (newLayer) {
+        if ((newLayer as Layer).minzoom) {
+            map.value?.setLayerZoomRange(newLayer.id, (newLayer as Layer).minzoom || 0, (newLayer as Layer).maxzoom || 0);
+        }
+
+        if ((newLayer as Layer).maxzoom) {
+            map.value?.setLayerZoomRange(newLayer.id, (newLayer as Layer).minzoom || 0, (newLayer as Layer).maxzoom || 0);
+        }
+
+        if ((newLayer as Layer).paint) {
+            for (const prop of Object.keys((newLayer as Layer).paint || {})) {
+                map.value?.setPaintProperty(newLayer.id, prop, (newLayer as Layer).paint?.[prop as keyof Layer["paint"]]);
+            }
+        }
+
+        if ((newLayer as Layer).layout) {
+            for (const prop of Object.keys((newLayer as Layer).layout || {})) {
+                map.value?.setLayoutProperty(newLayer.id, prop, (newLayer as Layer).layout?.[prop as keyof Layer["layout"]]);
+            }
+        }
+
+        if ((newLayer as Layer).filter) {
+            map.value?.setFilter(newLayer.id, (newLayer as Layer).filter)
+        }
+    }
+});
 
 onUnmounted(() => {
     useMapbox(mapId, (map) => {
