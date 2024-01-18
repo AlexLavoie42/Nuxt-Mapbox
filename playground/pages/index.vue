@@ -175,7 +175,7 @@ function changeLngLat() {
   lnglat.value = [lnglat.value[0] + 1, lnglat.value[1] + 1];
 }
 
-const style = ref('mapbox://styles/mapbox/streets-v12');
+const style = ref('mapbox://styles/mapbox/standard');
 function changeStyle() {
     const styles = ['satellite-streets-v12', 'light-v11', 'dark-v11', 'streets-v12'];
     const randStyle = styles[Math.floor(Math.random() * styles.length)];
