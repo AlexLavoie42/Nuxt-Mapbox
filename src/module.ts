@@ -1,5 +1,6 @@
 import { defineNuxtModule, createResolver, addImportsDir, addComponentsDir } from '@nuxt/kit'
 import type { RuntimeConfig, AppConfig } from '@nuxt/schema';
+import type { MapboxOptions, Map, Popup, Marker } from 'mapbox-gl';
 import { defu } from 'defu'
 // Module options TypeScript inteface definition
 export interface NuxtMapboxOptions {
@@ -22,16 +23,16 @@ type ModuleOptions = NuxtMapboxOptions & InternalOptions;
 export type ExtendedAppConfig = AppConfig & { _MAPBOX_CONFIG: NuxtMapboxOptions }
 export type ExtendedRuntimeConfig = RuntimeConfig & { public: { mapbox: NuxtMapboxOptions } }
 
-export type MapboxComponentOptions = Omit<mapboxgl.MapboxOptions, "container">;
+export type MapboxComponentOptions = Omit<MapboxOptions, "container">;
 
 export interface MapboxInstancesObject {
-  [key: string]: { map: mapboxgl.Map, loaded: boolean }
+  [key: string]: { map: Map, loaded: boolean }
 }
 export interface MapboxPopupsObject {
-[key: string]: mapboxgl.Popup
+[key: string]: Popup
 }
 export interface MapboxMarkerObject {
-[key: string]: mapboxgl.Marker
+[key: string]: Marker
 }
 
 export default defineNuxtModule<ModuleOptions>({
