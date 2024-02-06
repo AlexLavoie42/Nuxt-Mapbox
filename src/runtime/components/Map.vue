@@ -33,6 +33,9 @@ const props = defineProps<{
     onTiledataloading?: Function;
     onSourcedataloading?: Function;
     onStyledataloading?: Function;
+    onStyleImageMissing?: Function;
+    onStyleload?: Function;
+    onStyleimportload?: Function;
     onSourcedata?: Function;
     onStyledata?: Function;
     onBoxzoomcancel?: Function;
@@ -86,6 +89,8 @@ const emit = defineEmits<{
     (e: "styledataloading", event: MapDataEvent): void;
     (e: "sourcedataloading", event: MapDataEvent): void;
     (e: "styleimagemissing", event: MapDataEvent): void;
+    (e: "styleload", event: MapDataEvent): void;
+    (e: "styleimportload", event: MapDataEvent): void;
 
     (
         e: "movestart",
@@ -192,10 +197,13 @@ watch(() => {
     for (const [key, v] of value) {
         if (v) {
             const passMap = ["resize", "remove", "load", "render", "idle", "error", "webglcontextlost", "webglcontextrestored"];
-            const eventName = key.toString().replace('on', '').toLowerCase();
+            const eventName = key.toString().replace('on', '').toLowerCase() as keyof typeof emit;
+            let mbEventName = eventName as string;
+            if (eventName === 'styleload') mbEventName = 'style.load';
+            if (eventName === 'styleimportload') mbEventName = 'style.import.load';
             useMapboxBeforeLoad(props.mapId, (map) => {
-                map.on(eventName, (e) => {
-                    emit(eventName as keyof typeof emit, passMap.includes(eventName) ? map : e);
+                map.on(mbEventName, (e) => {
+                    emit(eventName, passMap.includes(eventName) ? map : e);
                 })
             })
         }

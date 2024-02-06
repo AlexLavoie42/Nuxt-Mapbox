@@ -12,6 +12,7 @@
       :style="{
         height: `${height}px`
       }"
+      @styleload="() => { console.log('style loaded') }"
     >
       <MapboxLayer
         v-if="enabled"
