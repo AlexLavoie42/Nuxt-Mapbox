@@ -19,14 +19,12 @@ if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
 const controlRef = ref<ScaleControl>();
 
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        //@ts-ignore
-        const control = new ScaleControl(props.options)
-        controlRef.value = control;
+useMapbox(mapId, (map) => {
+    //@ts-ignore
+    const control = new ScaleControl(props.options)
+    controlRef.value = control;
 
-        map.addControl(control, props.position);
-    });
+    map.addControl(control, props.position);
 });
 onUnmounted(() => {
     useMapbox(mapId, (map) => {

@@ -71,6 +71,11 @@
         position="top-left"
         @result="(result) => { console.log(result) }"
       />
+      <MapboxAttributionControl />
+      <MapboxScaleControl />
+      <MapboxNavigationControl />
+      <MapboxFullscreenControl />
+      <MapboxGeolocateControl />
     </MapboxMap>
     <NuxtLink to="/test">
       TEST

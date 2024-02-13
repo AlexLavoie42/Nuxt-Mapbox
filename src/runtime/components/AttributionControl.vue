@@ -21,19 +21,13 @@ if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
 const controlRef = ref<AttributionControl>();
 
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        function addControl() {
-            const control = new AttributionControl(props.options)
-            controlRef.value = control;
-            map?.addControl(
-                control,
-                props.position
-            );
-        }
-
-        map.on("load", addControl);
-    });
+useMapbox(mapId, (map) => {
+    const control = new AttributionControl(props.options)
+    controlRef.value = control;
+    map?.addControl(
+        control,
+        props.position
+    );
 });
 
 onUnmounted(() => {
