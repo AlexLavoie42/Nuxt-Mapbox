@@ -34,28 +34,26 @@ if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
 const geolocateRef = ref<GeolocateControl>();
 
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        const geolocate = new GeolocateControl(props.options);
-        geolocateRef.value = geolocate;
+useMapbox(mapId, (map) => {
+    const geolocate = new GeolocateControl(props.options);
+    geolocateRef.value = geolocate;
 
-        map?.addControl(geolocate, props.position);
-        
-        geolocate.on("geolocate", () => {
-            emit("geolocate", geolocate);
-        });
-        geolocate.on("error", () => {
-            emit("error", geolocate);
-        });
-        geolocate.on("outofmaxbounds", () => {
-            emit("outofmaxbounds", geolocate);
-        });
-        geolocate.on("trackuserlocationstart", () => {
-            emit("trackuserlocationstart", geolocate);
-        });
-        geolocate.on("trackuserlocationend", () => {
-            emit("trackuserlocationend", geolocate);
-        });
+    map?.addControl(geolocate, props.position);
+    
+    geolocate.on("geolocate", () => {
+        emit("geolocate", geolocate);
+    });
+    geolocate.on("error", () => {
+        emit("error", geolocate);
+    });
+    geolocate.on("outofmaxbounds", () => {
+        emit("outofmaxbounds", geolocate);
+    });
+    geolocate.on("trackuserlocationstart", () => {
+        emit("trackuserlocationstart", geolocate);
+    });
+    geolocate.on("trackuserlocationend", () => {
+        emit("trackuserlocationend", geolocate);
     });
 });
 

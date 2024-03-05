@@ -12,6 +12,7 @@
       :style="{
         height: `${height}px`
       }"
+      @styleload="() => { console.log('style loaded') }"
     >
       <MapboxLayer
         v-if="enabled"
@@ -70,6 +71,11 @@
         position="top-left"
         @result="(result) => { console.log(result) }"
       />
+      <MapboxAttributionControl />
+      <MapboxScaleControl />
+      <MapboxNavigationControl />
+      <MapboxFullscreenControl />
+      <MapboxGeolocateControl />
     </MapboxMap>
     <NuxtLink to="/test">
       TEST

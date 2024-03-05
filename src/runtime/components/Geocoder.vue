@@ -37,37 +37,34 @@ const mapId = inject<string>("MapID");
 const containerRef = ref<HTMLDivElement>();
 
 if (mapId) {
-    onMounted(() => {
-        useMapbox(mapId, async (map) => {
-            await geocoderPromise;
-            //@ts-ignore TODO: Figure out typing while getting around #2
-            const geocoder = new MapboxGeocoder({
-                //@ts-ignore
-                accessToken: mapboxgl.accessToken,
-                //@ts-ignore
-                mapboxgl,
-                ...props.options,
-            })
-            geocoderRef.value = geocoder;
-            map?.addControl(geocoder, props.position);
-
-            geocoder.on('clear', () => {
-                emit("update:modelValue", undefined);
-                emit("clear");
-            });
-            geocoder.on('loading', (q) => {
-                emit("loading", q);
-            });
-            geocoder.on('results', (r) => {
-                emit("results", r);
-            });
-            geocoder.on('result', (r) => {
-                emit("update:modelValue", r.result);
-                emit("result", r);
-            });
-            geocoder.on('error', (e) => {
-                emit("error", e);
-            });
+    useMapbox(mapId, async (map) => {
+        await geocoderPromise;
+        //@ts-ignore TODO: Figure out typing while getting around #2
+        const geocoder = new MapboxGeocoder({
+            //@ts-ignore
+            accessToken: mapboxgl.accessToken,
+            //@ts-ignore
+            mapboxgl,
+            ...props.options,
+        })
+        geocoderRef.value = geocoder;
+        map?.addControl(geocoder, props.position);
+        geocoder.on('clear', () => {
+            emit("update:modelValue", undefined);
+            emit("clear");
+        });
+        geocoder.on('loading', (q) => {
+            emit("loading", q);
+        });
+        geocoder.on('results', (r) => {
+            emit("results", r);
+        });
+        geocoder.on('result', (r) => {
+            emit("update:modelValue", r.result);
+            emit("result", r);
+        });
+        geocoder.on('error', (e) => {
+            emit("error", e);
         });
     });
     onUnmounted(() => {

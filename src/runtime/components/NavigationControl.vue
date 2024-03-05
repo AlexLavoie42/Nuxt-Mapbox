@@ -21,17 +21,15 @@ if (!mapId) throw "Mapbox Controls must be placed inside a Map component";
 
 const controlRef = ref<NavigationControl>();
 
-onMounted(() => {
-    useMapbox(mapId, (map) => {
-        //@ts-ignore
-        const control = new NavigationControl(props.options)
-        controlRef.value = control;
+useMapbox(mapId, (map) => {
+    //@ts-ignore
+    const control = new NavigationControl(props.options)
+    controlRef.value = control;
 
-        map?.addControl(
-            control,
-            props.position
-        );
-    });
+    map?.addControl(
+        control,
+        props.position
+    );
 });
 
 onUnmounted(() => {
