@@ -14,7 +14,7 @@ const emit = defineEmits<{
 }>();
 
 async function initGeocoder() {
-    if (process.client) {
+    if (import.meta.client) {
         //@ts-ignore TODO: Get geocoder module import working
         const MapboxGeocoder = await import('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js');
         initMapbox();

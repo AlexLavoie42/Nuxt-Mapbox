@@ -5,7 +5,7 @@ import type { ExtendedRuntimeConfig } from '../../module';
 import { useRuntimeConfig } from '#imports'
 
 export function initMapbox() {
-    if (process.server) return;
+    if (import.meta.server) return;
 
     const init = useState('mapbox_init', () => false);
     if (init.value) return;
