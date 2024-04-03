@@ -30,6 +30,7 @@
 
 ```bash
 npx nuxi@latest module add nuxt-mapbox
+npm install --save-dev mapbox-gl
 ```
 
 2. Add `nuxt-mapbox` to the `modules` section of `nuxt.config.ts`
