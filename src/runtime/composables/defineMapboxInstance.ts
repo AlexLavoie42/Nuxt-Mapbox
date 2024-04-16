@@ -20,7 +20,6 @@ export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOption
     })
     mapbox_instances.value[key].map.on("data", () => {
       triggerRef(mapbox_instances)
-      console.log(isShallow(mapbox_instances.value[key].map))
     })
     return useMapboxInstance(key)
 }
