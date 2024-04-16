@@ -1,4 +1,4 @@
-import { useMapboxInstance, initMapbox, _useMapboxInstances, ref } from "#imports"
+import { useMapboxInstance, initMapbox, _useMapboxInstances, ref, shallowReactive } from "#imports"
 import {default as mapboxgl} from 'mapbox-gl'
 
 export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOptions = {container: key}) {
@@ -9,7 +9,7 @@ export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOption
         console.warn(`Mapbox instance with key '${key}' was initialized multiple times. This can cause unexpected behaviour.`);
         return useMapboxInstance(key)
     }
-    mapbox_instances.value[key] = {map: new mapboxgl.Map(options), loaded: false};
+    mapbox_instances.value[key] = shallowReactive({map: new mapboxgl.Map(options), loaded: false});
     mapbox_instances.value[key].map.on("load", () => {
       mapbox_instances.value[key].loaded = true;
     })
