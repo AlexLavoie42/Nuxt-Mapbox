@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import {type AnyLayer, type Layer, MapMouseEvent } from "mapbox-gl";
 import { inject } from "vue";
-import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef } from "#imports";
+import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef, onMounted, _useMapboxInstanceWithLoaded } from "#imports";
 import { whenever } from "@vueuse/core";
 
 interface Props {
@@ -52,7 +52,7 @@ watch(() => {
     }
 }, {immediate: true});
 
-const mapRef = useMapboxInstance(mapId);
+const mapRef = useMapboxRef(mapId);
 const sourceExists = computed(() => {
     return !!mapRef.value?.getSource(
         (props.layer as Layer).source?.toString() || ""
