@@ -4,7 +4,7 @@ import { _useMapboxInstances, computed, ref, shallowRef, triggerRef, watch, type
 export function useMapboxRef(mapID: string): Ref<Map | undefined> {
     const instances = _useMapboxInstances();
     if (!instances) return ref();
-    const map = ref(instances.value[mapID]?.map);
+    const map = shallowRef(instances.value[mapID]?.map);
     watch(instances, () => {
         map.value = instances.value[mapID]?.map
         triggerRef(map)
