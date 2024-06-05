@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v1.6.0
+## Added
+- New custom reactivity. This improves performance to be nearly identical to vanilla mapbox, while retaining full* Vue reactivity on the map
+- Update Mapbox to `3.4.0`
+- Update Geocoder to `5.1.0`, adds V6 api support
+## Fixed
+- Fixed `Invalid watch source` on markers
+
+# v1.5.9
+## Added
+- Added style.load & style.import.load events
+## Fixed
+- fix attribution control
+
 # v1.5.8
 ## Chore
 - Various updates including mapbox-gl 3.1
