@@ -70,6 +70,9 @@
         v-model="geocoderRes"
         position="top-left"
         @result="(result) => { console.log(result) }"
+        :options="{
+          version: 'v6'
+        }"
       />
       <MapboxAttributionControl />
       <MapboxScaleControl />
