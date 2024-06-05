@@ -5,7 +5,7 @@ import { useMapboxMarkerRef } from './mapboxMarkerRef';
 export function useMapboxMarker(markerID: string, callback: (marker: Marker) => void) {
     const marker = useMapboxMarkerRef(markerID);
     if (!marker.value) {
-        watch(marker, () => {
+        watch(() => marker.value, () => {
             if (marker.value) {
                 callback(marker.value);
             }

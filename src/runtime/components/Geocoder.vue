@@ -24,7 +24,7 @@ const geocoderPromise = initGeocoder();
 
 interface Props {
     modelValue?: MapboxGeocoder.Result;
-    options?: Omit<MapboxGeocoder.GeocoderOptions, "accessToken" | "mapboxgl">;
+    options?: Omit<MapboxGeocoder.GeocoderOptions & { version?: 'v5' | 'v6' }, "accessToken" | "mapboxgl">;
     position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 const props = withDefaults(defineProps<Props>(), {

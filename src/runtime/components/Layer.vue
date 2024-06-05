@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import {type AnyLayer, type Layer, MapMouseEvent } from "mapbox-gl";
 import { inject } from "vue";
-import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef } from "#imports";
+import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef, onMounted, _useMapboxInstanceWithLoaded } from "#imports";
 import { whenever } from "@vueuse/core";
 
 interface Props {
@@ -52,16 +52,23 @@ watch(() => {
     }
 }, {immediate: true});
 
-const mapRef = useMapboxInstance(mapId);
+const mapRef = useMapboxRef(mapId);
 const sourceExists = computed(() => {
     return !!mapRef.value?.getSource(
         (props.layer as Layer).source?.toString() || ""
     );
 });
+const layerExists = computed(() => {
+    return !!mapRef.value?.getLayer(props.layer.id);
+})
 
 useMapbox(mapId, (map) => {
     function addLayer() {
         if (!sourceExists.value) {
+            return;
+        }
+        if (map.getLayer(props.layer.id)) {
+            console.warn(`Mapbox layer with id '${props.layer.id}' was initialized multiple times. This can cause unexpected behaviour.`);
             return;
         }
         if (props.beforeLayer && map.getLayer(props.beforeLayer)) {
@@ -79,6 +86,11 @@ useMapbox(mapId, (map) => {
     addLayer();
     // This causes layer to be reloaded whenever the source is.
     whenever(sourceExists, addLayer);
+    watch(layerExists, () => {
+        if (!layerExists.value && sourceExists.value) {
+            addLayer();
+        }
+    })
 });
 
 watch(() => props.layer, (newLayer, oldLayer) => {
@@ -108,11 +120,13 @@ watch(() => props.layer, (newLayer, oldLayer) => {
             map.value?.setFilter(newLayer.id, (newLayer as Layer).filter)
         }
     }
-});
+}, {deep: true});
 
 onUnmounted(() => {
     useMapbox(mapId, (map) => {
-        map?.removeLayer(props.layer.id);
+        if (map.getLayer(props.layer.id)) {
+            map?.removeLayer(props.layer.id);
+        }
     });
 });
 </script>
