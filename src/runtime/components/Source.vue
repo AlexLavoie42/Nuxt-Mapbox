@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { type AnySourceData, GeoJSONSource, type VectorSourceImpl, ImageSource, type RasterSource, Map } from "mapbox-gl";
-import { inject, onUnmounted, watch, useMapbox, computed, useMapboxInstance } from "#imports";
+import { inject, onUnmounted, watch, useMapbox, computed, useMapboxInstance, triggerRef, _useMapboxInstances } from "#imports";
 
 interface Props {
     sourceId: string;
@@ -17,7 +17,7 @@ const sourceExists = computed(() => {
     return !!mapRef.value?.getSource(props.sourceId);
 });
 
-
+const mapbox_instances = _useMapboxInstances();
 useMapbox(mapId, (map: Map) => {
     function addSource() {
         if (!sourceExists.value) {

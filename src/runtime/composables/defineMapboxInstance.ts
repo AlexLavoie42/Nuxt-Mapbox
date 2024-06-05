@@ -13,17 +13,31 @@ export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOption
     mapbox_instances.value[key].map.on("load", () => {
       mapbox_instances.value[key].loaded = true;
       triggerRef(mapbox_instances)
-      triggerRef(mapbox_instances.value[key])
+      if (mapbox_instances.value[key]) {
+        triggerRef(mapbox_instances.value[key])
+      }
+    });
+
+    mapbox_instances.value[key].map.on("style.load", () => {
+      mapbox_instances.value[key].loaded = true;
+      triggerRef(mapbox_instances)
+      if (mapbox_instances.value[key]) {
+        triggerRef(mapbox_instances.value[key])
+      }
     });
 
     mapbox_instances.value[key].map.on("idle", () => {
       triggerRef(mapbox_instances)
-      triggerRef(mapbox_instances.value[key])
+      if (mapbox_instances.value[key]) {
+        triggerRef(mapbox_instances.value[key])
+      }
     });
 
     mapbox_instances.value[key].map.on("data", () => {
       triggerRef(mapbox_instances)
-      triggerRef(mapbox_instances.value[key])
+      if (mapbox_instances.value[key]) {
+        triggerRef(mapbox_instances.value[key])
+      }
     });
     return useMapboxInstance(key)
 }

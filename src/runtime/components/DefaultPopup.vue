@@ -46,11 +46,6 @@ onMounted(() => {
     }
 });
 
-onUnmounted(() => {
-    popupRef.value?.remove();
-});
-
-// TODO: Move to defineMapboxPopup
 watch(() => props.lnglat, () => {
     if (props.lnglat) popupRef.value?.setLngLat(props.lnglat);
 });

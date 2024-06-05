@@ -1,5 +1,5 @@
 import { Popup, type PopupOptions } from "mapbox-gl";
-import { isRef, watch, inject, useMapbox, useMapboxPopupRef } from '#imports';
+import { isRef, watch, inject, useMapbox, useMapboxPopupRef, onUnmounted } from '#imports';
 import { whenever } from '@vueuse/core';
 import { useState, ref, type Ref } from '#imports';
 import { type MapboxPopupsObject } from '../../module';
@@ -42,6 +42,15 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
             popupInstance.setDOMContent(popupHTML.value);
         }
     }, { immediate: true })
+
+    onUnmounted(() => {
+        const currentPopup = useMapboxPopupRef(popupID);
+        if (currentPopup.value) {
+            currentPopup.value.remove();
+            const mapbox_popup_instances: Ref<MapboxPopupObject> = useState('mapbox_popup_instances', () => {return {}});
+            delete mapbox_popup_instances.value[popupID];
+        }
+    })
 
     return popupInstance;
 }
