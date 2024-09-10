@@ -26,7 +26,7 @@ watch(() => newOptions.value.lnglat, () => {
     lnglat.value = newOptions.value.lnglat;
 });
 
-watch(() => props, () => {
+watch(props, () => {
     newOptions.value = {...props.options, lnglat: lnglat.value}
 });
 
