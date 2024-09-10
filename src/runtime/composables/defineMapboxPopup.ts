@@ -47,7 +47,7 @@ export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<P
         const currentPopup = useMapboxPopupRef(popupID);
         if (currentPopup.value) {
             currentPopup.value.remove();
-            const mapbox_popup_instances: Ref<MapboxPopupObject> = useState('mapbox_popup_instances', () => {return {}});
+            const mapbox_popup_instances: Ref<MapboxPopupsObject> = useState('mapbox_popup_instances', () => {return {}});
             delete mapbox_popup_instances.value[popupID];
         }
     })

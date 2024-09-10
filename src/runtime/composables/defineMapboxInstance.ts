@@ -1,4 +1,4 @@
-import { useMapboxInstance, initMapbox, _useMapboxInstances, ref, shallowReactive, shallowRef, triggerRef, isShallow, markRaw } from "#imports"
+import { useMapboxInstance, initMapbox, _useMapboxInstances, ref, shallowReactive, triggerRef, toRef } from "#imports"
 import {default as mapboxgl} from 'mapbox-gl'
 
 export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOptions = {container: key}) {
@@ -14,7 +14,7 @@ export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOption
       mapbox_instances.value[key].loaded = true;
       triggerRef(mapbox_instances)
       if (mapbox_instances.value[key]) {
-        triggerRef(mapbox_instances.value[key])
+        triggerRef(toRef(mapbox_instances.value[key]))
       }
     });
 
@@ -22,21 +22,21 @@ export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOption
       mapbox_instances.value[key].loaded = true;
       triggerRef(mapbox_instances)
       if (mapbox_instances.value[key]) {
-        triggerRef(mapbox_instances.value[key])
+        triggerRef(toRef(mapbox_instances.value[key]))
       }
     });
 
     mapbox_instances.value[key].map.on("idle", () => {
       triggerRef(mapbox_instances)
       if (mapbox_instances.value[key]) {
-        triggerRef(mapbox_instances.value[key])
+        triggerRef(toRef(mapbox_instances.value[key]))
       }
     });
 
     mapbox_instances.value[key].map.on("data", () => {
       triggerRef(mapbox_instances)
       if (mapbox_instances.value[key]) {
-        triggerRef(mapbox_instances.value[key])
+        triggerRef(toRef(mapbox_instances.value[key]))
       }
     });
     return useMapboxInstance(key)
