@@ -1,7 +1,10 @@
 export default defineNuxtConfig({
   modules: ['../src/module'],
   devtools: false,
+
   mapbox: {
-    accessToken: 'pk.eyJ1IjoiYWxleGxhdm9pZSIsImEiOiJja3RhZmpqZmoxbGlzMndvOGtueDFxYTU3In0.nyGbO7RFkmwC_kYseOZ4Dw'
-  }
+    accessToken: 'pk.eyJ1IjoicHJvcGVyYXRlIiwiYSI6ImNsMXdvcmk0bTAyNHkzanFwbDF4NXVsY3YifQ.ze75ncd4hTN1pMIlY0DuJA'
+  },
+
+  compatibilityDate: '2024-09-10'
 })
