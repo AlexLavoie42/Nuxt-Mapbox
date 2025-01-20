@@ -57,11 +57,11 @@ if (mapId) {
             emit("loading", q);
         });
         geocoder.on('results', (r) => {
-            emit("results", r);
+            emit("results", r.features);
         });
         geocoder.on('result', (r) => {
             emit("update:modelValue", r.result);
-            emit("result", r);
+            emit("result", r.result);
         });
         geocoder.on('error', (e) => {
             emit("error", e);
