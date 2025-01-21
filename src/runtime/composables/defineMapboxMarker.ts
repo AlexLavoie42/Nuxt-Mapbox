@@ -32,7 +32,7 @@ export function defineMapboxMarker(markerID: string,
 
 //TODO: MutationObserver on html so it is reactive
 export function defineMapboxMarker(markerID: string, options: MarkerOptions & { lnglat: mapboxgl.LngLatLike } | Ref<MarkerOptions & { lnglat: mapboxgl.LngLatLike }>, markerHTML?: Ref<HTMLElement | null> | undefined, callback?: Function, mapID: string = ""): any {
-    if (process.server) return;
+    if (import.meta.server) return;
 
     if (useMapboxMarkerRef(markerID).value) {
         console.warn(`Mapbox marker with ID '${markerID}' was initialized multiple times. This can cause unexpected behaviour.`);

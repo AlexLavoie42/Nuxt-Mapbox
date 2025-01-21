@@ -12,7 +12,7 @@ import { type MapboxPopupsObject } from '../../module';
  */
 export function defineMapboxPopup(popupID: string, options: PopupOptions | Ref<PopupOptions>, popupHTML: Ref<HTMLElement | null> = ref(null), mapID: string = ""): Popup | undefined {
     const mapId = inject<string>('MapID')
-    if (process.server) return;
+    if (import.meta.server) return;
 
     if (useMapboxPopupRef(popupID).value) {
         console.warn(`Mapbox marker with ID '${popupID}' was initialized multiple times. This can cause unexpected behaviour.`);
