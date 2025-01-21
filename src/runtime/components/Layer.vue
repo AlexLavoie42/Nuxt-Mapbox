@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import {type AnyLayer, type Layer, MapMouseEvent } from "mapbox-gl";
+import {type AnyLayer, type Layer, type MapEventOf, MapMouseEvent } from "mapbox-gl";
 import { inject } from "vue";
 import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef, onMounted, _useMapboxInstanceWithLoaded } from "#imports";
 import { whenever } from "@vueuse/core";
@@ -21,14 +21,14 @@ interface Props {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-    (e: "mousedown", event: MapMouseEvent): void;
-    (e: "mouseup", event: MapMouseEvent): void;
-    (e: "mouseover", event: MapMouseEvent): void;
-    (e: "mousemove", event: MapMouseEvent): void;
-    (e: "click", event: MapMouseEvent): void;
-    (e: "dblclick", event: MapMouseEvent): void;
-    (e: "mouseenter", event: MapMouseEvent): void;
-    (e: "mouseleave", event: MapMouseEvent): void;
+    (e: "mousedown", event: MapEventOf<'mousedown'>): void;
+    (e: "mouseup", event: MapEventOf<'mouseup'>): void;
+    (e: "mouseover", event: MapEventOf<'mouseover'>): void;
+    (e: "mousemove", event: MapEventOf<'mousemove'>): void;
+    (e: "click", event: MapEventOf<'click'>): void;
+    (e: "dblclick", event: MapEventOf<'dblclick'>): void;
+    (e: "mouseenter", event: MapEventOf<'mouseenter'>): void;
+    (e: "mouseleave", event: MapEventOf<'mouseleave'>): void;
 }>();
 
 const mapId = inject<string>("MapID");

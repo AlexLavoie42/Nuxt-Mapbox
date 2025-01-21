@@ -1,13 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import {
-    type EventData,
-    MapboxEvent,
-    type MapBoxZoomEvent,
-    type MapDataEvent,
-    MapMouseEvent,
-    MapTouchEvent,
-    MapWheelEvent,
+    type MapEventOf,
     Map
 } from "mapbox-gl";
 import { provide, onMounted, type StyleValue } from "vue";
@@ -82,112 +76,48 @@ const emit = defineEmits<{
     (e: "webglcontextlost", map: Map): void;
     (e: "webglcontextrestored", map: Map): void;
 
-    (e: "data", event: MapDataEvent): void;
-    (e: "styledata", event: MapDataEvent): void;
-    (e: "sourcedata", event: MapDataEvent): void;
-    (e: "dataloading", event: MapDataEvent): void;
-    (e: "styledataloading", event: MapDataEvent): void;
-    (e: "sourcedataloading", event: MapDataEvent): void;
-    (e: "styleimagemissing", event: MapDataEvent): void;
-    (e: "styleload", event: MapDataEvent): void;
-    (e: "styleimportload", event: MapDataEvent): void;
+    (e: "data", event: MapEventOf<'data'>): void;
+    (e: "styledata", event: MapEventOf<'styledata'>): void;
+    (e: "sourcedata", event: MapEventOf<'sourcedata'>): void;
+    (e: "dataloading", event: MapEventOf<'dataloading'>): void;
+    (e: "styledataloading", event: MapEventOf<'styledataloading'>): void;
+    (e: "sourcedataloading", event: MapEventOf<'sourcedataloading'>): void;
+    (e: "styleimagemissing", event: MapEventOf<'styleimagemissing'>): void;
+    (e: "styleload", event: MapEventOf<'style.load'>): void;
+    (e: "styleimportload", event: MapEventOf<'style.import.load'>): void;
 
-    (
-        e: "movestart",
-        event: MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined> & EventData
-    ): void;
-    (
-        e: "move",
-        event: MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined> & EventData
-    ): void;
-    (
-        e: "moveend",
-        event: MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined> & EventData
-    ): void;
-    (
-        e: "drag",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "dragend",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "zoomstart",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "zoom",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "zoomend",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "rotatestart",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "rotate",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "rotateend",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "pitchstart",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "pitch",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (
-        e: "pitchend",
-        event:
-            | (MapboxEvent<MouseEvent | TouchEvent | undefined> & EventData)
-            | MapTouchEvent
-    ): void;
-    (e: "boxzoomstart", event: MapBoxZoomEvent): void;
-    (e: "boxzoomend", event: MapBoxZoomEvent): void;
-    (e: "boxzoomcancel", event: MapBoxZoomEvent): void;
+    (e: "movestart", event: MapEventOf<'movestart'>): void;
+    (e: "move", event: MapEventOf<'move'>): void;
+    (e: "moveend", event: MapEventOf<'moveend'>): void;
+    (e: "drag", event: MapEventOf<'drag'>): void;
+    (e: "dragend", event: MapEventOf<'dragend'>): void;
+    (e: "zoomstart", event: MapEventOf<'zoomstart'>): void;
+    (e: "zoom", event: MapEventOf<'zoom'>): void;
+    (e: "zoomend", event: MapEventOf<'zoomend'>): void;
+    (e: "rotatestart", event: MapEventOf<'rotatestart'>): void;
+    (e: "rotate", event: MapEventOf<'rotate'>): void;
+    (e: "rotateend", event: MapEventOf<'rotateend'>): void;
+    (e: "pitchstart", event: MapEventOf<'pitchstart'>): void;
+    (e: "pitch", event: MapEventOf<'pitch'>): void;
+    (e: "pitchend", event: MapEventOf<'pitchend'>): void;
+    (e: "boxzoomstart", event: MapEventOf<'boxzoomstart'>): void;
+    (e: "boxzoomend", event: MapEventOf<'boxzoomend'>): void;
+    (e: "boxzoomcancel", event: MapEventOf<'boxzoomcancel'>): void;
 
-    (e: "mousedown", event: MapMouseEvent): void;
-    (e: "mouseup", event: MapMouseEvent): void;
-    (e: "mouseover", event: MapMouseEvent): void;
-    (e: "mousemove", event: MapMouseEvent): void;
-    (e: "preclick", event: MapMouseEvent): void;
-    (e: "click", event: MapMouseEvent): void;
-    (e: "dblclick", event: MapMouseEvent): void;
-    (e: "mouseout", event: MapMouseEvent): void;
-    (e: "contextmenu", event: MapMouseEvent): void;
-    (e: "wheel", event: MapWheelEvent): void;
-    (e: "touchstart", event: MapTouchEvent): void;
-    (e: "touchend", event: MapTouchEvent): void;
-    (e: "touchmove", event: MapTouchEvent): void;
-    (e: "touchcancel", event: MapTouchEvent): void;
+    (e: "mousedown", event: MapEventOf<'mousedown'>): void;
+    (e: "mouseup", event: MapEventOf<'mouseup'>): void;
+    (e: "mouseover", event: MapEventOf<'mouseover'>): void;
+    (e: "mousemove", event: MapEventOf<'mousemove'>): void;
+    (e: "preclick", event: MapEventOf<'preclick'>): void;
+    (e: "click", event: MapEventOf<'click'>): void;
+    (e: "dblclick", event: MapEventOf<'dblclick'>): void;
+    (e: "mouseout", event: MapEventOf<'mouseout'>): void;
+    (e: "contextmenu", event: MapEventOf<'contextmenu'>): void;
+    (e: "wheel", event: MapEventOf<'wheel'>): void;
+    (e: "touchstart", event: MapEventOf<'touchstart'>): void;
+    (e: "touchend", event: MapEventOf<'touchend'>): void;
+    (e: "touchmove", event: MapEventOf<'touchmove'>): void;
+    (e: "touchcancel", event: MapEventOf<'touchcancel'>): void;
 }>();
 
 provide("MapID", props.mapId);
