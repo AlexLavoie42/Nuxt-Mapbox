@@ -1,12 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import {type AnyLayer, type Layer, type MapEventOf, MapMouseEvent } from "mapbox-gl";
+import {type LayerSpecification, type Layer, type LayoutSpecification, type MapEventOf, MapMouseEvent, type PaintSpecification } from "mapbox-gl";
 import { inject } from "vue";
 import { computed, onUnmounted, watch, useMapboxInstance, useMapbox, useMapboxBeforeLoad, useAttrs, useMapboxRef, onMounted, _useMapboxInstanceWithLoaded } from "#imports";
 import { whenever } from "@vueuse/core";
 
 interface Props {
-    layer: AnyLayer;
+    layer: LayerSpecification;
     beforeLayer?: string;
 
     onMousedown?: Function;
@@ -94,6 +94,7 @@ useMapbox(mapId, (map) => {
 });
 
 watch(() => props.layer, (newLayer, oldLayer) => {
+    if (!mapId) return;
     const map = useMapboxRef(mapId);
     if (newLayer) {
         if ((newLayer as Layer).minzoom) {
@@ -105,13 +106,13 @@ watch(() => props.layer, (newLayer, oldLayer) => {
         }
 
         if ((newLayer as Layer).paint) {
-            for (const prop of Object.keys((newLayer as Layer).paint || {})) {
+            for (const prop of Object.keys((newLayer as Layer).paint || {}) as (keyof PaintSpecification)[]) {
                 map.value?.setPaintProperty(newLayer.id, prop, (newLayer as Layer).paint?.[prop as keyof Layer["paint"]]);
             }
         }
 
         if ((newLayer as Layer).layout) {
-            for (const prop of Object.keys((newLayer as Layer).layout || {})) {
+            for (const prop of Object.keys((newLayer as Layer).layout || {}) as (keyof LayoutSpecification)[]) {
                 map.value?.setLayoutProperty(newLayer.id, prop, (newLayer as Layer).layout?.[prop as keyof Layer["layout"]]);
             }
         }

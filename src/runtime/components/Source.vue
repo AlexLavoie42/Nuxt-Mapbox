@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { type AnySourceData, GeoJSONSource, type VectorSourceImpl, ImageSource, type RasterSource, Map } from "mapbox-gl";
+import { type SourceSpecification, GeoJSONSource, type VectorTileSource, ImageSource, Map, RasterTileSource } from "mapbox-gl";
 import { inject, onUnmounted, watch, useMapbox, computed, useMapboxInstance, triggerRef, _useMapboxInstances } from "#imports";
 
 interface Props {
     sourceId: string;
-    source: AnySourceData;
+    source: SourceSpecification;
 }
 const props = defineProps<Props>();
 
@@ -40,33 +40,28 @@ watch(() => props.source, () => {
 
     props.source.type === 'geojson'
     if (props.source.type === 'geojson' && props.source.data) {
-        // @ts-ignore TODO: Figure out how to type this. Seems like mapbox issue
         (source as GeoJSONSource).setData(props.source.data);
     }
     if (props.source.type === 'vector' && (props.source.tiles || props.source.url)) {
         if (props.source.tiles) {
-            (source as VectorSourceImpl).setTiles(props.source.tiles);
+            (source as VectorTileSource).setTiles(props.source.tiles);
         }
         if (props.source.url) {
-            (source as VectorSourceImpl).setUrl(props.source.url);
+            (source as VectorTileSource).setUrl(props.source.url);
         }
-        // @ts-ignore TODO: Not even the reload function?
-        (source as VectorSourceImpl).reload();
+        (source as VectorTileSource).reload();
     }
     if (props.source.type === 'image' && props.source.url) {
-        (source as ImageSource).updateImage(props.source);
+        (source as ImageSource).updateImage(props.source as typeof props.source & {url: string});
     }
     if (props.source.type === 'raster' && (props.source.url || props.source.tiles)) {
         if (props.source.url) {
-            // @ts-ignore TODO: Types broken once again
-            (source as RasterSource).setUrl(props.source.url);
+            (source as RasterTileSource).setUrl(props.source.url);
         }
         if(props.source.tiles) {
-            // @ts-ignore TODO: Types broken once again
-            (source as RasterSource).setTiles(props.source.tiles);
+            (source as RasterTileSource).setTiles(props.source.tiles);
         }
-        // @ts-ignore TODO: Not even the reload function?
-        (source as RasterSource).reload();
+        (source as RasterTileSource).reload();
     }
 })
 </script>

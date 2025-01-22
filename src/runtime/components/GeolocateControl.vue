@@ -1,16 +1,6 @@
 <script setup lang="ts">
-import { GeolocateControl } from "mapbox-gl";
-import { ref, inject, useMapbox, onMounted, onUnmounted, } from "#imports";
-
-interface GeolocateControlOptions {
-    positionOptions?: mapboxgl.PositionOptions;
-    fitBoundsOptions?: mapboxgl.FitBoundsOptions;
-    trackUserLocation?: boolean;
-    showAccuracyCircle?: boolean;
-    showUserLocation?: boolean;
-    showUserHeading?: boolean;
-    geolocation?: Geolocation;
-}
+import { GeolocateControl, type GeolocateControlOptions } from "mapbox-gl";
+import { ref, inject, useMapbox, onUnmounted, } from "#imports";
 
 interface Props {
     options?: GeolocateControlOptions;
