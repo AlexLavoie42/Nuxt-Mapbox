@@ -1,5 +1,29 @@
 <template>
   <div>
+    <NuxtLink to="/test">
+      TEST
+    </NuxtLink>
+    <button @click="enabled = !enabled">
+      Toggle Data
+    </button>
+    <button @click="changeData">
+      Change Data
+    </button>
+    <button @click="changeColor">
+      Change Color
+    </button>
+    <button @click="changeLngLat">
+      Move Marker
+    </button>
+    <button @click="changeStyle">
+      Random Style
+    </button>
+    <button @click="changeHeight">
+      Resize Map
+    </button>
+    <button @click="toggleMap">
+      Toggle Map
+    </button>
     <MapboxMap
       v-if="showMap"
       map-id="map2"
@@ -80,42 +104,18 @@
       <MapboxFullscreenControl />
       <MapboxGeolocateControl />
     </MapboxMap>
-    <NuxtLink to="/test">
-      TEST
-    </NuxtLink>
-    <button @click="enabled = !enabled">
-      Toggle Data
-    </button>
-    <button @click="changeData">
-      Change Data
-    </button>
-    <button @click="changeColor">
-      Change Color
-    </button>
-    <button @click="changeLngLat">
-      Move Marker
-    </button>
-    <button @click="changeStyle">
-      Random Style
-    </button>
-    <button @click="changeHeight">
-      Resize Map
-    </button>
-    <button @click="toggleMap">
-      Toggle Map
-    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import {computed, ref, useMapboxMarkerRef, useMapboxPopup, useMapboxPopupRef, useMapboxRef} from "#imports"
 import { MapboxGeocoder } from '#components'
-import type { FillLayer } from "mapbox-gl"
+import { type SourceSpecification, type FillLayer } from "mapbox-gl"
 function showAlert() {
   alert("Wow")
 }
 
-const source = ref({
+const source = ref<SourceSpecification>({
   type: 'geojson',
   data: '/test.geojson'
 });
