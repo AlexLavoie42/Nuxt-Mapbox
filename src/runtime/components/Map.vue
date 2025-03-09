@@ -185,7 +185,7 @@ onMounted(() => {
     }
 
     useResizeObserver(mapContainerRef, () => {
-        map.value?.resize()
+        setTimeout(() => map.value?.resize(), 0)
     })
 });
 
