@@ -30,7 +30,7 @@
       style="top: 80px"
       :options="{
         style, // style URL
-        center: [100.0, 0.0], // starting position [lng, lat]
+        center: [90.0, 0.0], // starting position [lng, lat]
         zoom: 3, // starting zoom
       }"
       :style="{

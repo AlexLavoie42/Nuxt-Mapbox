@@ -1,6 +1,6 @@
 import type { Ref } from "vue";
-import type { MapboxInstancesObject } from "../../module";
 import { shallowRef } from "#imports";
+import type { MapboxInstancesObject } from "../utils/types";
 
 const mapbox_instances = shallowRef({})
 

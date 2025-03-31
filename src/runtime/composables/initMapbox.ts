@@ -1,8 +1,8 @@
 import { useState } from '#app';
 import {default as mapboxgl} from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
-import type { ExtendedRuntimeConfig } from '../../module';
 import { useRuntimeConfig } from '#imports'
+import type { ExtendedRuntimeConfig } from '../utils/types';
 
 export function initMapbox() {
     if (import.meta.server) return;

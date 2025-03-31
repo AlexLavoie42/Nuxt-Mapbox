@@ -6,8 +6,8 @@ import {
 } from "mapbox-gl";
 import { provide, onMounted, type StyleValue } from "vue";
 import { cleanMapboxInstance, useMapboxRef, onUnmounted, defineMapboxInstance, watch, useMapboxBeforeLoad, ref } from "#imports";
-import type { MapboxComponentOptions } from "../../module";
 import { useResizeObserver } from "@vueuse/core";
+import type { MapboxComponentOptions } from "../utils/types";
 
 const props = defineProps<{
     mapId: string;

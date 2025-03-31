@@ -1,7 +1,7 @@
 import { type Ref, computed } from 'vue';
 import { Popup } from "mapbox-gl";
 import { useState } from "#imports";
-import type { MapboxPopupsObject } from '../../module';
+import type { MapboxPopupsObject } from '../utils/types';
 
 export function useMapboxPopupRef(markerID: string): Ref<Popup> {
     return computed(() => {

@@ -1,7 +1,7 @@
 import { whenever } from '@vueuse/core';
 import { inject, isRef, onUnmounted, ref, useMapbox, useMapboxMarker, useMapboxMarkerRef, useState, watch, type Ref } from '#imports';
 import mapboxgl, { type MarkerOptions, Marker } from 'mapbox-gl';
-import type { MapboxMarkerObject } from '../../module';
+import type { MapboxMarkerObject } from '../utils/types';
 
 /**
  * Create a new Marker instance for a component. Will be automatically added to map if it is nested in MapboxMap
