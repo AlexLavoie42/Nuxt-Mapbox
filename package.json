@@ -14,12 +14,11 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "import": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "types": "./dist/types.d.mts",
   "files": [
     "dist"
   ],
