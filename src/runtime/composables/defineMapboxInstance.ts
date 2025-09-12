@@ -10,33 +10,34 @@ export function defineMapboxInstance(key: string, options: mapboxgl.MapboxOption
         return useMapboxInstance(key)
     }
     mapbox_instances.value[key] = shallowReactive({ map: new mapboxgl.Map(options), loaded: false });
-    mapbox_instances.value[key].map.on("load", () => {
-      mapbox_instances.value[key].loaded = true;
+    const mapInstance = mapbox_instances.value[key];
+    mapInstance.map.on("load", () => {
+      mapInstance.loaded = true;
       triggerRef(mapbox_instances)
-      if (mapbox_instances.value[key]) {
-        triggerRef(toRef(mapbox_instances.value[key]))
+      if (mapInstance) {
+        triggerRef(toRef(mapInstance))
       }
     });
 
-    mapbox_instances.value[key].map.on("style.load", () => {
-      mapbox_instances.value[key].loaded = true;
+    mapInstance.map.on("style.load", () => {
+      mapInstance.loaded = true;
       triggerRef(mapbox_instances)
-      if (mapbox_instances.value[key]) {
-        triggerRef(toRef(mapbox_instances.value[key]))
+      if (mapInstance) {
+        triggerRef(toRef(mapInstance))
       }
     });
 
-    mapbox_instances.value[key].map.on("idle", () => {
+    mapInstance.map.on("idle", () => {
       triggerRef(mapbox_instances)
-      if (mapbox_instances.value[key]) {
-        triggerRef(toRef(mapbox_instances.value[key]))
+      if (mapInstance) {
+        triggerRef(toRef(mapInstance))
       }
     });
 
-    mapbox_instances.value[key].map.on("data", () => {
+    mapInstance.map.on("data", () => {
       triggerRef(mapbox_instances)
-      if (mapbox_instances.value[key]) {
-        triggerRef(toRef(mapbox_instances.value[key]))
+      if (mapInstance) {
+        triggerRef(toRef(mapInstance))
       }
     });
     return useMapboxInstance(key)
